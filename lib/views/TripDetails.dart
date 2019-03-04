@@ -1,7 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:budupdated/HomePage.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -24,6 +24,13 @@ class _State extends State<MyApp> {
   final myController4 = TextEditingController();
   final myController5 = TextEditingController();
 
+  final formats = {
+    InputType.both: DateFormat("EEEE, MMMM d, yyyy 'at' h:mma"),
+  };
+
+  // Changeable in demo
+  InputType inputType = InputType.both;
+  bool editable = true;
   final GlobalKey<ScaffoldState> _scaffoldstate =
       new GlobalKey<ScaffoldState>();
 
@@ -120,44 +127,32 @@ class _State extends State<MyApp> {
               SizedBox(
                 height: 10.0,
               ),
-              Row(
-                children: <Widget>[
-//                  Expanded(
-//                    child:
-////
-//                  InkWell(
-//                    child:
-//
-                  DateTimePickerFormField(
-                    format: dateFormat,
-                    initialTime: TimeOfDay.now(),
-                    autovalidate: true,
-                    firstDate: DateTime.now(),
-                    onSaved: (date) {
-                      setState(() {
-                        currentdate = date.toString();
-                        print("the data is " + currentdate);
-                      });
-                    },
-                    onChanged: (date) {
-                      setState(() {
-                        currentdate = date.toString();
-                        print("the data is " + currentdate);
-                      });
-                    },
-                    controller: myController3,
-                    decoration: InputDecoration(
-                      labelText: 'Time',
-                      border: OutlineInputBorder(borderSide: BorderSide()),
-                      contentPadding: EdgeInsets.all(10.0),
-                    ),
-                    //                ),
-                  ),
-//                  ),
-                  SizedBox(
-                    width: 10.0,
-                  ),
-                ],
+
+              DateTimePickerFormField(
+                inputType: inputType,
+                initialTime: TimeOfDay.now(),
+                firstDate: DateTime.now(),
+                format: formats[1],
+                editable: editable,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(borderSide: BorderSide()),
+                    labelText: 'Date/Time',
+                    hasFloatingPlaceholder: false),
+                onChanged: (date) {
+                  setState(() {
+                    currentdate = date.toString();
+                    print("the data is " + currentdate);
+                  });
+                },
+                onSaved: (date) {
+                  setState(() {
+                    currentdate = date.toString();
+                    print("the data is " + currentdate);
+                  });
+                },
+              ),
+              SizedBox(
+                width: 10.0,
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -315,23 +310,14 @@ class _State extends State<MyApp> {
         _scaffoldstate.currentState.showSnackBar(
             new SnackBar(content: new Text("upoading your trip data ")));
 
-        var items = <String, dynamic>{
-          "Trip Date": currentdate,
-          //.replaceAll(":00.000", ''),
+        Firestore.instance.collection('Offer Ride list').document().setData({
+          "Trip Date": currentdate.replaceAll(":00.000", ''),
           "describtion": describtion,
           "From": From,
           "To": To,
           "No Of Seats": counter,
           "User name": name,
-        };
-
-        // here we push data to offer ride list
-        //TODO change this part to upload to firestore collection
-        DatabaseReference reference = FirebaseDatabase.instance
-            .reference()
-            .child("Offer Ride list")
-            .push();
-        reference.set(items);
+        });
       });
     }
   }
