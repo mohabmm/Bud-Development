@@ -1,5 +1,5 @@
-import 'package:budupdated/views/SignUpForum.dart';
-import 'package:budupdated/views/signinforum.dart';
+import 'package:budupdated/views/sign_up_forum.dart';
+import 'package:budupdated/views/signin_forum.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

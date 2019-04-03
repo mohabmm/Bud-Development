@@ -1,19 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:budupdated/HomePage.dart';
+import 'package:budupdated/homePage.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class MyApp extends StatefulWidget {
+class EnterRideDetails extends StatefulWidget {
+  //TODO rememer to  accept user as argument
   FirebaseUser user;
-  MyApp({@required this.user});
+  EnterRideDetails({this.user});
 
   @override
   _State createState() => new _State(user: user);
 }
 
-class _State extends State<MyApp> {
+class _State extends State<EnterRideDetails> {
   FirebaseUser user;
 
   _State({this.user});

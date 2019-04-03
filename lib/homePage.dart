@@ -1,4 +1,4 @@
-import 'package:budupdated/views/Trip.dart';
+import 'package:budupdated/views/trip.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +7,6 @@ class HomePage extends StatefulWidget {
   FirebaseUser user;
 
   HomePage({@required this.user});
-
-  static final route = "/HomePage";
 
   @override
   _HomePageState createState() => new _HomePageState(user: user);

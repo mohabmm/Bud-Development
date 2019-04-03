@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +26,7 @@ class _State extends State<SignupForum> {
   String phoneNumber;
   String email;
   String userName;
+  String password;
 
   final GlobalKey<ScaffoldState> _scaffoldstate =
       new GlobalKey<ScaffoldState>();
@@ -33,7 +36,7 @@ class _State extends State<SignupForum> {
     final signupColor = const Color(0xFF3d3d3d);
 
     File image;
-
+    //var _password;
     return new Scaffold(
       key: _scaffoldstate,
       appBar: new AppBar(
@@ -101,6 +104,7 @@ class _State extends State<SignupForum> {
             new FlatButton(
                 onPressed: () {
                   //_pickSaveImage();
+                  _pickSaveImage();
                 },
                 child: new Text(
                   "Click to upload MSA id front image ",
@@ -117,14 +121,42 @@ class _State extends State<SignupForum> {
                 contentPadding: EdgeInsets.all(15.0),
               ),
             ),
+            TextField(
+              decoration: InputDecoration(hintText: 'Password'),
+              onChanged: (value) {
+                setState(() {
+                  password = value;
+                });
+              },
+              obscureText: true,
+            ),
             SizedBox(
               height: 10.0,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 17.0),
               child: TextField(
-                onSubmitted: _onSubmitEmail,
-                onChanged: _onSubmitEmail,
+                onSubmitted: (value) {
+                  if (value.endsWith("msa.edu.eg")) {
+                    setState(() {
+                      email = value;
+                    });
+                  } else {
+                    _scaffoldstate.currentState.showSnackBar(new SnackBar(
+                        content: new Text("please enter  your msa email")));
+                    print("please enter valid msa mail");
+                  }
+                },
+                onChanged: (value) {
+                  if (value.endsWith("msa.edu.eg")) {
+                    setState(() {
+                      email = value;
+                    });
+                  } else {
+//                    _scaffoldstate.currentState.showSnackBar(new SnackBar(
+//                        content: new Text("please enter  your msa email")));
+                  }
+                },
                 controller: myController4,
                 decoration: InputDecoration(
                   labelText: 'Email',
@@ -177,6 +209,16 @@ class _State extends State<SignupForum> {
 //    return (await uploadTask.future).downloadUrl;
 //  }
 
+  Future<String> _pickSaveImage() async {
+    imageFiles = await ImagePicker.pickImage(source: ImageSource.camera);
+    // we need later here to replace Mohab name with the user signed in inside our
+    // system to easily identify each driver photos
+    final String fileName = "${Random().nextInt(1000000)}.jpg" + "signupData";
+    StorageReference ref = FirebaseStorage.instance.ref().child(fileName);
+    StorageUploadTask uploadTask = ref.putFile(imageFiles);
+    return await (await uploadTask.onComplete).ref.getDownloadURL();
+  }
+
   void _onSubmitPhoneNumber(String value) {
     setState(() {
       phoneNumber = value;
@@ -192,10 +234,14 @@ class _State extends State<SignupForum> {
   }
 
   void _onSubmitEmail(String value) {
-    setState(() {
-      email = value;
-      print("the email the user wrote is " + email);
-    });
+    if (value.endsWith("msa.edu.eg")) {
+      setState(() {
+        email = value;
+        print("the email the user wrote is " + email);
+      });
+    } else {
+      print("please enter valid msa mail");
+    }
   }
 
   Signup() {
@@ -211,7 +257,12 @@ class _State extends State<SignupForum> {
             new SnackBar(content: new Text("please enter your lastname")));
       });
     }
-
+    if (password == null) {
+      setState(() {
+        _scaffoldstate.currentState.showSnackBar(
+            new SnackBar(content: new Text("please enter your password")));
+      });
+    }
     if (phoneNumber == null) {
       setState(() {
         _scaffoldstate.currentState.showSnackBar(
@@ -221,7 +272,7 @@ class _State extends State<SignupForum> {
     if (email == null) {
       setState(() {
         _scaffoldstate.currentState.showSnackBar(
-            new SnackBar(content: new Text("please enter your mail")));
+            new SnackBar(content: new Text("please enter valid msa email")));
       });
     }
 
@@ -232,40 +283,60 @@ class _State extends State<SignupForum> {
       });
     }
 
-    if (imageFiles == null) {
-      setState(() {
-        _scaffoldstate.currentState.showSnackBar(new SnackBar(
-            content: new Text("please upload the front id image  ")));
-      });
-    }
+//    if (imageFiles == null) {
+//      setState(() {
+//        _scaffoldstate.currentState.showSnackBar(new SnackBar(
+//            content: new Text("please upload the front id image  ")));
+//      });
+//    }
     if (firstname != null &&
         lastName != null &&
         phoneNumber != null &&
-        imageFiles != null &&
+        //  imageFiles != null &&
         email != null &&
         userName != null) {
-      setState(() {
-        _scaffoldstate.currentState.showSnackBar(
-            new SnackBar(content: new Text("Uploading your trip data ")));
+      FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password)
+          .then((signedInUser) {
+        signedInUser.sendEmailVerification();
 
-        var items = <String, dynamic>{
+        Firestore.instance.collection('/users').add({
+          'email': signedInUser.email,
+          'uid': signedInUser.uid,
           "First Name ": firstname,
           "Last Name": lastName,
           "Phone Number": phoneNumber,
-          "Email": email,
-          "User Name": userName,
-        };
-
-        DatabaseReference reference = FirebaseDatabase.instance
-            .reference()
-            .child("Users Signed up")
-            .push();
-        reference.set(items);
-
-        _scaffoldstate.currentState.showSnackBar(new SnackBar(
-            content: new Text(
-                "Thanks for filling the forum we will get back to you in maximum 3 days ")));
+          "Driver authnticated": false,
+        });
+        // UserManagement().storeNewUser(signedInUser, context);
+      }).catchError((e) {
+        print(e);
+        _scaffoldstate.currentState
+            .showSnackBar(new SnackBar(content: new Text(e.toString())));
       });
+
+      //setState(() {
+//        _scaffoldstate.currentState.showSnackBar(
+//            new SnackBar(content: new Text("Uploading your Data")));
+
+//        var items = <String, dynamic>{
+//          "First Name ": firstname,
+//          "Last Name": lastName,
+//          "Phone Number": phoneNumber,
+//          "Email": email,
+//          "User Name": userName,
+//        };
+//
+//        DatabaseReference reference = FirebaseDatabase.instance
+//            .reference()
+//            .child("Users Signed up")
+//            .push();
+//        reference.set(items);
+//
+//        _scaffoldstate.currentState.showSnackBar(new SnackBar(
+//            content: new Text(
+//                "Thanks for filling the forum we will get back to you in maximum 3 days ")));
+      //});
     }
   }
 }
