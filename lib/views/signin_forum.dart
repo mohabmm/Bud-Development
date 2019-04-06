@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:budupdated/homePage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -69,48 +70,65 @@ class _State extends State<SigninForum> {
                   ),
                 ),
               ),
-              new RaisedButton(onPressed: () {
-                FirebaseAuth.instance
-                    .signInWithEmailAndPassword(email: mail, password: password)
-                    .then((user) {
-                  if (user.isEmailVerified) {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => HomePage(
-                              user: user,
-                            )));
-                  } else {
-                    _scaffoldstate.currentState.showSnackBar(new SnackBar(
-                        content: new Text(
-                            "please verify your msa email in order to get access ")));
-                  }
-                }).catchError((e) => _scaffoldstate.currentState.showSnackBar(
-                        new SnackBar(
-                            content: new Text(e.toString()),
-                            duration: const Duration(minutes: 1))));
-              }),
+              new RaisedButton(
+                  child: new Text("Log in "),
+                  onPressed: () {
+                    FirebaseAuth.instance
+                        .signInWithEmailAndPassword(
+                            email: mail, password: password)
+                        .then((user) {
+                      if (user.isEmailVerified) {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => HomePage(
+                                  user: user,
+                                )));
+                      } else {
+                        _scaffoldstate.currentState.showSnackBar(new SnackBar(
+                            content: new Text(
+                                "please verify your msa email in order to get access ")));
+                      }
+                    }).catchError((e) {
+                      String error;
+                      if (Platform.isAndroid) {
+                        switch (e.message) {
+                          case 'There is no user record corresponding to this identifier. The user may have been deleted.':
+                            error =
+                                "UserNotFound please go and register with your msa email";
+                            _scaffoldstate.currentState.showSnackBar(
+                                new SnackBar(content: new Text(error)));
+                            break;
+                          case 'The password is invalid or the user does not have a password.':
+                            error = "PasswordNotValid";
+                            _scaffoldstate.currentState.showSnackBar(
+                                new SnackBar(content: new Text(error)));
+                            break;
+                          case 'A network error (such as timeout, interrupted connection or unreachable host) has occurred.':
+                            error = "NetworkError";
+                            _scaffoldstate.currentState.showSnackBar(
+                                new SnackBar(content: new Text(error)));
+                            break;
+
+                          case ' com.google.firebase.auth.api.internal.zzal@be07b08 is badly formatted':
+                            error = "NetworkError";
+                            _scaffoldstate.currentState.showSnackBar(
+                                new SnackBar(content: new Text(error)));
+                            break;
+
+                          // ...
+                          default:
+                            print('Case ${e.message} is not jet implemented');
+
+                            _scaffoldstate.currentState.showSnackBar(
+                                new SnackBar(
+                                    content: new Text(e.message.toString())));
+                        }
+                      }
+                    });
+                  }),
             ],
           ),
         ),
       ),
     );
   }
-
-  void _onSubmitUsermail(String value) {
-    setState(() {
-      mail = value;
-      print("the user Name " + mail);
-    });
-  }
-
-//  void _onSubmitPassword(String value) {
-//    setState(() {
-//      password = value;
-//      print("the current  password the user wrote is " + password);
-//    });
-//  }
-//
-//  Future<FirebaseUser> _signin() async {
-//    FirebaseAuth.instance
-//        .signInWithEmailAndPassword(email: mail, password: password);
-//  }
 }

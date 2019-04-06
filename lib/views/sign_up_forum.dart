@@ -110,29 +110,6 @@ class _State extends State<SignupForum> {
                   "Click to upload MSA id front image ",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 )),
-            TextField(
-              onSubmitted: _onSubmitPhoneNumber,
-              onChanged: _onSubmitPhoneNumber,
-              keyboardType: TextInputType.numberWithOptions(),
-              controller: myController3,
-              decoration: InputDecoration(
-                labelText: 'Phone Number',
-                border: OutlineInputBorder(borderSide: BorderSide()),
-                contentPadding: EdgeInsets.all(15.0),
-              ),
-            ),
-            TextField(
-              decoration: InputDecoration(hintText: 'Password'),
-              onChanged: (value) {
-                setState(() {
-                  password = value;
-                });
-              },
-              obscureText: true,
-            ),
-            SizedBox(
-              height: 10.0,
-            ),
             Padding(
               padding: const EdgeInsets.only(top: 17.0),
               child: TextField(
@@ -167,6 +144,35 @@ class _State extends State<SignupForum> {
             ),
             SizedBox(
               height: 10.0,
+            ),
+            TextField(
+              decoration: InputDecoration(
+                labelText: 'Password',
+                border: OutlineInputBorder(borderSide: BorderSide()),
+                contentPadding: EdgeInsets.all(15.0),
+              ),
+              // decoration: InputDecoration(hintText: 'Password'),
+
+              onChanged: (value) {
+                setState(() {
+                  password = value;
+                });
+              },
+              obscureText: true,
+            ),
+            SizedBox(
+              height: 10.0,
+            ),
+            TextField(
+              onSubmitted: _onSubmitPhoneNumber,
+              onChanged: _onSubmitPhoneNumber,
+              keyboardType: TextInputType.numberWithOptions(),
+              controller: myController3,
+              decoration: InputDecoration(
+                labelText: 'Phone Number',
+                border: OutlineInputBorder(borderSide: BorderSide()),
+                contentPadding: EdgeInsets.all(15.0),
+              ),
             ),
             ButtonTheme(
               minWidth: 4.0,
