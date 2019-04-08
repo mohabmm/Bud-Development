@@ -1,10 +1,36 @@
+import 'package:budupdated/views/card_details.dart';
 import 'package:budupdated/views/check_driver_status.dart';
 import 'package:budupdated/views/enter_ride_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+// first i need to save these values in the firestore in the new collection
+// and store a value inside these collection with user name
+// so i can serach in the database with the user name to filter
+// all his car registration data
+
+//Todo these values i need to check them and pass them to the constructor
+//of the ride details
+/*
+these are the values we need to pass to car details screen
+
+1- user name
+2- trip describtion
+3-from
+4-time
+5-to
+6-no of seats avilaible
+7-car type
+8-car color
+9-car number
+10-the user phone number
+
+
+
+
+ */
 
 class Trip extends StatefulWidget {
   FirebaseUser user;
@@ -21,15 +47,7 @@ class _State extends State<Trip> {
 
   final color = const Color(0xFF13DDD2);
 
-//  @override
-//  void initState() {
-//    super.initState();
-//    checkFirstSeen();
-//  }
-//
   Future checkFirstSeen() async {
-    //Firestore.instance.collection("users").snapshots();
-
     Firestore.instance
         .collection('users')
         .where("email", isEqualTo: user.email)
@@ -45,32 +63,18 @@ class _State extends State<Trip> {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => CheckDriverStatus(user)));
               }
-            }
-
-                //print(doc["Driver authnticated"].toString() + "a7a")
-                ));
-    // here we need to read the data from firestore
-    //if the authntication is true  then the driver have ability to offer ride
-    //EnterRideDetails
-
-    //*******************************************//
-    // if the authntication is false then he has to
-    // go to check driver status
+            }));
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       floatingActionButton: new FloatingActionButton(
+        heroTag: "btn1",
         backgroundColor: color,
         onPressed: () {
           checkFirstSeen();
-//
         },
-        //TODO YA MOHAAAAA
-        // here we must show The Shared pref if the value is false
-        //navigate to the temp screen else navigate to OneTimeDriver screen
-        //else navigate to TripDataDetails
         tooltip: 'add new trip',
         child: new Icon(Icons.add),
       ), //
@@ -85,6 +89,21 @@ class _State extends State<Trip> {
                 itemBuilder: (BuildContext context, int index) {
                   String from =
                       snapshot.data.documents[index].data['From'].toString();
+
+                  String carnumber = snapshot
+                      .data.documents[index].data['CarNumber']
+                      .toString();
+
+                  String cartype =
+                      snapshot.data.documents[index].data['CarType'].toString();
+
+                  String carcolor = snapshot
+                      .data.documents[index].data['CarColor']
+                      .toString();
+
+                  String NoOfSeats = snapshot
+                      .data.documents[index].data['No Of Seats']
+                      .toString();
                   String To =
                       snapshot.data.documents[index].data['To'].toString();
 
@@ -94,76 +113,95 @@ class _State extends State<Trip> {
 
                   String name = snapshot.data.documents[index].data['User name']
                       .toString();
+                  String describtion = snapshot
+                      .data.documents[index].data['describtion']
+                      .toString();
 
-                  return new Card(
-                    child: new Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        ListTile(
-                          title: Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Text(name),
-                          ),
-                          subtitle: Padding(
-                            padding: const EdgeInsets.only(top: 10.0),
-                            child: Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: new Text(
-                                    from,
-                                    style: new TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: new IconButton(
-                                    icon: new Icon(Icons.arrow_forward),
-                                    onPressed: () => print("hello moha"),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: new Padding(
-                                    padding: EdgeInsets.fromLTRB(
-                                        10.0, 0.0, 0.0, 16.0),
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(new MaterialPageRoute(
+                          builder: (BuildContext context) => new CardDetails(
+                              name,
+                              describtion,
+                              from,
+                              To,
+                              cartype,
+                              carnumber,
+                              carcolor,
+                              Trip_date,
+                              NoOfSeats)));
+                    },
+                    child: new Card(
+                      child: new Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          ListTile(
+                            title: Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Text(name),
+                            ),
+                            subtitle: Padding(
+                              padding: const EdgeInsets.only(top: 10.0),
+                              child: Row(
+                                children: <Widget>[
+                                  Expanded(
                                     child: new Text(
-                                      To,
+                                      from,
                                       style: new TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
                                       ),
                                     ),
                                   ),
-                                )
-                              ],
+                                  Expanded(
+                                    child: new IconButton(
+                                      icon: new Icon(Icons.arrow_forward),
+                                      onPressed: () => print("hello moha"),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: new Padding(
+                                      padding: EdgeInsets.fromLTRB(
+                                          10.0, 0.0, 0.0, 16.0),
+                                      child: new Text(
+                                        To,
+                                        style: new TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Center(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(70.0, 12.0, 0.0, 0.0),
-                            child: new Row(
-                              // make buttons use the appropriate styles for cards
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                  70.0, 12.0, 0.0, 0.0),
+                              child: new Row(
+                                // make buttons use the appropriate styles for cards
 
-                              children: <Widget>[
-                                Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(bottom: 6.0),
-                                    child: new Text(
-                                      Trip_date,
-                                      style: new TextStyle(
-                                        fontWeight: FontWeight.w600,
+                                children: <Widget>[
+                                  Center(
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 6.0),
+                                      child: new Text(
+                                        Trip_date,
+                                        style: new TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   );
                 });

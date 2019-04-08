@@ -12,7 +12,7 @@ class CheckDriverStatus extends StatefulWidget {
   FirebaseUser user;
   CheckDriverStatus(this.user);
   @override
-  _CheckDriverStatusState createState() => _CheckDriverStatusState();
+  _CheckDriverStatusState createState() => _CheckDriverStatusState(user);
 }
 
 class _CheckDriverStatusState extends State<CheckDriverStatus> {
@@ -20,12 +20,16 @@ class _CheckDriverStatusState extends State<CheckDriverStatus> {
   bool button2 = false;
   bool button3 = false;
   bool button4 = false;
+  FirebaseUser user;
+
+  _CheckDriverStatusState(this.user);
 
   Future<String> _pickSaveImage() async {
     File imageFile = await ImagePicker.pickImage(source: ImageSource.camera);
     // we need later here to replace Mohab name with the user signed in inside our
     // system to easily identify each driver photos
-    final String fileName = "${Random().nextInt(1000000)}.jpg" + "mohab";
+    final String fileName =
+        "${Random().nextInt(1000000)}.jpg" + user.displayName;
     StorageReference ref = FirebaseStorage.instance.ref().child(fileName);
     StorageUploadTask uploadTask = ref.putFile(imageFile);
     return await (await uploadTask.onComplete).ref.getDownloadURL();
@@ -117,10 +121,6 @@ class _CheckDriverStatusState extends State<CheckDriverStatus> {
                                 new EnterRideDetails(user: null)));
                       }
                     },
-
-//                  TripDetails(
-//            user: user,
-//          ))),
                     child: new Text("next"),
                   ),
                   Padding(

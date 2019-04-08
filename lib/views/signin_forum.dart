@@ -33,7 +33,12 @@ class _State extends State<SigninForum> {
               TextField(
                 onSubmitted: (value) {
                   setState(() {
-                    mail = value;
+                    if (value == null) {
+                      _scaffoldstate.currentState.showSnackBar(new SnackBar(
+                          content: new Text(
+                              "Please write your MSA email in order to login to the app")));
+                    } else
+                      mail = value;
                   });
                 },
                 onChanged: (value) {
@@ -53,7 +58,12 @@ class _State extends State<SigninForum> {
                 child: TextField(
                   onSubmitted: (value) {
                     setState(() {
-                      password = value;
+                      if (value == null) {
+                        _scaffoldstate.currentState.showSnackBar(new SnackBar(
+                            content: new Text(
+                                "Please write your password in order to login to the app")));
+                      } else
+                        password = value;
                     });
                   },
                   obscureText: true,
@@ -75,7 +85,7 @@ class _State extends State<SigninForum> {
                   onPressed: () {
                     FirebaseAuth.instance
                         .signInWithEmailAndPassword(
-                            email: mail, password: password)
+                            email: mail ?? "", password: password ?? "")
                         .then((user) {
                       if (user.isEmailVerified) {
                         Navigator.of(context).push(MaterialPageRoute(
@@ -110,6 +120,19 @@ class _State extends State<SigninForum> {
 
                           case ' com.google.firebase.auth.api.internal.zzal@be07b08 is badly formatted':
                             error = "NetworkError";
+                            _scaffoldstate.currentState.showSnackBar(
+                                new SnackBar(content: new Text(error)));
+                            break;
+
+                          case 'Given String is empty or null':
+                            error =
+                                "Please write validated email or password dont leave it empty";
+                            _scaffoldstate.currentState.showSnackBar(
+                                new SnackBar(content: new Text(error)));
+                            break;
+
+                          case 'The email address is badly formatted':
+                            error = "Please write validated MSA email";
                             _scaffoldstate.currentState.showSnackBar(
                                 new SnackBar(content: new Text(error)));
                             break;

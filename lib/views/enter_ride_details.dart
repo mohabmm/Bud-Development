@@ -24,12 +24,16 @@ class _State extends State<EnterRideDetails> {
   final myController3 = TextEditingController();
   final myController4 = TextEditingController();
   final myController5 = TextEditingController();
+  final myController6 = TextEditingController();
+  final myController7 = TextEditingController();
+  final myController8 = TextEditingController();
+
+
 
   final formats = {
     InputType.both: DateFormat("EEEE, MMMM d, yyyy 'at' h:mma"),
   };
 
-  // Changeable in demo
   InputType inputType = InputType.both;
   bool editable = true;
   final GlobalKey<ScaffoldState> _scaffoldstate =
@@ -41,7 +45,9 @@ class _State extends State<EnterRideDetails> {
   String To;
   String name;
   int counter;
-
+  String carType;
+  String carColor;
+  String carNumber; 
   final dateFormat = new DateFormat.yMd().add_jm();
   final timeFormat = DateFormat("h:mm a");
   void _onSubmitdescribtion(String value) {
@@ -56,10 +62,33 @@ class _State extends State<EnterRideDetails> {
     });
   }
 
+  
+  void _onSubmitcarColor(String value) {
+    setState(() {
+      carColor = value;
+      print("the data inside From in itstate is " + carColor);
+    });
+  }
+
+
+  
+
+  void _onSubmitcarNumber(String value) {
+    setState(() {
+      carNumber = value;
+      print("the data inside From in itstate is " + carNumber);
+    });
+  }
   void _onSubmitTo(String value) {
     setState(() => To = value);
     print("the value of To is " + To);
   }
+
+void _onSubmitdcarType(String value) {
+    setState(() => carType = value);
+    print("the value of To is " + carType);
+  }
+  
 
   void _onSubmitName(String value) {
     setState(() => name = value);
@@ -171,7 +200,57 @@ class _State extends State<EnterRideDetails> {
               SizedBox(
                 height: 10.0,
               ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: myController6,
+                  onSubmitted: _onSubmitdcarType,
+                  onChanged: _onSubmitdcarType,
+                  decoration: InputDecoration(
+                    labelText: 'Car Type',
+                    border: OutlineInputBorder(borderSide: BorderSide()),
+                    contentPadding: EdgeInsets.all(10.0),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
 
+Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: myController7,
+                  onSubmitted: _onSubmitcarNumber,
+                  onChanged: _onSubmitcarNumber,
+                  decoration: InputDecoration(
+                    labelText: 'Car Number',
+                    border: OutlineInputBorder(borderSide: BorderSide()),
+                    contentPadding: EdgeInsets.all(10.0),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+
+              
+Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: myController8,
+                  onSubmitted: _onSubmitcarColor,
+                  onChanged: _onSubmitcarColor,
+                  decoration: InputDecoration(
+                    labelText: 'Car Color',
+                    border: OutlineInputBorder(borderSide: BorderSide()),
+                    contentPadding: EdgeInsets.all(10.0),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
               new Text("seats"),
 
               Row(
@@ -249,6 +328,8 @@ class _State extends State<EnterRideDetails> {
     });
   }
 
+
+
   void upload() {
     if (currentdate == null) {
       setState(() {
@@ -257,6 +338,34 @@ class _State extends State<EnterRideDetails> {
       });
     } else {
       print("the current date inside upload is " + currentdate);
+    }
+
+
+      if (carType == null) {
+      setState(() {
+        _scaffoldstate.currentState.showSnackBar(new SnackBar(
+            content: new Text("please choose car type")));
+      });
+    } else {
+      print("the current car type is " + currentdate);
+    }
+
+      if (carColor == null) {
+      setState(() {
+        _scaffoldstate.currentState.showSnackBar(new SnackBar(
+            content: new Text("please choose the car color")));
+      });
+    } else {
+      print("the car color date inside upload is " + currentdate);
+    }
+
+      if (carNumber == null) {
+      setState(() {
+        _scaffoldstate.currentState.showSnackBar(new SnackBar(
+            content: new Text("please choose  car number ")));
+      });
+    } else {
+      print("the current car number inside upload is " + currentdate);
     }
     if (describtion == null) {
       setState(() {
@@ -301,7 +410,16 @@ class _State extends State<EnterRideDetails> {
       print("the registered name is   " + name.toString());
     }
 
+
+   // String carType;
+  //String carColor;
+  //String carNumber; 
+
     if (currentdate != null &&
+    
+    carNumber != null &&
+    carColor != null &&
+    carType != null &&
         describtion != null &&
         From != null &&
         To != null &&
@@ -318,6 +436,9 @@ class _State extends State<EnterRideDetails> {
           "To": To,
           "No Of Seats": counter,
           "User name": name,
+          "CarType":carType,
+          "CarColor":carColor,
+          "CarNumber":carNumber
         });
       });
     }

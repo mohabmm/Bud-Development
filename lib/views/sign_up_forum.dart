@@ -33,10 +33,6 @@ class _State extends State<SignupForum> {
 
   @override
   Widget build(BuildContext context) {
-    final signupColor = const Color(0xFF3d3d3d);
-
-    File image;
-    //var _password;
     return new Scaffold(
       key: _scaffoldstate,
       appBar: new AppBar(
@@ -103,7 +99,6 @@ class _State extends State<SignupForum> {
             ),
             new FlatButton(
                 onPressed: () {
-                  //_pickSaveImage();
                   _pickSaveImage();
                 },
                 child: new Text(
@@ -129,9 +124,6 @@ class _State extends State<SignupForum> {
                     setState(() {
                       email = value;
                     });
-                  } else {
-//                    _scaffoldstate.currentState.showSnackBar(new SnackBar(
-//                        content: new Text("please enter  your msa email")));
                   }
                 },
                 controller: myController4,
@@ -151,8 +143,6 @@ class _State extends State<SignupForum> {
                 border: OutlineInputBorder(borderSide: BorderSide()),
                 contentPadding: EdgeInsets.all(15.0),
               ),
-              // decoration: InputDecoration(hintText: 'Password'),
-
               onChanged: (value) {
                 setState(() {
                   password = value;
@@ -208,12 +198,6 @@ class _State extends State<SignupForum> {
   }
 
   File imageFiles;
-//  Future<Uri> _pickSaveImage() async {
-//    imageFiles = await ImagePicker.pickImage(source: ImageSource.camera);
-//    StorageReference ref = FirebaseStorage.instance.ref().child("image.jpg");
-//    StorageUploadTask uploadTask = ref.putFile(imageFiles);
-//    return (await uploadTask.future).downloadUrl;
-//  }
 
   Future<String> _pickSaveImage() async {
     imageFiles = await ImagePicker.pickImage(source: ImageSource.camera);
@@ -237,17 +221,6 @@ class _State extends State<SignupForum> {
       userName = value;
       print("the user Name " + phoneNumber);
     });
-  }
-
-  void _onSubmitEmail(String value) {
-    if (value.endsWith("msa.edu.eg")) {
-      setState(() {
-        email = value;
-        print("the email the user wrote is " + email);
-      });
-    } else {
-      print("please enter valid msa mail");
-    }
   }
 
   Signup() {
@@ -314,35 +287,11 @@ class _State extends State<SignupForum> {
           "Phone Number": phoneNumber,
           "Driver authnticated": false,
         });
-        // UserManagement().storeNewUser(signedInUser, context);
       }).catchError((e) {
         print(e);
         _scaffoldstate.currentState
             .showSnackBar(new SnackBar(content: new Text(e.toString())));
       });
-
-      //setState(() {
-//        _scaffoldstate.currentState.showSnackBar(
-//            new SnackBar(content: new Text("Uploading your Data")));
-
-//        var items = <String, dynamic>{
-//          "First Name ": firstname,
-//          "Last Name": lastName,
-//          "Phone Number": phoneNumber,
-//          "Email": email,
-//          "User Name": userName,
-//        };
-//
-//        DatabaseReference reference = FirebaseDatabase.instance
-//            .reference()
-//            .child("Users Signed up")
-//            .push();
-//        reference.set(items);
-//
-//        _scaffoldstate.currentState.showSnackBar(new SnackBar(
-//            content: new Text(
-//                "Thanks for filling the forum we will get back to you in maximum 3 days ")));
-      //});
     }
   }
 }
