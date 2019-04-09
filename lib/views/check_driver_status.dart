@@ -126,8 +126,10 @@ class _CheckDriverStatusState extends State<CheckDriverStatus> {
                   Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: new StreamBuilder<QuerySnapshot>(
-                        stream:
-                            Firestore.instance.collection('users').snapshots(),
+                        stream: Firestore.instance
+                            .collection('users')
+                            .where("First Name ", isEqualTo: user.displayName)
+                            .snapshots(),
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {
                           if (snapshot.hasData) {
@@ -135,9 +137,7 @@ class _CheckDriverStatusState extends State<CheckDriverStatus> {
                                 .data.documents[0].data['Driver authnticated'];
                             return Row(children: <Widget>[
                               new Text("Current Submtion Status:"),
-                              (status == false)
-                                  ? new Text("Waiting acceptance")
-                                  : new Text("true")
+                              new Text("waiting acceptance"),
                             ]);
                           }
                         }),

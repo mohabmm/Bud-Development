@@ -4,8 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:url_launcher/url_launcher.dart' as lan;
 
+//TODO
+/*
+* NUMBER OF RIDES THIS VARIABLE NEEDS TO BE UPLOADED WHEN THE USER INTIALLY SIGNED IN THE APP
+* AND WE NEED TO PASS THIS VARIABLE UNTIL WE GET IT IN THIS SCREEN
+* THEN WE CAN START INSCREASING THIS VARIABLE AS WE GO WHEN THE USER PRESS RESERVE THE BUTTON
+* THEN WE NEED TO IPDATE THE DATABASE WITH THE NEW RIDE VARIABLE
+* FINALLY MAKE IF CONDTIONS TO CHECK THE NUMBER OF RIDES TO SHWO ALERT FOR THE ACHEVMENTS
+*
+* */
 class CardDetails extends StatefulWidget {
   String user;
+  FirebaseUser datauser;
+
   String describtion;
   String from;
   String to;
@@ -15,6 +26,7 @@ class CardDetails extends StatefulWidget {
   String carnumber;
   String cartype;
   CardDetails(
+    this.datauser,
     this.user,
     this.describtion,
     this.from,
@@ -27,12 +39,24 @@ class CardDetails extends StatefulWidget {
   );
 
   @override
-  _CardDetailsState createState() => _CardDetailsState(user, describtion, from,
-      to, trip_date, noOfSeats, cartype, carnumber, carcolor);
+  _CardDetailsState createState() => _CardDetailsState(
+      datauser,
+      user,
+      describtion,
+      from,
+      to,
+      trip_date,
+      noOfSeats,
+      cartype,
+      carnumber,
+      carcolor);
 }
 
 class _CardDetailsState extends State<CardDetails> {
   double rate = 0;
+  int number_of_rides;
+
+  FirebaseUser datauser;
   String user;
   String describtion;
   String from;
@@ -44,6 +68,7 @@ class _CardDetailsState extends State<CardDetails> {
   String carcolor;
 
   _CardDetailsState(
+      this.datauser,
       this.user,
       this.describtion,
       this.from,
@@ -54,16 +79,23 @@ class _CardDetailsState extends State<CardDetails> {
       this.carnumber,
       this.carcolor);
 
+//lama ydas al zorara bta3 reserave a aseat yroo7 y3ml check ll function aly bt3ml read
+  //ll data we azwd al rkm wa7d
+
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
+    checkFirstSeen();
+  }
+
+  Future checkFirstSeen() async {
     Firestore.instance
         .collection('users')
-        .where("First Name ", isEqualTo: user)
+        .where("email", isEqualTo: datauser.email)
         .snapshots()
-        .listen((data) =>
-            data.documents.forEach((doc) => print(doc["First Name "])));
-    super.initState();
+        .listen((data) => data.documents.forEach((doc) {
+              number_of_rides = doc.data['Number Of Rides'];
+            }));
   }
 
   @override
@@ -248,7 +280,8 @@ class _CardDetailsState extends State<CardDetails> {
                             )),
                         new Container(
                             child: new FloatingActionButton(
-                          onPressed: () => showTapMsg(context),
+                          onPressed: () =>
+                              showTapMsg(context, number_of_rides, user),
                           backgroundColor: Colors.cyan,
                           child: Icon(
                             Icons.add,
@@ -302,9 +335,12 @@ class _CardDetailsState extends State<CardDetails> {
   }
 }
 
-void showTapMsg(BuildContext context) {
+void showTapMsg(BuildContext context, int number_of_rides, String user) {
+  number_of_rides += 1;
+
   var alert = new AlertDialog(
-    title: new Text("You have reserved a seat"),
+    title: new Text(
+        "Congratulation You have reserved a seat,you can press on the telephone icon to call the driver and discuss the details. "),
     actions: <Widget>[
       FlatButton(
         onPressed: () => Navigator.of(context).pop(),
@@ -320,4 +356,8 @@ void showTapMsg(BuildContext context) {
       builder: (context) {
         return alert;
       });
+
+  Firestore.instance.collection('users').document(user).setData({
+    "Number Of Rides": number_of_rides,
+  });
 }

@@ -279,12 +279,13 @@ class _State extends State<SignupForum> {
           .then((signedInUser) {
         signedInUser.sendEmailVerification();
 
-        Firestore.instance.collection('/users').add({
+        Firestore.instance.collection('users').document(userName).setData({
           'email': signedInUser.email,
           'uid': signedInUser.uid,
           "First Name ": firstname,
           "Last Name": lastName,
           "Phone Number": phoneNumber,
+          "Number Of Rides": 0,
           "Driver authnticated": false,
         });
       }).catchError((e) {

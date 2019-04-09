@@ -58,7 +58,7 @@ class _State extends State<Trip> {
                     doc["Driver authnticated"].toString());
                 Navigator.of(context).push(new MaterialPageRoute(
                     builder: (BuildContext context) =>
-                        new EnterRideDetails(user: null)));
+                        new EnterRideDetails(user: user)));
               } else {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => CheckDriverStatus(user)));
@@ -90,16 +90,17 @@ class _State extends State<Trip> {
                   String from =
                       snapshot.data.documents[index].data['From'].toString();
 
-                  String carnumber = snapshot
-                      .data.documents[index].data['CarNumber']
-                      .toString();
+//remeber to change these 3 values the down values to red the real data from
+// firebase and pass them as constructor to the cardetials
+
+                  String carname =
+                      snapshot.data.documents[index].data['From'].toString();
 
                   String cartype =
-                      snapshot.data.documents[index].data['CarType'].toString();
+                      snapshot.data.documents[index].data['From'].toString();
 
-                  String carcolor = snapshot
-                      .data.documents[index].data['CarColor']
-                      .toString();
+                  String carcolor =
+                      snapshot.data.documents[index].data['From'].toString();
 
                   String NoOfSeats = snapshot
                       .data.documents[index].data['No Of Seats']
@@ -121,13 +122,14 @@ class _State extends State<Trip> {
                     onTap: () {
                       Navigator.of(context).push(new MaterialPageRoute(
                           builder: (BuildContext context) => new CardDetails(
+                              user,
                               name,
                               describtion,
                               from,
-                              To,
+                              carname,
                               cartype,
-                              carnumber,
                               carcolor,
+                              To,
                               Trip_date,
                               NoOfSeats)));
                     },
