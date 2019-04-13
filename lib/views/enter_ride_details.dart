@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class EnterRideDetails extends StatefulWidget {
-  //TODO rememer to  accept user as argument
+
   FirebaseUser user;
   EnterRideDetails({this.user});
 

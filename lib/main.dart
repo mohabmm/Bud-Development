@@ -1,5 +1,5 @@
 import 'package:budupdated/homePage.dart';
-import 'package:budupdated/views/sign_up_forum.dart';
+import 'package:budupdated/views/sign_up_form.dart';
 import 'package:budupdated/views/signin.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +15,7 @@ class MainApp extends StatelessWidget {
       ),
       routes: <String, WidgetBuilder>{
         '/landingpage': (BuildContext context) => new MainApp(),
-        '/signup': (BuildContext context) => new SignupForum(),
+        '/signup': (BuildContext context) => new SignupForm(),
       },
       //home: new MyHomePage(),
       home: new Signin(),

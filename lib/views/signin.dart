@@ -1,5 +1,5 @@
-import 'package:budupdated/views/sign_up_forum.dart';
-import 'package:budupdated/views/signin_forum.dart';
+import 'package:budupdated/views/sign_up_form.dart';
+import 'package:budupdated/views/signin_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +38,7 @@ class Signin extends StatelessWidget {
                 onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SigninForum(),
+                        builder: (context) => SigninForm(),
                       ),
                     ),
                 child: new Text(
@@ -54,7 +54,7 @@ class Signin extends StatelessWidget {
                 onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SignupForum(),
+                        builder: (context) => SignupForm(),
                       ),
                     ),
                 color: signupColor,

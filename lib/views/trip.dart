@@ -7,8 +7,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 // first i need to save these values in the firestore in the new collection
-// and store a value inside these collection with user name
-// so i can serach in the database with the user name to filter
+// and store a value inside these collection with user mail
+// so i can serach in the database with the email to filter
 // all his car registration data
 
 //Todo these values i need to check them and pass them to the constructor

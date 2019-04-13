@@ -8,12 +8,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class SignupForum extends StatefulWidget {
+class SignupForm extends StatefulWidget {
   @override
   _State createState() => new _State();
 }
 
-class _State extends State<SignupForum> {
+class _State extends State<SignupForm> {
   final myController1 = TextEditingController();
   final myController2 = TextEditingController();
   final myController3 = TextEditingController();
@@ -45,7 +45,7 @@ class _State extends State<SignupForum> {
           children: <Widget>[
             Center(
               child: new Text(
-                "Bud Sign Up Forum",
+                "Bud Sign Up Form",
                 style: TextStyle(
                     fontWeight: FontWeight.w700,
                     color: Colors.black,
@@ -115,8 +115,8 @@ class _State extends State<SignupForum> {
                     });
                   } else {
                     _scaffoldstate.currentState.showSnackBar(new SnackBar(
-                        content: new Text("please enter  your msa email")));
-                    print("please enter valid msa mail");
+                        content: new Text("please enter  your MSA email")));
+                    print("please enter valid MSA mail");
                   }
                 },
                 onChanged: (value) {
@@ -251,7 +251,7 @@ class _State extends State<SignupForum> {
     if (email == null) {
       setState(() {
         _scaffoldstate.currentState.showSnackBar(
-            new SnackBar(content: new Text("please enter valid msa email")));
+            new SnackBar(content: new Text("please enter valid MSA email")));
       });
     }
 
@@ -279,7 +279,7 @@ class _State extends State<SignupForum> {
           .then((signedInUser) {
         signedInUser.sendEmailVerification();
 
-        Firestore.instance.collection('users').document(userName).setData({
+        Firestore.instance.collection('users').document(email).setData({
           'email': signedInUser.email,
           'uid': signedInUser.uid,
           "First Name ": firstname,
@@ -288,6 +288,9 @@ class _State extends State<SignupForum> {
           "Number Of Rides": 0,
           "Driver authnticated": false,
         });
+
+        _scaffoldstate.currentState
+            .showSnackBar(new SnackBar(content: new Text("Congutrlation account with email"+" "+email+" "+"is succefully created")));
       }).catchError((e) {
         print(e);
         _scaffoldstate.currentState

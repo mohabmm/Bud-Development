@@ -112,13 +112,16 @@ class _CheckDriverStatusState extends State<CheckDriverStatus> {
                         print("please press button4");
                       }
 
+                      //TODO 1) HERE I NEED TO CHECK THE VALUE OF Driver authnticated if it is true user
+
+                      // can navigate to next screen as the
                       if (button1 != false &&
                           button2 != false &&
                           button3 != false &&
                           button4 != false) {
                         Navigator.of(context).push(new MaterialPageRoute(
                             builder: (BuildContext context) =>
-                                new EnterRideDetails(user: null)));
+                                new EnterRideDetails(user: user)));
                       }
                     },
                     child: new Text("next"),
@@ -128,7 +131,7 @@ class _CheckDriverStatusState extends State<CheckDriverStatus> {
                     child: new StreamBuilder<QuerySnapshot>(
                         stream: Firestore.instance
                             .collection('users')
-                            .where("First Name ", isEqualTo: user.displayName)
+                            .where("email", isEqualTo: user.email)
                             .snapshots(),
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -137,7 +140,7 @@ class _CheckDriverStatusState extends State<CheckDriverStatus> {
                                 .data.documents[0].data['Driver authnticated'];
                             return Row(children: <Widget>[
                               new Text("Current Submtion Status:"),
-                              new Text("waiting acceptance"),
+                              new Text(status.toString()),
                             ]);
                           }
                         }),

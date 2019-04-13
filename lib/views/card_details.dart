@@ -5,6 +5,15 @@ import 'package:flutter_rating/flutter_rating.dart';
 import 'package:url_launcher/url_launcher.dart' as lan;
 
 //TODO
+
+// i have three things
+
+//1)first error
+//when i pressed the reserve ride button
+//
+//2) i need to check the driver authntication on making ride
+
+//3) the proper data passed to ride details
 /*
 * NUMBER OF RIDES THIS VARIABLE NEEDS TO BE UPLOADED WHEN THE USER INTIALLY SIGNED IN THE APP
 * AND WE NEED TO PASS THIS VARIABLE UNTIL WE GET IT IN THIS SCREEN
@@ -281,7 +290,7 @@ class _CardDetailsState extends State<CardDetails> {
                         new Container(
                             child: new FloatingActionButton(
                           onPressed: () =>
-                              showTapMsg(context, number_of_rides, user),
+                              showTapMsg(context, number_of_rides, datauser),
                           backgroundColor: Colors.cyan,
                           child: Icon(
                             Icons.add,
@@ -301,7 +310,7 @@ class _CardDetailsState extends State<CardDetails> {
                       new StreamBuilder<QuerySnapshot>(
                           stream: Firestore.instance
                               .collection('users')
-                              .where("First Name ", isEqualTo: user)
+                              .where("email", isEqualTo: datauser.email)
                               .snapshots(),
                           builder: (BuildContext context,
                               AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -324,6 +333,9 @@ class _CardDetailsState extends State<CardDetails> {
                                 ),
                               );
                             }
+                            else{
+                              return new Text("wait there is an error");
+                            }
                           }),
                     ])
                   ],
@@ -335,7 +347,7 @@ class _CardDetailsState extends State<CardDetails> {
   }
 }
 
-void showTapMsg(BuildContext context, int number_of_rides, String user) {
+void showTapMsg(BuildContext context, int number_of_rides, FirebaseUser datauser) {
   number_of_rides += 1;
 
   var alert = new AlertDialog(
@@ -357,7 +369,7 @@ void showTapMsg(BuildContext context, int number_of_rides, String user) {
         return alert;
       });
 
-  Firestore.instance.collection('users').document(user).setData({
+  Firestore.instance.collection('users').document(datauser.email).setData({
     "Number Of Rides": number_of_rides,
   });
 }
