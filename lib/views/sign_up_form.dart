@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:math';
+import 'package:budupdated/views/signin_form.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -291,6 +292,12 @@ class _State extends State<SignupForm> {
 
         _scaffoldstate.currentState
             .showSnackBar(new SnackBar(content: new Text("Congutrlation account with email"+" "+email+" "+"is succefully created")));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SigninForm(),
+          ),
+        );
       }).catchError((e) {
         print(e);
         _scaffoldstate.currentState
@@ -299,3 +306,4 @@ class _State extends State<SignupForm> {
     }
   }
 }
+

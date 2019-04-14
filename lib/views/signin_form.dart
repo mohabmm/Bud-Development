@@ -96,7 +96,7 @@ class _State extends State<SigninForm> {
                         } else {
                           _scaffoldstate.currentState.showSnackBar(new SnackBar(
                               content: new Text(
-                                  "please verify your msa email in order to get access ")));
+                                  "please verify your MSA email in order to get access ")));
                         }
                       }).catchError((e) {
                         String error;

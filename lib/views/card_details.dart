@@ -6,26 +6,10 @@ import 'package:url_launcher/url_launcher.dart' as lan;
 
 //TODO
 
-// i have three things
 
-//1)first error
-//when i pressed the reserve ride button
-//
-//2) i need to check the driver authntication on making ride
-
-//3) the proper data passed to ride details
-/*
-* NUMBER OF RIDES THIS VARIABLE NEEDS TO BE UPLOADED WHEN THE USER INTIALLY SIGNED IN THE APP
-* AND WE NEED TO PASS THIS VARIABLE UNTIL WE GET IT IN THIS SCREEN
-* THEN WE CAN START INSCREASING THIS VARIABLE AS WE GO WHEN THE USER PRESS RESERVE THE BUTTON
-* THEN WE NEED TO IPDATE THE DATABASE WITH THE NEW RIDE VARIABLE
-* FINALLY MAKE IF CONDTIONS TO CHECK THE NUMBER OF RIDES TO SHWO ALERT FOR THE ACHEVMENTS
-*
-* */
 class CardDetails extends StatefulWidget {
-  String user;
-  FirebaseUser datauser;
-
+  String username;
+  FirebaseUser firebaseuser;
   String describtion;
   String from;
   String to;
@@ -35,8 +19,8 @@ class CardDetails extends StatefulWidget {
   String carnumber;
   String cartype;
   CardDetails(
-    this.datauser,
-    this.user,
+    this.firebaseuser,
+    this.username,
     this.describtion,
     this.from,
     this.to,
@@ -49,8 +33,8 @@ class CardDetails extends StatefulWidget {
 
   @override
   _CardDetailsState createState() => _CardDetailsState(
-      datauser,
-      user,
+      firebaseuser,
+      username,
       describtion,
       from,
       to,
@@ -64,7 +48,6 @@ class CardDetails extends StatefulWidget {
 class _CardDetailsState extends State<CardDetails> {
   double rate = 0;
   int number_of_rides;
-
   FirebaseUser datauser;
   String user;
   String describtion;
@@ -88,8 +71,6 @@ class _CardDetailsState extends State<CardDetails> {
       this.carnumber,
       this.carcolor);
 
-//lama ydas al zorara bta3 reserave a aseat yroo7 y3ml check ll function aly bt3ml read
-  //ll data we azwd al rkm wa7d
 
   @override
   void initState() {
@@ -355,7 +336,9 @@ void showTapMsg(BuildContext context, int number_of_rides, FirebaseUser datauser
         "Congratulation You have reserved a seat,you can press on the telephone icon to call the driver and discuss the details. "),
     actions: <Widget>[
       FlatButton(
-        onPressed: () => Navigator.of(context).pop(),
+        onPressed: () {
+          print("fine");
+        },
         child: new Text(
           "OK",
           style: TextStyle(color: Colors.cyan, fontSize: 17.5),
@@ -369,7 +352,14 @@ void showTapMsg(BuildContext context, int number_of_rides, FirebaseUser datauser
         return alert;
       });
 
-  Firestore.instance.collection('users').document(datauser.email).setData({
+  Firestore.instance.collection('users').document(datauser.email).updateData({
     "Number Of Rides": number_of_rides,
+
   });
+
+
+  if(number_of_rides==1|| number_of_rides==3|| number_of_rides==5|| number_of_rides==10|| number_of_rides==20|| number_of_rides==3|| number_of_rides==30|| number_of_rides==3|| number_of_rides==40|| number_of_rides==50){
+
+    print("congurtlation new achievement is reached");
+  }
 }

@@ -427,7 +427,7 @@ Padding(
         name != null) {
       setState(() {
         _scaffoldstate.currentState.showSnackBar(
-            new SnackBar(content: new Text("upoading your trip data ")));
+            new SnackBar(content: new Text("Uploading your trip data ")));
 
         Firestore.instance.collection('Offer Ride list').document().setData({
           "Trip Date": currentdate.replaceAll(":00.000", ''),
@@ -440,6 +440,10 @@ Padding(
           "CarColor":carColor,
           "CarNumber":carNumber
         });
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => HomePage(
+              user: user,
+            )));
       });
     }
   }

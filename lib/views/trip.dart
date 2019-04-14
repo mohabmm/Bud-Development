@@ -6,51 +6,25 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-// first i need to save these values in the firestore in the new collection
-// and store a value inside these collection with user mail
-// so i can serach in the database with the email to filter
-// all his car registration data
-
-//Todo these values i need to check them and pass them to the constructor
-//of the ride details
-/*
-these are the values we need to pass to car details screen
-
-1- user name
-2- trip describtion
-3-from
-4-time
-5-to
-6-no of seats avilaible
-7-car type
-8-car color
-9-car number
-10-the user phone number
-
-
-
-
- */
-
 class Trip extends StatefulWidget {
   FirebaseUser user;
 
   Trip({this.user});
   @override
-  _State createState() => new _State(user: user);
+  _State createState() => new _State(firebaseuser: user);
 }
 
 class _State extends State<Trip> {
-  FirebaseUser user;
+  FirebaseUser firebaseuser;
 
-  _State({this.user});
+  _State({this.firebaseuser});
 
   final color = const Color(0xFF13DDD2);
 
   Future checkFirstSeen() async {
     Firestore.instance
         .collection('users')
-        .where("email", isEqualTo: user.email)
+        .where("email", isEqualTo: firebaseuser.email)
         .snapshots()
         .listen((data) => data.documents.forEach((doc) {
               if (doc["Driver authnticated"] == true) {
@@ -58,10 +32,10 @@ class _State extends State<Trip> {
                     doc["Driver authnticated"].toString());
                 Navigator.of(context).push(new MaterialPageRoute(
                     builder: (BuildContext context) =>
-                        new EnterRideDetails(user: user)));
+                        new EnterRideDetails(user: firebaseuser)));
               } else {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => CheckDriverStatus(user)));
+                    builder: (context) => CheckDriverStatus(firebaseuser)));
               }
             }));
   }
@@ -90,17 +64,16 @@ class _State extends State<Trip> {
                   String from =
                       snapshot.data.documents[index].data['From'].toString();
 
-//remeber to change these 3 values the down values to red the real data from
-// firebase and pass them as constructor to the cardetials
 
-                  String carname =
-                      snapshot.data.documents[index].data['From'].toString();
+
+                  String carnumber =
+                      snapshot.data.documents[index].data['CarNumber'].toString();
 
                   String cartype =
-                      snapshot.data.documents[index].data['From'].toString();
+                      snapshot.data.documents[index].data['CarType'].toString();
 
                   String carcolor =
-                      snapshot.data.documents[index].data['From'].toString();
+                      snapshot.data.documents[index].data['CarColor'].toString();
 
                   String NoOfSeats = snapshot
                       .data.documents[index].data['No Of Seats']
@@ -112,7 +85,7 @@ class _State extends State<Trip> {
                       .data.documents[index].data['Trip Date']
                       .toString();
 
-                  String name = snapshot.data.documents[index].data['User name']
+                  String username = snapshot.data.documents[index].data['User name']
                       .toString();
                   String describtion = snapshot
                       .data.documents[index].data['describtion']
@@ -122,16 +95,18 @@ class _State extends State<Trip> {
                     onTap: () {
                       Navigator.of(context).push(new MaterialPageRoute(
                           builder: (BuildContext context) => new CardDetails(
-                              user,
-                              name,
+                              firebaseuser,
+                              username,
                               describtion,
                               from,
-                              carname,
-                              cartype,
-                              carcolor,
                               To,
                               Trip_date,
-                              NoOfSeats)));
+                              NoOfSeats,
+                            carnumber,
+                            cartype,
+                            carcolor,
+
+                          )));
                     },
                     child: new Card(
                       child: new Column(
@@ -140,7 +115,7 @@ class _State extends State<Trip> {
                           ListTile(
                             title: Padding(
                               padding: const EdgeInsets.only(top: 8.0),
-                              child: Text(name),
+                              child: Text(username),
                             ),
                             subtitle: Padding(
                               padding: const EdgeInsets.only(top: 10.0),
