@@ -1,5 +1,6 @@
 import 'package:budupdated/views/card_details.dart';
 import 'package:budupdated/views/check_driver_status.dart';
+import 'package:budupdated/views/detailsContainer.dart';
 import 'package:budupdated/views/enter_ride_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -57,132 +58,209 @@ class _State extends State<Trip> {
         stream: Firestore.instance.collection('Offer Ride list').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
-            return new ListView.builder(
-                itemExtent: 220.0,
-                itemCount: snapshot.data.documents.length,
-                itemBuilder: (BuildContext context, int index) {
-                  String from =
-                      snapshot.data.documents[index].data['From'].toString();
+            return ListView.builder(
+            itemExtent: 220.0,
+            itemCount: snapshot.data.documents.length,
+    itemBuilder: (BuildContext context, int index) {
+    String from =
+    snapshot.data.documents[index].data['From'].toString();
 
 
 
-                  String carnumber =
-                      snapshot.data.documents[index].data['CarNumber'].toString();
+    String carnumber =
+    snapshot.data.documents[index].data['CarNumber'].toString();
 
-                  String cartype =
-                      snapshot.data.documents[index].data['CarType'].toString();
+    String cartype =
+    snapshot.data.documents[index].data['CarType'].toString();
 
-                  String carcolor =
-                      snapshot.data.documents[index].data['CarColor'].toString();
+    String carcolor =
+    snapshot.data.documents[index].data['CarColor'].toString();
 
-                  String NoOfSeats = snapshot
-                      .data.documents[index].data['No Of Seats']
-                      .toString();
-                  String To =
-                      snapshot.data.documents[index].data['To'].toString();
+    String NoOfSeats = snapshot
+        .data.documents[index].data['No Of Seats']
+        .toString();
+    String To =
+    snapshot.data.documents[index].data['To'].toString();
 
-                  String Trip_date = snapshot
-                      .data.documents[index].data['Trip Date']
-                      .toString();
+    String Trip_date = snapshot
+        .data.documents[index].data['Trip Date']
+        .toString();
 
-                  String username = snapshot.data.documents[index].data['User name']
-                      .toString();
-                  String describtion = snapshot
-                      .data.documents[index].data['describtion']
-                      .toString();
+    String username = snapshot.data.documents[index].data['User name']
+        .toString();
+    String describtion = snapshot
+        .data.documents[index].data['describtion']
+        .toString();
 
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(new MaterialPageRoute(
-                          builder: (BuildContext context) => new CardDetails(
-                              firebaseuser,
-                              username,
-                              describtion,
-                              from,
-                              To,
-                              Trip_date,
-                              NoOfSeats,
-                            carnumber,
-                            cartype,
-                            carcolor,
+    return GestureDetector(
+    onTap: () {
+    Navigator.of(context).push(new MaterialPageRoute(
+    builder: (BuildContext context) => new CardDetails(
+    firebaseuser,
+    username,
+    describtion,
+    from,
+    To,
+    Trip_date,
+    NoOfSeats,
+    carnumber,
+    cartype,
+    carcolor,
 
-                          )));
-                    },
-                    child: new Card(
-                      child: new Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          ListTile(
-                            title: Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: Text(username),
-                            ),
-                            subtitle: Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: new Text(
-                                      from,
-                                      style: new TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: new IconButton(
-                                      icon: new Icon(Icons.arrow_forward),
-                                      onPressed: () => print("hello moha"),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: new Padding(
-                                      padding: EdgeInsets.fromLTRB(
-                                          10.0, 0.0, 0.0, 16.0),
-                                      child: new Text(
-                                        To,
-                                        style: new TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
+    )));
+    },
+
+    child:  Padding(padding:EdgeInsets.all(16.0),
+                  child: Container(
+
+
+                      child: Material(
+                        color: Colors.white,
+                        elevation:14.0 ,
+                        borderRadius: BorderRadius.circular(24.0),
+                        shadowColor: Color(0x802196F3),
+                        child: Row(
+                          children: <Widget>[
+                            new Expanded(
+                              child: Container(
+                                child:          new Container(
+                        child: new Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            ListTile(
+//           title: Padding(
+//
+//             padding: const EdgeInsets.only(top: 8.0),
+//             child:  Text("2:48 PM",style: TextStyle(fontSize: 22.0),),
+//           ),
+                              subtitle: Padding(
+                                padding: const EdgeInsets.only(top: 0.0),
+                                child: Row(
+                                  children: <Widget>[
+
+                                    new Container(
+                                      width: 100.0,
+                                      height: 100.0,
+                                      decoration: new BoxDecoration(
+                                        color: const Color(0xff7c94b6),
+                                        image: new DecorationImage(
+                                          image:
+                                          new NetworkImage('http://i.imgur.com/QSev0hg.jpg'),
+                                          fit: BoxFit.cover,
+                                        ),
+                                        borderRadius:
+                                        new BorderRadius.all(new Radius.circular(50.0)),
+                                        border: new Border.all(
+                                          color: Colors.white,
+                                          width: 4.0,
                                         ),
                                       ),
                                     ),
-                                  )
-                                ],
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(left:18.0),
+                                        child: new Text(
+                                          from,
+                                          style: new TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 23.0,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: new IconButton(
+                                        icon: Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(bottom:60.0),
+                                            child: new Icon(
+                                              Icons.arrow_forward,
+                                              size: 40.0,
+                                            ),
+                                          ),
+                                        ),
+                                        onPressed: () => print("hello moha"),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: new Padding(
+                                        padding: EdgeInsets.fromLTRB(
+                                            0.0, 0.0, 0.0, 0.0),
+                                        child: new Text(
+                                          //To,
+                                          To,
+                                          style: new TextStyle(
+                                            fontSize: 23.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          Center(
-                            child: Padding(
+
+                            Padding(
                               padding: const EdgeInsets.fromLTRB(
-                                  70.0, 12.0, 0.0, 0.0),
+                                  8.0, 0.0, 0.0, 0.0),
                               child: new Row(
                                 // make buttons use the appropriate styles for cards
+//               mainAxisSize: MainAxisSize.min,
+//               mainAxisAlignment: MainAxisAlignment.center,
 
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  Center(
-                                    child: Padding(
-                                      padding:
-                                          const EdgeInsets.only(bottom: 6.0),
-                                      child: new Text(
-                                        Trip_date,
-                                        style: new TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                        ),
+
+
+                                  Padding(
+                                    padding:
+                                    const EdgeInsets.only(bottom: 6.0,left: 30.0),
+
+                                    child: new Text(
+                                      username,
+                                      style: new TextStyle(
+                                        fontSize: 18.0,
+//                           fontWeight: FontWeight.w600,
                                       ),
                                     ),
+
+
+                                  ),
+
+                                  Padding(
+
+                                    padding: const EdgeInsets.only(bottom: 8.0,right: 28.0),
+                                    child:  Text(Trip_date,style: TextStyle(fontSize: 18.0),),
                                   ),
                                 ],
                               ),
                             ),
-                          ),
-                        ],
+
+                          ],
+                        ),
+
+
+
+
+                      )
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  );
-                });
-          } else {
+                  ),
+
+
+
+            );
+          }
+            );
+          }
+          else {
             return Center(child: new CircularProgressIndicator());
           }
         },

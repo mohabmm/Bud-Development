@@ -31,7 +31,10 @@ class _State extends State<EnterRideDetails> {
 
 
   final formats = {
-    InputType.both: DateFormat("EEEE, MMMM d, yyyy 'at' h:mma"),
+ InputType.both: DateFormat("EEEE, MMMM d, yyyy 'at' h:mma"),
+//   // InputType.both: DateFormat("yyyy, MMMM d, EEEE 'at' h:mma"),
+//   DateFormat.yMd().add_jm()
+//
   };
 
   InputType inputType = InputType.both;
@@ -115,9 +118,14 @@ void _onSubmitdcarType(String value) {
                   )),
         ),
         body: new Container(
-          padding: new EdgeInsets.all(20.0),
+          padding: new EdgeInsets.only(left:20.0,right: 20.0,top: 20.0,bottom: 20.0),
           child: new ListView(
             children: <Widget>[
+
+              Center(child: Padding(
+                padding: const EdgeInsets.only(bottom:8.0),
+                child: new Text("Offer Ride",style: new TextStyle(fontWeight: FontWeight.bold,fontSize: 20.0),),
+              )),
               TextField(
                 onSubmitted: _onSubmitName,
                 onChanged: _onSubmitName,
@@ -162,7 +170,7 @@ void _onSubmitdcarType(String value) {
                 inputType: inputType,
                 initialTime: TimeOfDay.now(),
                 firstDate: DateTime.now(),
-                format: formats[1],
+                format:  formats[1],
                 editable: editable,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(borderSide: BorderSide()),
@@ -170,7 +178,9 @@ void _onSubmitdcarType(String value) {
                     hasFloatingPlaceholder: false),
                 onChanged: (date) {
                   setState(() {
-                    currentdate = date.toString();
+                    //Todo
+                    //currentdate = date.toString();
+                    currentdate = date.day.toString()+"/"+date.month.toString()+"/"+date.year.toString()+" "+date.hour.toString()+":"+date.minute.toString();
                     print("the data is " + currentdate);
                   });
                 },
@@ -182,79 +192,73 @@ void _onSubmitdcarType(String value) {
                 },
               ),
               SizedBox(
-                width: 10.0,
+                height: 10.0,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
+               TextField(
                   controller: myController4,
                   onSubmitted: _onSubmitdescribtion,
                   onChanged: _onSubmitdescribtion,
                   decoration: InputDecoration(
                     labelText: 'Describtion',
                     border: OutlineInputBorder(borderSide: BorderSide()),
-                    contentPadding: EdgeInsets.all(10.0),
+                    contentPadding: EdgeInsets.all(15.0),
                   ),
                 ),
-              ),
+
               SizedBox(
                 height: 10.0,
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
+               TextField(
                   controller: myController6,
                   onSubmitted: _onSubmitdcarType,
                   onChanged: _onSubmitdcarType,
                   decoration: InputDecoration(
                     labelText: 'Car Type',
                     border: OutlineInputBorder(borderSide: BorderSide()),
-                    contentPadding: EdgeInsets.all(10.0),
+                    contentPadding: EdgeInsets.all(15.0),
                   ),
                 ),
-              ),
+
               SizedBox(
                 height: 10.0,
               ),
 
-Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
+ TextField(
                   controller: myController7,
                   onSubmitted: _onSubmitcarNumber,
                   onChanged: _onSubmitcarNumber,
                   decoration: InputDecoration(
                     labelText: 'Car Number',
                     border: OutlineInputBorder(borderSide: BorderSide()),
-                    contentPadding: EdgeInsets.all(10.0),
+                    contentPadding: EdgeInsets.all(15.0),
                   ),
                 ),
-              ),
+
               SizedBox(
                 height: 10.0,
               ),
 
-              
-Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
+
+ TextField(
                   controller: myController8,
                   onSubmitted: _onSubmitcarColor,
                   onChanged: _onSubmitcarColor,
                   decoration: InputDecoration(
                     labelText: 'Car Color',
                     border: OutlineInputBorder(borderSide: BorderSide()),
-                    contentPadding: EdgeInsets.all(10.0),
+                    contentPadding: EdgeInsets.all(15.0),
                   ),
                 ),
-              ),
+
               SizedBox(
                 height: 10.0,
               ),
-              new Text("seats"),
+              Center(child: new Text("Please choose number of seats",style: new TextStyle(fontSize: 19.0,fontWeight: FontWeight.bold),)),
 
               Row(
+                mainAxisAlignment:MainAxisAlignment.center,
                 children: <Widget>[
+
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: new FloatingActionButton(
