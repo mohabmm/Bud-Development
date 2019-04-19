@@ -46,6 +46,10 @@ class CardDetails extends StatefulWidget {
 }
 
 class _CardDetailsState extends State<CardDetails> {
+
+  final GlobalKey<ScaffoldState> _scaffoldstate =
+  new GlobalKey<ScaffoldState>();
+
   double rate = 0;
   int number_of_rides;
   FirebaseUser datauser;
@@ -91,6 +95,8 @@ class _CardDetailsState extends State<CardDetails> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+        key: _scaffoldstate,
+
         appBar: new AppBar(
           centerTitle: true,
           backgroundColor: Colors.cyan,
@@ -271,7 +277,7 @@ class _CardDetailsState extends State<CardDetails> {
                         new Container(
                             child: new FloatingActionButton(
                           onPressed: () =>
-                              showTapMsg(context, number_of_rides, datauser),
+                              showTapMsg(context, number_of_rides, datauser,_scaffoldstate),
                           backgroundColor: Colors.cyan,
                           child: Icon(
                             Icons.add,
@@ -328,7 +334,7 @@ class _CardDetailsState extends State<CardDetails> {
   }
 }
 
-void showTapMsg(BuildContext context, int number_of_rides, FirebaseUser datauser) {
+void showTapMsg(BuildContext context, int number_of_rides, FirebaseUser datauser, GlobalKey<ScaffoldState> scaffoldstate) {
   number_of_rides += 1;
 
   var alert = new AlertDialog(
@@ -358,8 +364,107 @@ void showTapMsg(BuildContext context, int number_of_rides, FirebaseUser datauser
   });
 
 
-  if(number_of_rides==1|| number_of_rides==3|| number_of_rides==5|| number_of_rides==10|| number_of_rides==20|| number_of_rides==3|| number_of_rides==30|| number_of_rides==3|| number_of_rides==40|| number_of_rides==50){
+  if(number_of_rides==1|| number_of_rides==3|| number_of_rides==5|| number_of_rides==10|| number_of_rides==20||  number_of_rides==30|| number_of_rides==40|| number_of_rides==50){
+
+
+
+    scaffoldstate.currentState
+        .showSnackBar(new SnackBar(content: new Text("Congurtlation new Achievement is reached having "+number_of_rides.toString()+" rides in our app")));
 
     print("congurtlation new achievement is reached");
+if(number_of_rides==1){
+
+  Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+    "first ride": true,
+
+  });
+}
+if(number_of_rides==3){
+
+  Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+    "third ride": true,
+
+  });
+}
+
+    if(number_of_rides==5){
+
+      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+        "fifth ride": true,
+
+      });
+    }
+    if(number_of_rides==10){
+
+      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+        "10 ride": true,
+
+      });
+    }
+    if(number_of_rides==20){
+
+      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+        "20 ride": true,
+
+      });
+    }
+    if(number_of_rides==30){
+
+      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+        "30 ride": true,
+
+      });
+    }
+    if(number_of_rides==40){
+
+      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+        "40 ride": true,
+
+      });
+    }
+    if(number_of_rides==50){
+
+      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+        "50 ride": true,
+
+      });
+    }
+    if(number_of_rides==60){
+
+      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+        "60 ride": true,
+
+      });
+    }if(number_of_rides==70){
+
+      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+        "70 ride": true,
+
+      });
+    }if(number_of_rides==80){
+
+      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+        "80 ride": true,
+
+      });
+    }if(number_of_rides==90){
+
+      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+        "90 ride": true,
+
+      });
+    }
+    if(number_of_rides==100){
+
+      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+        "100 ride": true,
+
+      });
+    }
+
+
+
+
   }
 }
+

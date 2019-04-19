@@ -1,3 +1,4 @@
+import 'package:budupdated/views/achievements.dart';
 import 'package:budupdated/views/trip.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -77,8 +78,8 @@ class _HomePageState extends State<HomePage> {
                       onTap: () {
                         Navigator.of(context).pop();
                         Navigator.of(context).push(new MaterialPageRoute(
-                            builder: (BuildContext context) => new HomePage(
-                                  user: user,
+                            builder: (BuildContext context) => new Achievements(
+                                   user,
                                 )));
                       }),
                   new ListTile(
