@@ -66,6 +66,8 @@ class _State extends State<Trip> {
     snapshot.data.documents[index].data['From'].toString();
 
 
+    String Telephone =
+    snapshot.data.documents[index].data['Telephone'].toString();
 
     String carnumber =
     snapshot.data.documents[index].data['CarNumber'].toString();
@@ -106,6 +108,7 @@ class _State extends State<Trip> {
     carnumber,
     cartype,
     carcolor,
+        Telephone,
 
     )));
     },

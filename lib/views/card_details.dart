@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart' as lan;
 //TODO
 
 
+
 class CardDetails extends StatefulWidget {
   String username;
   FirebaseUser firebaseuser;
@@ -15,20 +16,22 @@ class CardDetails extends StatefulWidget {
   String to;
   String trip_date;
   String noOfSeats;
-  String carcolor;
   String carnumber;
   String cartype;
+  String carcolor;
+  String telephone;
   CardDetails(
-    this.firebaseuser,
-    this.username,
+      this.firebaseuser,
+      this.username,
     this.describtion,
     this.from,
     this.to,
     this.trip_date,
     this.noOfSeats,
-    this.cartype,
-    this.carnumber,
+      this.carnumber,
+      this.cartype,
     this.carcolor,
+      this. telephone,
   );
 
   @override
@@ -40,9 +43,11 @@ class CardDetails extends StatefulWidget {
       to,
       trip_date,
       noOfSeats,
+    carnumber,
       cartype,
-      carnumber,
-      carcolor);
+    carcolor,
+      telephone,
+      );
 }
 
 class _CardDetailsState extends State<CardDetails> {
@@ -62,6 +67,8 @@ class _CardDetailsState extends State<CardDetails> {
   String cartype;
   String carnumber;
   String carcolor;
+  String telephone;
+
 
   _CardDetailsState(
       this.datauser,
@@ -73,12 +80,27 @@ class _CardDetailsState extends State<CardDetails> {
       this.noOfSeats,
       this.cartype,
       this.carnumber,
-      this.carcolor);
+      this.carcolor,
+  this.telephone,
+       );
 
 
   @override
   void initState() {
     super.initState();
+    print("the data user is "+datauser.toString());
+    print("the user is "+user.toString());
+    print("the describtion is "+describtion);
+    print("from is"+from);
+    print("to is "+to);
+    print("trip date is "+trip_date);
+    print("number of seta is "+noOfSeats);
+
+    print("car type is"+cartype);
+    print("car number is "+carnumber);
+    print("car color is "+carcolor);
+
+    print("telephone is "+telephone);
     checkFirstSeen();
   }
 
@@ -294,18 +316,8 @@ class _CardDetailsState extends State<CardDetails> {
                             "CALL THE DRIVER",
                             style: new TextStyle(fontWeight: FontWeight.w600),
                           )),
-                      new StreamBuilder<QuerySnapshot>(
-                          stream: Firestore.instance
-                              .collection('users')
-                              .where("email", isEqualTo: datauser.email)
-                              .snapshots(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<QuerySnapshot> snapshot) {
-                            if (snapshot.hasData) {
-                              String telephone = snapshot
-                                  .data.documents[0].data['Phone Number'];
 
-                              return new Container(
+                               new Container(
                                 margin: const EdgeInsets.fromLTRB(
                                     100.0, 0.0, 0.0, 0.0),
                                 child: new FloatingActionButton(
@@ -318,12 +330,9 @@ class _CardDetailsState extends State<CardDetails> {
                                     size: 30.0,
                                   ),
                                 ),
-                              );
-                            }
-                            else{
-                              return new Text("wait there is an error");
-                            }
-                          }),
+                              )
+
+
                     ])
                   ],
                 )

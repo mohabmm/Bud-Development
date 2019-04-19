@@ -27,6 +27,8 @@ class _State extends State<EnterRideDetails> {
   final myController6 = TextEditingController();
   final myController7 = TextEditingController();
   final myController8 = TextEditingController();
+  final myController9 = TextEditingController();
+
 
 
 
@@ -41,7 +43,7 @@ class _State extends State<EnterRideDetails> {
   bool editable = true;
   final GlobalKey<ScaffoldState> _scaffoldstate =
       new GlobalKey<ScaffoldState>();
-
+  String Telephone;
   String currentdate;
   String describtion;
   String From;
@@ -65,6 +67,13 @@ class _State extends State<EnterRideDetails> {
     });
   }
 
+
+  void _onSubmittelephone(String value) {
+    setState(() {
+      Telephone = value;
+      print("the data inside telephone " + From);
+    });
+  }
   
   void _onSubmitcarColor(String value) {
     setState(() {
@@ -132,6 +141,20 @@ void _onSubmitdcarType(String value) {
                 controller: myController5,
                 decoration: InputDecoration(
                   labelText: 'User name',
+                  border: OutlineInputBorder(borderSide: BorderSide()),
+                  contentPadding: EdgeInsets.all(15.0),
+                ),
+              ),
+
+              SizedBox(
+                height: 10.0,
+              ),
+              TextField(
+                onSubmitted: _onSubmittelephone,
+                onChanged: _onSubmittelephone,
+                controller: myController9,
+                decoration: InputDecoration(
+                  labelText: 'Telephone Number',
                   border: OutlineInputBorder(borderSide: BorderSide()),
                   contentPadding: EdgeInsets.all(15.0),
                 ),
@@ -354,7 +377,17 @@ void _onSubmitdcarType(String value) {
       print("the current car type is " + currentdate);
     }
 
-      if (carColor == null) {
+    if (Telephone == null) {
+      setState(() {
+        _scaffoldstate.currentState.showSnackBar(new SnackBar(
+            content: new Text("please enter Telephone number")));
+      });
+    } else {
+      print("the current telephone number is " + currentdate);
+    }
+
+
+    if (carColor == null) {
       setState(() {
         _scaffoldstate.currentState.showSnackBar(new SnackBar(
             content: new Text("please choose the car color")));
@@ -420,7 +453,7 @@ void _onSubmitdcarType(String value) {
   //String carNumber; 
 
     if (currentdate != null &&
-    
+    Telephone!=null&&
     carNumber != null &&
     carColor != null &&
     carType != null &&
@@ -441,6 +474,7 @@ void _onSubmitdcarType(String value) {
           "No Of Seats": counter,
           "User name": name,
           "CarType":carType,
+          "Telephone":Telephone,
           "CarColor":carColor,
           "CarNumber":carNumber
         });

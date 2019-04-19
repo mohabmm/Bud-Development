@@ -42,8 +42,11 @@ import 'package:flutter/material.dart';
                print("the lenght is"+snapshot.data.documents.length.toString());
                  return ListView.builder(
                      itemExtent: 220.0,
-                     itemCount: snapshot.data.documents.length,
+                     itemCount: 53,
                      itemBuilder: (BuildContext context, int index) {
+                       bool oneride =
+                       snapshot.data.documents[index].data['first ride'];
+
                        return Padding(padding: EdgeInsets.all(16.0),
                          child: Container(
                            child: Material(
@@ -89,13 +92,19 @@ import 'package:flutter/material.dart';
                                                          ),
                                                        ),
                                                      ),
-                                                     Expanded(
+//                                           X = COND ? A : B;
+
+
+                                                     oneride==true?
+                                           Expanded(
                                                        child: Padding(
                                                          padding: const EdgeInsets
                                                              .only(
-                                                             left: 18.0),
+                                                             left: 4.0),
+
+
                                                          child: new Text(
-                                                           "hjh",
+                                                           "One Ride in The app",
                                                            style: new TextStyle(
                                                              fontWeight: FontWeight
                                                                  .bold,
@@ -105,91 +114,13 @@ import 'package:flutter/material.dart';
                                                            ),
                                                          ),
                                                        ),
-                                                     ),
-                                                     Expanded(
-                                                       child: new IconButton(
-                                                         icon: Center(
-                                                           child: Padding(
-                                                             padding: const EdgeInsets
-                                                                 .only(
-                                                                 bottom: 60.0),
-                                                             child: new Icon(
-                                                               Icons
-                                                                   .arrow_forward,
-                                                               size: 40.0,
-                                                             ),
-                                                           ),
-                                                         ),
-                                                         onPressed: () =>
-                                                             print(
-                                                                 "hello moha"),
-                                                       ),
-                                                     ),
-                                                     Expanded(
-                                                       child: new Padding(
-                                                         padding: EdgeInsets
-                                                             .fromLTRB(
-                                                             0.0, 0.0, 0.0,
-                                                             0.0),
-                                                         child: new Text(
-                                                           //To,
-                                                           "lll",
-                                                           style: new TextStyle(
-                                                             fontSize: 23.0,
-                                                             fontWeight: FontWeight
-                                                                 .bold,
-                                                             color: Colors
-                                                                 .black,
-                                                           ),
-                                                         ),
-                                                       ),
-                                                     )
+                                                     ):new Text("a7a"),
+
                                                    ],
                                                  ),
                                                ),
                                              ),
 
-                                             Padding(
-                                               padding: const EdgeInsets
-                                                   .fromLTRB(
-                                                   8.0, 0.0, 0.0, 0.0),
-                                               child: new Row(
-                                                 // make buttons use the appropriate styles for cards
-
-                                                 mainAxisAlignment: MainAxisAlignment
-                                                     .spaceBetween,
-                                                 children: <Widget>[
-
-
-                                                   Padding(
-                                                     padding:
-                                                     const EdgeInsets.only(
-                                                         bottom: 6.0,
-                                                         left: 30.0),
-
-                                                     child: new Text(
-                                                       "jhjh",
-                                                       style: new TextStyle(
-                                                         fontSize: 18.0,
-                                                       ),
-                                                     ),
-
-
-                                                   ),
-
-                                                   Padding(
-
-                                                     padding: const EdgeInsets
-                                                         .only(
-                                                         bottom: 8.0,
-                                                         right: 28.0),
-                                                     child: Text("xxxcx",
-                                                       style: TextStyle(
-                                                           fontSize: 18.0),),
-                                                   ),
-                                                 ],
-                                               ),
-                                             ),
 
                                            ],
                                          ),

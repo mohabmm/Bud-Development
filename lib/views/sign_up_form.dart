@@ -24,7 +24,7 @@ class _State extends State<SignupForm> {
 
   String firstname;
   String lastName;
-  String phoneNumber;
+
   String email;
   String userName;
   String password;
@@ -121,7 +121,7 @@ class _State extends State<SignupForm> {
                   }
                 },
                 onChanged: (value) {
-                  if (value.endsWith("msa.edu.eg")) {
+                  if (value.endsWith("msa.edu.eg")||value.endsWith("MSA.EDU.EG")) {
                     setState(() {
                       email = value;
                     });
@@ -154,17 +154,7 @@ class _State extends State<SignupForm> {
             SizedBox(
               height: 10.0,
             ),
-            TextField(
-              onSubmitted: _onSubmitPhoneNumber,
-              onChanged: _onSubmitPhoneNumber,
-              keyboardType: TextInputType.numberWithOptions(),
-              controller: myController3,
-              decoration: InputDecoration(
-                labelText: 'Phone Number',
-                border: OutlineInputBorder(borderSide: BorderSide()),
-                contentPadding: EdgeInsets.all(15.0),
-              ),
-            ),
+
             ButtonTheme(
               minWidth: 4.0,
               child: new RaisedButton(
@@ -210,17 +200,11 @@ class _State extends State<SignupForm> {
     return await (await uploadTask.onComplete).ref.getDownloadURL();
   }
 
-  void _onSubmitPhoneNumber(String value) {
-    setState(() {
-      phoneNumber = value;
-      print("the phone number the user wrote is " + phoneNumber);
-    });
-  }
 
   void _onSubmitUserName(String value) {
     setState(() {
       userName = value;
-      print("the user Name " + phoneNumber);
+      print("the user Name " + value);
     });
   }
 
@@ -243,12 +227,7 @@ class _State extends State<SignupForm> {
             new SnackBar(content: new Text("please enter your password")));
       });
     }
-    if (phoneNumber == null) {
-      setState(() {
-        _scaffoldstate.currentState.showSnackBar(
-            new SnackBar(content: new Text("please enter the phone number")));
-      });
-    }
+
     if (email == null) {
       setState(() {
         _scaffoldstate.currentState.showSnackBar(
@@ -271,7 +250,7 @@ class _State extends State<SignupForm> {
 //    }
     if (firstname != null &&
         lastName != null &&
-        phoneNumber != null &&
+
         //  imageFiles != null &&
         email != null &&
         userName != null) {
@@ -285,7 +264,6 @@ class _State extends State<SignupForm> {
           'uid': signedInUser.uid,
           "First Name ": firstname,
           "Last Name": lastName,
-          "Phone Number": phoneNumber,
           "Number Of Rides": 0,
           "Driver authnticated": false,
         });
