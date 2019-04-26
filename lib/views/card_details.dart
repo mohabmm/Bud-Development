@@ -76,7 +76,6 @@ class _CardDetailsState extends State<CardDetails> {
   String telephone;
   bool isdriver;
 
-
   Future checkFirstSeens() async {
     Firestore.instance
         .collection('Offer Ride list')
@@ -93,7 +92,7 @@ class _CardDetailsState extends State<CardDetails> {
           isdriver=false;
 
         });
-              }
+      }
     }));
   }
 
