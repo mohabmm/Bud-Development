@@ -23,6 +23,8 @@ class MapsNavigation extends StatefulWidget {
 class _MapsNavigationState extends State<MapsNavigation> {
 
   bool status =false;
+  double distanceInMeters;
+  double rideprice ;
 
   Position startposition;
   _MapsNavigationState(this. startposition);
@@ -63,7 +65,8 @@ class _MapsNavigationState extends State<MapsNavigation> {
 
 
 );
-   double distanceInMeters = await Geolocator().distanceBetween(startposition.latitude,startposition.longitude, positionend.latitude,positionend.longitude);
+    distanceInMeters = await Geolocator().distanceBetween(startposition.latitude,startposition.longitude, positionend.latitude,positionend.longitude);
+    rideprice = distanceInMeters*1.0;
 
    print("the actual distance is "+distanceInMeters.toString());
   }
@@ -77,8 +80,7 @@ class _MapsNavigationState extends State<MapsNavigation> {
   }
   @override
   Widget build(BuildContext context) {
-    int distance=233;
-    int rideprice =123;
+//    int distance=233;
     return Scaffold(
       appBar: AppBar(
         title: Text("Navigation"),
@@ -135,8 +137,8 @@ class _MapsNavigationState extends State<MapsNavigation> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
 
-                    (status==true)?    new Text("The Distance is "+" "+distance.toString()):new Container(),
-                    (status==true)?new Text("The Price is "+ rideprice.toString()+""+"LE"):new Container(),
+                    (status==true)?    new Text("The Distance is "+" "+distanceInMeters.toString()):new Container(),
+                    (status==true)?new Text("The Price is "+ rideprice.toString()+" "+ "LE"):new Container(),
 
                   ],
 
@@ -157,7 +159,7 @@ class _MapsNavigationState extends State<MapsNavigation> {
           ),
         ),
       ),
-      floatingActionButton:FlatButton(onPressed: getLocation, child: new Text("press me show current")),
+      
     );
   }
 }
