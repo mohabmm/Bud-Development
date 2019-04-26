@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart' as lan;
 
 //TODO
@@ -24,6 +25,7 @@ class CardDetails extends StatefulWidget {
   String cartype;
   String carcolor;
   String telephone;
+
   CardDetails(
       this.firebaseuser,
       this.username,
@@ -60,7 +62,7 @@ class _CardDetailsState extends State<CardDetails> {
 
   final GlobalKey<ScaffoldState> _scaffoldstate =
   new GlobalKey<ScaffoldState>();
-
+  String start;
   double rate = 0;
   int number_of_rides;
   FirebaseUser datauser;
@@ -94,6 +96,32 @@ class _CardDetailsState extends State<CardDetails> {
         });
       }
     }));
+  }
+
+
+  Future getLocation() async {
+    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    print("the start longitude from the first screen is "+position.longitude.toString());
+    Future.delayed(new Duration(milliseconds: 30)
+
+      //  ;
+
+
+    );
+//    setState(() {
+//     // start=position.toString();
+//     // print("my current start postion is "+start.toString());
+//
+//    });
+
+        Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MapsNavigation(position),
+                        ),
+
+                      );
+
   }
 
 
@@ -368,13 +396,13 @@ class _CardDetailsState extends State<CardDetails> {
                   child: Center(
                     child: RaisedButton(
                       child: Text('Start The Ride'),
-                      onPressed: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MapsNavigation(),
-                        ),
-                      ),
-                      color: Colors.green, //specify background color  of button from our list of colors
+//                      onPressed: () => Navigator.push(
+//                        context,
+//                        MaterialPageRoute(
+//                          builder: (context) => MapsNavigation(start),
+//                        ),
+//                      ),
+                      color: Colors.green, onPressed:getLocation, //specify background color  of button from our list of colors
                     ),
                   ),
                 ):new Container(),

@@ -12,21 +12,33 @@ import 'package:geolocator/geolocator.dart';
 //                    AIzaSyCyFQYn6zzr5iBLdKubi8GvaDu6tyWKE_Q
 
 class MapsNavigation extends StatefulWidget {
+  String start;
+  Position position;
+  MapsNavigation(this.position);
+
   @override
-  _MapsNavigationState createState() => _MapsNavigationState();
+  _MapsNavigationState createState() => _MapsNavigationState(position);
 }
 
 class _MapsNavigationState extends State<MapsNavigation> {
 
   bool status =false;
-  String start;
 
-  void _incrementCounter() {
-    // Built in Flutter Method.
+  Position startposition;
+  _MapsNavigationState(this. startposition);
+
+  Future _incrementCounter() async {
+
     setState(() {
+//      End=position.toString();
+      print("my current latitude in the second screen of the start  postion is "+startposition.longitude.toString());
       status=true;
-      print("the status now is "+status.toString());
+//      print("the status now is "+status.toString());
+
+
     });
+
+    //
   }
 
   Completer<GoogleMapController> _controller = Completer();
@@ -44,27 +56,30 @@ class _MapsNavigationState extends State<MapsNavigation> {
 
 
   Future getLocation() async {
-    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print("my current postion is "+position.toString());
-    setState(() {
-      start=position.toString();
+    Position positionend = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    Future.delayed(new Duration(milliseconds: 30)
 
-    });
+    //  ;
 
+
+);
+   double distanceInMeters = await Geolocator().distanceBetween(startposition.latitude,startposition.longitude, positionend.latitude,positionend.longitude);
+
+   print("the actual distance is "+distanceInMeters.toString());
   }
 
   @override
   void initState() {
     super.initState();
     getLocation();
-    print("the current start value is "+start);
+ //   print("the current start value is "+start);
 
   }
   @override
   Widget build(BuildContext context) {
-     int distance=233;
-     int rideprice =123;
-     return Scaffold(
+    int distance=233;
+    int rideprice =123;
+    return Scaffold(
       appBar: AppBar(
         title: Text("Navigation"),
 
@@ -103,27 +118,27 @@ class _MapsNavigationState extends State<MapsNavigation> {
 
                 ),
               ),
-    Center(
-    child: Padding(
-    padding: const EdgeInsets.only(top:36.0),
-    child: RaisedButton(
-    child: Text('End The Ride'),
-    onPressed: _incrementCounter,
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top:36.0),
+                  child: RaisedButton(
+                    child: Text('End The Ride'),
+                    onPressed: _incrementCounter,
 
-    color: Colors.green, //specify background color  of button from our list of colors
-    ),
-    ),
-    ),
-    Padding(
-    padding: const EdgeInsets.only(top:12.0),
-    child: new Row(
-    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    children: <Widget>[
+                    color: Colors.green, //specify background color  of button from our list of colors
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top:12.0),
+                child: new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
 
-    (status==true)?    new Text("The Distance is "+" "+distance.toString()):new Container(),
-    (status==true)?new Text("The Price is "+ rideprice.toString()+""+"LE"):new Container(),
+                    (status==true)?    new Text("The Distance is "+" "+distance.toString()):new Container(),
+                    (status==true)?new Text("The Price is "+ rideprice.toString()+""+"LE"):new Container(),
 
-    ],
+                  ],
 
 
 //
@@ -136,13 +151,13 @@ class _MapsNavigationState extends State<MapsNavigation> {
 //
 //
 //    ],
-                    ),
-                  )
-                ],
-              ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
-floatingActionButton:FlatButton(onPressed: getLocation, child: new Text("press me show current")),
+      floatingActionButton:FlatButton(onPressed: getLocation, child: new Text("press me show current")),
     );
   }
 }
