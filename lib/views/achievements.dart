@@ -1,11 +1,13 @@
- import 'package:cloud_firestore/cloud_firestore.dart';
+ import 'dart:ui';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 
 //IMPORTANT NOTE
 
- // Suarez image means that the user have achieved the achievemnts 
+ // Suarez image means that the user have achieved the achievements
 
  class Achievements extends StatefulWidget {
 
@@ -77,37 +79,46 @@ import 'package:flutter/material.dart';
                                                        child: Row(
                                                          children: <Widget>[
 
-                                                           BackdropFilter(
-                                                             child: new Container(
-                                                               width: 100.0,
-                                                               height: 100.0,
-                                                               decoration: new BoxDecoration(
-                                                                 color: const Color(
-                                                                     0xff7c94b6),
-                                                                 image:(oneride==false)? new DecorationImage(
+                                                           Stack(
+                                                             children:[
+                                                               BackdropFilter(
+                                                                 child: new Container(
+                                                                   width: 100.0,
+                                                                   height: 100.0,
+                                                                   decoration: new BoxDecoration(
+                                                                     color: const Color(
+                                                                         0xff7c94b6),
+                                                                     image:(oneride==false)? new DecorationImage(
 
-                                                                     image:
-                                                                   new NetworkImage(
-                                                                       'http://i.imgur.com/QSev0hg.jpg'),
-                                                                   fit: BoxFit.cover,
-                                                                 ):new DecorationImage(
+                                                                       image:
+                                                                       new NetworkImage(
+                                                                           'http://i.imgur.com/QSev0hg.jpg'),
+                                                                       fit: BoxFit.cover,
+                                                                     ):new DecorationImage(
 
-                                                                   image:
-                                                                   new NetworkImage(
-                                                                       'https://futbolamateur.org/wp-content/uploads/2018/04/1467049.jpg_423682103-1024x1024.jpg'),
-                                                                   fit: BoxFit.cover,
-                                                                 ),
-                                                                 borderRadius:
-                                                                 new BorderRadius.all(
-                                                                     new Radius
-                                                                         .circular(
-                                                                         50.0)),
-                                                                 border: new Border.all(
-                                                                   color: Colors.white,
-                                                                   width: 4.0,
-                                                                 ),
+                                                                       image:
+                                                                       new NetworkImage(
+                                                                           'https://futbolamateur.org/wp-content/uploads/2018/04/1467049.jpg_423682103-1024x1024.jpg'),
+                                                                       fit: BoxFit.cover,
+                                                                     ),
+                                                                     borderRadius:
+                                                                     new BorderRadius.all(
+                                                                         new Radius
+                                                                             .circular(
+                                                                             50.0)),
+                                                                     border: new Border.all(
+                                                                       color: Colors.white,
+                                                                       width: 4.0,
+                                                                     ),
+                                                                   ),
+                                                                 ), filter: ImageFilter.blur(
+                                                                 sigmaY: 5,
+                                                                 sigmaX:5,
+
                                                                ),
-                                                             ),
+                                                               ),
+                                                       ],
+
                                                            ),
 //                                           X = COND ? A : B;
 //                                                     oneride==true?
