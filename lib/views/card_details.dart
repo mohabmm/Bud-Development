@@ -1,3 +1,4 @@
+import 'package:budupdated/views/map_navigation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,9 @@ import 'package:flutter_rating/flutter_rating.dart';
 import 'package:url_launcher/url_launcher.dart' as lan;
 
 //TODO
+
+
+
 
 
 
@@ -50,6 +54,8 @@ class CardDetails extends StatefulWidget {
       );
 }
 
+
+
 class _CardDetailsState extends State<CardDetails> {
 
   final GlobalKey<ScaffoldState> _scaffoldstate =
@@ -68,6 +74,28 @@ class _CardDetailsState extends State<CardDetails> {
   String carnumber;
   String carcolor;
   String telephone;
+  bool isdriver;
+
+
+  Future checkFirstSeens() async {
+    Firestore.instance
+        .collection('Offer Ride list')
+        .snapshots()
+        .listen((data) => data.documents.forEach((doc) {
+      if (datauser.email==doc["Ride Owner"]) {
+        setState(() {
+          isdriver = true;
+        });
+
+      }
+      else {
+        setState(() {
+          isdriver=false;
+
+        });
+              }
+    }));
+  }
 
 
   _CardDetailsState(
@@ -101,6 +129,7 @@ class _CardDetailsState extends State<CardDetails> {
     print("car color is "+carcolor);
 
     print("telephone is "+telephone);
+    checkFirstSeens();
     checkFirstSeen();
   }
 
@@ -330,12 +359,27 @@ class _CardDetailsState extends State<CardDetails> {
                                     size: 30.0,
                                   ),
                                 ),
-                              )
-
+                              ),
 
                     ])
                   ],
-                )
+                ),
+                (isdriver==true)?Padding(
+                  padding: const EdgeInsets.only(right:66.0),
+                  child: Center(
+                    child: RaisedButton(
+                      child: Text('Start The Ride'),
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MapsNavigation(),
+                        ),
+                      ),
+                      color: Colors.green, //specify background color  of button from our list of colors
+                    ),
+                  ),
+                ):new Container(),
+
               ],
             )
           ],

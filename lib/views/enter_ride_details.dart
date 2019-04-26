@@ -14,6 +14,8 @@ class EnterRideDetails extends StatefulWidget {
   _State createState() => new _State(user: user);
 }
 
+
+
 class _State extends State<EnterRideDetails> {
   FirebaseUser user;
 
@@ -476,7 +478,8 @@ void _onSubmitdcarType(String value) {
           "CarType":carType,
           "Telephone":Telephone,
           "CarColor":carColor,
-          "CarNumber":carNumber
+          "CarNumber":carNumber,
+          "Ride Owner":user.email,
         });
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => HomePage(
