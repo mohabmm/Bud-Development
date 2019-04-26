@@ -266,6 +266,7 @@ class _State extends State<SignupForm> {
           "Last Name": lastName,
           "Number Of Rides": 0,
           "CO2 saved":"0",
+          "distance covered":"0",
           "Driver authnticated": false,
         });
 

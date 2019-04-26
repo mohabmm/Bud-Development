@@ -77,6 +77,7 @@ class _CardDetailsState extends State<CardDetails> {
   String carcolor;
   String telephone;
   bool isdriver;
+  bool ridecond;
 
   Future checkFirstSeens() async {
     Firestore.instance
@@ -339,7 +340,7 @@ class _CardDetailsState extends State<CardDetails> {
                     new Icon(Icons.smoking_rooms)
                   ],
                 ),
-                new Row(
+                (isdriver == false)? new Row(
                   children: <Widget>[
                     new Column(
                       children: <Widget>[
@@ -390,7 +391,7 @@ class _CardDetailsState extends State<CardDetails> {
 
                     ])
                   ],
-                ),
+                ):new Container(),
                 (isdriver==true)?Padding(
                   padding: const EdgeInsets.only(right:66.0),
                   child: Center(
