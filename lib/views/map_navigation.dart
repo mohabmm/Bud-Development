@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'package:geolocator/geolocator.dart';
 
 
 //api key
@@ -18,6 +19,7 @@ class MapsNavigation extends StatefulWidget {
 class _MapsNavigationState extends State<MapsNavigation> {
 
   bool status =false;
+  String start;
 
   void _incrementCounter() {
     // Built in Flutter Method.
@@ -40,6 +42,24 @@ class _MapsNavigationState extends State<MapsNavigation> {
       tilt: 59.440717697143555,
       zoom: 19.151926040649414);
 
+
+  Future getLocation() async {
+    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    print("my current postion is "+position.toString());
+    setState(() {
+      start=position.toString();
+
+    });
+
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getLocation();
+    print("the current start value is "+start);
+
+  }
   @override
   Widget build(BuildContext context) {
      int distance=233;
@@ -103,8 +123,8 @@ class _MapsNavigationState extends State<MapsNavigation> {
     (status==true)?    new Text("The Distance is "+" "+distance.toString()):new Container(),
     (status==true)?new Text("The Price is "+ rideprice.toString()+""+"LE"):new Container(),
 
-
     ],
+
 
 //
 //          child: SingleChildScrollView(
@@ -122,7 +142,7 @@ class _MapsNavigationState extends State<MapsNavigation> {
               ),
         ),
       ),
-
+floatingActionButton:FlatButton(onPressed: getLocation, child: new Text("press me show current")),
     );
   }
 }
