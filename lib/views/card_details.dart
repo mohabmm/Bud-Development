@@ -66,7 +66,7 @@ class _CardDetailsState extends State<CardDetails> {
   final GlobalKey<ScaffoldState> _scaffoldstate =
   new GlobalKey<ScaffoldState>();
   String start;
-  double rate = 0;
+  double rate = 0.0;
   int number_of_rides;
   FirebaseUser datauser;
   String user;
@@ -82,9 +82,9 @@ class _CardDetailsState extends State<CardDetails> {
   bool isrideowner;
   bool ridecond;
 
-  Future checkFirstSeens() async {
+  Future checktherideowner() async {
 
-     someMethod();
+     checkingfunction();
 
   }
 
@@ -138,13 +138,13 @@ class _CardDetailsState extends State<CardDetails> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MapsNavigation(position),
+          builder: (context) => MapsNavigation(position,datauser),
         ),
 
       );
     }
   }
-  someMethod() async {
+  checkingfunction() async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
     print("the current user is "+user.email);
     Firestore.instance
@@ -161,6 +161,8 @@ class _CardDetailsState extends State<CardDetails> {
 
       }
       else {
+        print("the doc Rideowner is"+doc["Ride Owner"].toString());
+
         setState(() {
           isrideowner=false;
           print("iam not  the ride owner");
@@ -203,11 +205,11 @@ class _CardDetailsState extends State<CardDetails> {
     print("car color is "+carcolor);
 
     print("telephone is "+telephone);
-    checkFirstSeens();
-    checkFirstSeen();
+    checktherideowner();
+    getnumberofrides();
   }
-
-  Future checkFirstSeen() async {
+// used to read the number of rides of the current user in the database
+  Future getnumberofrides() async {
     Firestore.instance
         .collection('users')
         .where("email", isEqualTo: datauser.email)
