@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:budupdated/homePage.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
@@ -468,6 +470,13 @@ void _onSubmitdcarType(String value) {
         _scaffoldstate.currentState.showSnackBar(
             new SnackBar(content: new Text("Uploading your trip data ")));
 
+        Random rnd;
+        int min = 1;
+        int max = 100000000;
+        rnd = new Random();
+        int id;
+        id = min + rnd.nextInt(max - min);
+
         Firestore.instance.collection('Offer Ride list').document().setData({
           "Trip Date": currentdate.replaceAll(":00.000", ''),
           "describtion": describtion,
@@ -480,6 +489,7 @@ void _onSubmitdcarType(String value) {
           "CarColor":carColor,
           "CarNumber":carNumber,
           "Ride Owner":user.email,
+          "RideId":id
         });
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => HomePage(

@@ -25,7 +25,7 @@ class _MapsNavigationState extends State<MapsNavigation> {
   bool status =false;
   double distanceInMeters;
   double rideprice ;
-
+  double actualdistanceinkilo;
   Position startposition;
   _MapsNavigationState(this. startposition);
 
@@ -65,10 +65,15 @@ class _MapsNavigationState extends State<MapsNavigation> {
 
 
 );
-    distanceInMeters = await Geolocator().distanceBetween(startposition.latitude,startposition.longitude, positionend.latitude,positionend.longitude);
-    rideprice = distanceInMeters*1.0;
 
-   print("the actual distance is "+distanceInMeters.toString());
+//    30.0660° N, 31.4856° E
+//   distanceInMeters = await Geolocator().distanceBetween(31.1143,30.94012, 29.30995, 30.8418);
+
+  distanceInMeters = await Geolocator().distanceBetween(startposition.latitude,startposition.longitude, positionend.latitude,positionend.longitude);
+   actualdistanceinkilo=distanceInMeters/1000;
+    rideprice = actualdistanceinkilo*1.0;
+
+   print("the actual distance is "+actualdistanceinkilo.toString());
   }
 
   @override
@@ -137,7 +142,7 @@ class _MapsNavigationState extends State<MapsNavigation> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
 
-                    (status==true)?    new Text("The Distance is "+" "+distanceInMeters.toString()):new Container(),
+                    (status==true)?    new Text("The Distance is "+" "+actualdistanceinkilo.toString()):new Container(),
                     (status==true)?new Text("The Price is "+ rideprice.toString()+" "+ "LE"):new Container(),
 
                   ],

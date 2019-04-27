@@ -65,6 +65,10 @@ class _State extends State<Trip> {
     String from =
     snapshot.data.documents[index].data['From'].toString();
 
+    int id =
+    snapshot.data.documents[index].data['RideId'];
+
+
 
     String Telephone =
     snapshot.data.documents[index].data['Telephone'].toString();
@@ -98,6 +102,7 @@ class _State extends State<Trip> {
     onTap: () {
     Navigator.of(context).push(new MaterialPageRoute(
     builder: (BuildContext context) => new CardDetails(
+      id,
     firebaseuser,
     username,
     describtion,

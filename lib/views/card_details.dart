@@ -14,6 +14,7 @@ import 'package:url_launcher/url_launcher.dart' as lan;
 
 
 class CardDetails extends StatefulWidget {
+  int id;
   String username;
   FirebaseUser firebaseuser;
   String describtion;
@@ -27,6 +28,7 @@ class CardDetails extends StatefulWidget {
   String telephone;
 
   CardDetails(
+  this.id,
       this.firebaseuser,
       this.username,
     this.describtion,
@@ -42,6 +44,7 @@ class CardDetails extends StatefulWidget {
 
   @override
   _CardDetailsState createState() => _CardDetailsState(
+    id,
       firebaseuser,
       username,
       describtion,
@@ -59,7 +62,7 @@ class CardDetails extends StatefulWidget {
 
 
 class _CardDetailsState extends State<CardDetails> {
-
+  int id;
   final GlobalKey<ScaffoldState> _scaffoldstate =
   new GlobalKey<ScaffoldState>();
   String start;
@@ -76,57 +79,100 @@ class _CardDetailsState extends State<CardDetails> {
   String carnumber;
   String carcolor;
   String telephone;
-  bool isdriver;
+  bool isrideowner;
   bool ridecond;
 
   Future checkFirstSeens() async {
-    Firestore.instance
-        .collection('Offer Ride list')
-        .snapshots()
-        .listen((data) => data.documents.forEach((doc) {
-      if (datauser.email==doc["Ride Owner"]) {
-        setState(() {
-          isdriver = true;
-        });
 
-      }
-      else {
-        setState(() {
-          isdriver=false;
+     someMethod();
 
-        });
-      }
-    }));
   }
 
 
   Future getLocation() async {
-    Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    print("the start longitude from the first screen is "+position.longitude.toString());
-    Future.delayed(new Duration(milliseconds: 30)
 
-      //  ;
+    var geoLocator = Geolocator();
+    var status = await geoLocator.checkGeolocationPermissionStatus();
+
+    if (status == GeolocationStatus.denied){
+      setState(() {
+        _scaffoldstate.currentState.showSnackBar(
+            new SnackBar(content: new Text("please enable your GPS as access to it is denied")));
+      });
+    }
+    // Take user to permission settings
+
+    // Take user to location page
+    else if (status == GeolocationStatus.restricted){
+      setState(() {
+        _scaffoldstate.currentState.showSnackBar(
+            new SnackBar(content: new Text("please enable your GPS ")));
+      });
+    }
+    // Restricted
+    else if (status == GeolocationStatus.unknown){
+      setState(() {
+        _scaffoldstate.currentState.showSnackBar(
+            new SnackBar(content: new Text("please enable your GPS in order to start the ride")));
+      });
+    }
+    // Unknown
+    else if (status == GeolocationStatus.granted) {
+      // Permission granted and location enabled
+      Position position = await Geolocator().getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      print("the start longitude from the first screen is " +
+          position.longitude.toString());
+      Future.delayed(new Duration(milliseconds: 30)
+
+        //  ;
 
 
-    );
+      );
 //    setState(() {
 //     // start=position.toString();
 //     // print("my current start postion is "+start.toString());
 //
 //    });
 
-        Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => MapsNavigation(position),
-                        ),
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MapsNavigation(position),
+        ),
 
-                      );
-
+      );
+    }
   }
+  someMethod() async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    print("the current user is "+user.email);
+    Firestore.instance
+        .collection('Offer Ride list')
+       .where("RideId", isEqualTo: id)
+        .snapshots()
+        .listen((data) => data.documents.forEach((doc) {
+      if (user.email == doc["Ride Owner"]) {
+        print("the doc Rideowner is"+doc["Ride Owner"].toString());
+        setState(() {
+          isrideowner = true;
+          print("iam the ride owner");
+        });
+
+      }
+      else {
+        setState(() {
+          isrideowner=false;
+          print("iam not  the ride owner");
 
 
-  _CardDetailsState(
+        });
+      }
+    }));
+    return user;
+  }
+    _CardDetailsState(
+        this. id,
       this.datauser,
       this.user,
       this.describtion,
@@ -340,7 +386,7 @@ class _CardDetailsState extends State<CardDetails> {
                     new Icon(Icons.smoking_rooms)
                   ],
                 ),
-                (isdriver == false)? new Row(
+                (isrideowner == false)? new Row(
                   children: <Widget>[
                     new Column(
                       children: <Widget>[
@@ -392,7 +438,7 @@ class _CardDetailsState extends State<CardDetails> {
                     ])
                   ],
                 ):new Container(),
-                (isdriver==true)?Padding(
+                (isrideowner==true)?Padding(
                   padding: const EdgeInsets.only(right:66.0),
                   child: Center(
                     child: RaisedButton(
