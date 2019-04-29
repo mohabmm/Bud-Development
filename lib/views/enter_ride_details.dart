@@ -493,6 +493,7 @@ void _onSubmitdcarType(String value) {
           "Ride Owner":user.email,
           "RideId":id,
           "RideStatus":false,
+          "GusestUser":"",
         });
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => HomePage(

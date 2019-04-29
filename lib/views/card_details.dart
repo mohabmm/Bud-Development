@@ -416,7 +416,7 @@ class _CardDetailsState extends State<CardDetails> {
                           onPressed: () =>
 
     setState(() {
-      showTapMsg(context, number_of_rides, datauser,_scaffoldstate,id);
+      showTapMsg(context, number_of_rides, datauser,_scaffoldstate,id,);
     }),
 
 
@@ -515,9 +515,18 @@ void showTapMsg(BuildContext context, int number_of_rides, FirebaseUser datauser
   });
 
 
+
+  Firestore.instance.collection('Offer Ride list')
+      .document(id.toString())
+      .updateData({
+    "GusestUser": datauser.email,
+
+  });
+
+
   //Todo where ride id is equal to id
 
-
+// if ride status is true then the user cant join this ride as it is congested or he joined it before 
   Firestore.instance.collection('Offer Ride list')
       .document(id.toString())
       .updateData({
