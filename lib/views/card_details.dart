@@ -26,7 +26,7 @@ class CardDetails extends StatefulWidget {
   String cartype;
   String carcolor;
   String telephone;
-
+  bool ridestatus;
   CardDetails(
   this.id,
       this.firebaseuser,
@@ -39,7 +39,7 @@ class CardDetails extends StatefulWidget {
       this.carnumber,
       this.cartype,
     this.carcolor,
-      this. telephone,
+      this. telephone, this. ridestatus,
   );
 
   @override
@@ -56,6 +56,7 @@ class CardDetails extends StatefulWidget {
       cartype,
     carcolor,
       telephone,
+    ridestatus,
       );
 }
 
@@ -81,6 +82,7 @@ class _CardDetailsState extends State<CardDetails> {
   String telephone;
   bool isrideowner;
   bool ridecond;
+  bool ridestatus;
 
   Future checktherideowner() async {
 
@@ -185,7 +187,7 @@ class _CardDetailsState extends State<CardDetails> {
       this.cartype,
       this.carnumber,
       this.carcolor,
-  this.telephone,
+  this.telephone, this. ridestatus,
        );
 
 
@@ -401,17 +403,19 @@ class _CardDetailsState extends State<CardDetails> {
                               "RESERVE A SEAT",
                               style: new TextStyle(fontWeight: FontWeight.w600),
                             )),
-                        new Container(
+                        (ridestatus==false)?new Container(
                             child: new FloatingActionButton(
                           onPressed: () =>
-                              showTapMsg(context, number_of_rides, datauser,_scaffoldstate),
+
+
+                              showTapMsg(context, number_of_rides, datauser,_scaffoldstate,id),
                           backgroundColor: Colors.cyan,
                           child: Icon(
                             Icons.add,
                             size: 40.0,
                           ),
-                        ))
-                      ],
+                        )):new Container(),
+                      ]
                     ),
                     new Column(children: <Widget>[
                       new Container(
@@ -463,7 +467,7 @@ class _CardDetailsState extends State<CardDetails> {
   }
 }
 
-void showTapMsg(BuildContext context, int number_of_rides, FirebaseUser datauser, GlobalKey<ScaffoldState> scaffoldstate) {
+void showTapMsg(BuildContext context, int number_of_rides, FirebaseUser datauser, GlobalKey<ScaffoldState> scaffoldstate, int id) {
   number_of_rides += 1;
 
   var alert = new AlertDialog(
@@ -491,6 +495,18 @@ void showTapMsg(BuildContext context, int number_of_rides, FirebaseUser datauser
     "Number Of Rides": number_of_rides,
 
   });
+
+
+  //Todo where ride id is equal to id
+
+  Firestore.instance.collection('Offer Ride list')
+      .document(id.toString())
+      .updateData({
+    "RideStatus": true,
+
+  });
+
+
 
 
   if(number_of_rides==1|| number_of_rides==3|| number_of_rides==5|| number_of_rides==10|| number_of_rides==20||  number_of_rides==30|| number_of_rides==40|| number_of_rides==50){

@@ -88,6 +88,8 @@ class _State extends State<Trip> {
     String To =
     snapshot.data.documents[index].data['To'].toString();
 
+    bool ridestatus=     snapshot.data.documents[index].data['RideStatus'];
+
     String Trip_date = snapshot
         .data.documents[index].data['Trip Date']
         .toString();
@@ -114,6 +116,7 @@ class _State extends State<Trip> {
     cartype,
     carcolor,
         Telephone,
+        ridestatus,
 
     )));
     },

@@ -55,10 +55,12 @@ class _State extends State<EnterRideDetails> {
   String name;
   int counter;
   String carType;
+  bool ridestatus;
   String carColor;
   String carNumber; 
   final dateFormat = new DateFormat.yMd().add_jm();
   final timeFormat = DateFormat("h:mm a");
+
   void _onSubmitdescribtion(String value) {
     setState(() => describtion = value);
     print("the value of describtion is " + describtion);
@@ -477,7 +479,7 @@ void _onSubmitdcarType(String value) {
         int id;
         id = min + rnd.nextInt(max - min);
 
-        Firestore.instance.collection('Offer Ride list').document().setData({
+        Firestore.instance.collection('Offer Ride list').document(id.toString()).setData({
           "Trip Date": currentdate.replaceAll(":00.000", ''),
           "describtion": describtion,
           "From": From,
@@ -489,7 +491,8 @@ void _onSubmitdcarType(String value) {
           "CarColor":carColor,
           "CarNumber":carNumber,
           "Ride Owner":user.email,
-          "RideId":id
+          "RideId":id,
+          "RideStatus":false,
         });
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => HomePage(
