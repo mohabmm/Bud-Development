@@ -209,6 +209,14 @@ class _CardDetailsState extends State<CardDetails> {
     print("telephone is "+telephone);
     checktherideowner();
     getnumberofrides();
+    Firestore.instance
+        .collection('Offer Ride list')
+        .where("RideId", isEqualTo: id)
+        .snapshots()
+        .listen((data) => data.documents.forEach((doc) {
+      ridestatus = doc.data['RideStatus'];
+    }));
+
   }
 // used to read the number of rides of the current user in the database
   Future getnumberofrides() async {
@@ -399,16 +407,20 @@ class _CardDetailsState extends State<CardDetails> {
                                 const EdgeInsets.fromLTRB(0.0, 11.0, 0.0, 8.0),
                             margin:
                                 const EdgeInsets.fromLTRB(20.0, 0.0, 0.0, 0.0),
-                            child: new Text(
+                            child: (ridestatus==false)? new Text(
                               "RESERVE A SEAT",
                               style: new TextStyle(fontWeight: FontWeight.w600),
-                            )),
+                            ):new Container()),
                         (ridestatus==false)?new Container(
                             child: new FloatingActionButton(
                           onPressed: () =>
 
+    setState(() {
+      showTapMsg(context, number_of_rides, datauser,_scaffoldstate,id);
+    }),
 
-                              showTapMsg(context, number_of_rides, datauser,_scaffoldstate,id),
+
+
                           backgroundColor: Colors.cyan,
                           child: Icon(
                             Icons.add,
@@ -468,6 +480,9 @@ class _CardDetailsState extends State<CardDetails> {
 }
 
 void showTapMsg(BuildContext context, int number_of_rides, FirebaseUser datauser, GlobalKey<ScaffoldState> scaffoldstate, int id) {
+
+
+
   number_of_rides += 1;
 
   var alert = new AlertDialog(
@@ -485,6 +500,9 @@ void showTapMsg(BuildContext context, int number_of_rides, FirebaseUser datauser
       ),
     ],
   );
+
+
+
   showDialog(
       context: context,
       builder: (context) {
@@ -498,6 +516,7 @@ void showTapMsg(BuildContext context, int number_of_rides, FirebaseUser datauser
 
 
   //Todo where ride id is equal to id
+
 
   Firestore.instance.collection('Offer Ride list')
       .document(id.toString())
@@ -612,4 +631,5 @@ if(number_of_rides==3){
 
   }
 }
+
 
