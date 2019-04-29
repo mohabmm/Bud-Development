@@ -16,11 +16,12 @@ import 'package:geolocator/geolocator.dart';
 class MapsNavigation extends StatefulWidget {
   String start;
   Position position;
+  String rideguest;
   FirebaseUser firebaseuser;
-  MapsNavigation(this.position, this.firebaseuser);
+  MapsNavigation(this.position, this.firebaseuser,this.rideguest );
 
   @override
-  _MapsNavigationState createState() => _MapsNavigationState(position,firebaseuser);
+  _MapsNavigationState createState() => _MapsNavigationState(position,firebaseuser,rideguest);
 }
 
 class _MapsNavigationState extends State<MapsNavigation> {
@@ -32,7 +33,8 @@ class _MapsNavigationState extends State<MapsNavigation> {
   double distnacecoveredinkilo;
   Position startposition;
   FirebaseUser firebaseuser;
-  _MapsNavigationState(this. startposition, this. firebaseuser);
+  String rideguest;
+  _MapsNavigationState(this. startposition, this. firebaseuser, this. rideguest);
   double overall;
 
 //  Future _incrementCounter() async {
@@ -66,6 +68,7 @@ class _MapsNavigationState extends State<MapsNavigation> {
   Future getLocation() async {
     Position positionend = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     //  ;
+//    distanceInMeters = await Geolocator().distanceBetween(startposition.latitude,startposition.longitude, positionend.latitude,positionend.longitude);
 
     distanceInMeters = await Geolocator().distanceBetween(31.1143,30.94012, 29.30995, 30.8418);
      distnacecoveredinkilo=distanceInMeters/1000;
@@ -73,12 +76,13 @@ class _MapsNavigationState extends State<MapsNavigation> {
    overall= distnacecoveredinkilo+olddistnaceoftheuser ;
     rideprice = distnacecoveredinkilo*1.0;
 
-
+// here we updated the distance travelled by the car owner
     Firestore.instance.collection('users').document(firebaseuser.email).updateData({
       "distance covered": overall,
     });
 
-//    distanceInMeters = await Geolocator().distanceBetween(startposition.latitude,startposition.longitude, positionend.latitude,positionend.longitude);
+  // TODO  we need also TO UPDATE the distance travelled by the ride guest (passenger)
+
 setState(() {
   status=true;
 
@@ -99,16 +103,31 @@ setState(() {
   @override
   void initState() {
     super.initState();
-    gettheoldistance();
+    gettheoldistanceofthedriver();
+
+  print("the ride guest  email is "+rideguest);
 //    getLocation();
  //   print("the current start value is "+start);
 
   }
 
-  gettheoldistance()  {
+  gettheoldistanceofthedriver()  {
     Firestore.instance
         .collection('users')
         .where("email", isEqualTo: firebaseuser.email)
+        .snapshots()
+        .listen((data) => data.documents.forEach((doc) {
+      //olddistance="sds";
+
+      olddistnaceoftheuser= (doc["distance covered"]);
+    }));
+  }
+
+
+  gettheoldistanceofthePassenger()  {
+    Firestore.instance
+        .collection('users')
+        .where("email", isEqualTo: rideguest)
         .snapshots()
         .listen((data) => data.documents.forEach((doc) {
       //olddistance="sds";

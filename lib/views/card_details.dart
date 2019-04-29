@@ -69,7 +69,7 @@ class _CardDetailsState extends State<CardDetails> {
   String start;
   double rate = 0.0;
   int number_of_rides;
-  FirebaseUser datauser;
+  FirebaseUser rideowneruser;
   String user;
   String describtion;
   String from;
@@ -83,6 +83,7 @@ class _CardDetailsState extends State<CardDetails> {
   bool isrideowner;
   bool ridecond;
   bool ridestatus;
+  String rideguest;
 
   Future checktherideowner() async {
 
@@ -137,13 +138,21 @@ class _CardDetailsState extends State<CardDetails> {
 //
 //    });
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MapsNavigation(position,datauser),
-        ),
+      if(rideguest!=" "||rideguest!=null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                MapsNavigation(position, rideowneruser, rideguest),
+          ),
 
-      );
+        );
+      }else{
+
+        _scaffoldstate.currentState.showSnackBar(
+            new SnackBar(content: new Text("You cant start the  ride unless someone joined your ride")));
+        print("you cant start ride unless you have people to go with");
+      }
     }
   }
   checkingfunction() async {
@@ -177,7 +186,7 @@ class _CardDetailsState extends State<CardDetails> {
   }
     _CardDetailsState(
         this. id,
-      this.datauser,
+      this.rideowneruser,
       this.user,
       this.describtion,
       this.from,
@@ -194,7 +203,7 @@ class _CardDetailsState extends State<CardDetails> {
   @override
   void initState() {
     super.initState();
-    print("the data user is "+datauser.toString());
+    print("the data user is "+rideowneruser.toString());
     print("the user is "+user.toString());
     print("the describtion is "+describtion);
     print("from is"+from);
@@ -217,12 +226,21 @@ class _CardDetailsState extends State<CardDetails> {
       ridestatus = doc.data['RideStatus'];
     }));
 
+
+    Firestore.instance
+        .collection('Offer Ride list')
+        .where("RideId", isEqualTo: id)
+        .snapshots()
+        .listen((data) => data.documents.forEach((doc) {
+      rideguest = doc.data['GusestUser'];
+    }));
+
   }
 // used to read the number of rides of the current user in the database
   Future getnumberofrides() async {
     Firestore.instance
         .collection('users')
-        .where("email", isEqualTo: datauser.email)
+        .where("email", isEqualTo: rideowneruser.email)
         .snapshots()
         .listen((data) => data.documents.forEach((doc) {
               number_of_rides = doc.data['Number Of Rides'];
@@ -416,7 +434,7 @@ class _CardDetailsState extends State<CardDetails> {
                           onPressed: () =>
 
     setState(() {
-      showTapMsg(context, number_of_rides, datauser,_scaffoldstate,id,);
+      showTapMsg(context, number_of_rides, rideowneruser,_scaffoldstate,id,rideguest);
     }),
 
 
@@ -479,7 +497,7 @@ class _CardDetailsState extends State<CardDetails> {
   }
 }
 
-void showTapMsg(BuildContext context, int number_of_rides, FirebaseUser datauser, GlobalKey<ScaffoldState> scaffoldstate, int id) {
+void showTapMsg(BuildContext context, int number_of_rides, FirebaseUser datauser, GlobalKey<ScaffoldState> scaffoldstate, int id, String rideguest) {
 
 
 
@@ -522,11 +540,10 @@ void showTapMsg(BuildContext context, int number_of_rides, FirebaseUser datauser
     "GusestUser": datauser.email,
 
   });
-
-
+  rideguest=datauser.email;
   //Todo where ride id is equal to id
 
-// if ride status is true then the user cant join this ride as it is congested or he joined it before 
+// if ride status is true then the user cant join this ride as it is congested or he joined it before
   Firestore.instance.collection('Offer Ride list')
       .document(id.toString())
       .updateData({

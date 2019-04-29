@@ -112,7 +112,7 @@ class _State extends State<SignupForm> {
                 onSubmitted: (value) {
                   if (value.endsWith("msa.edu.eg")) {
                     setState(() {
-                      email = value;
+                      email = value.toLowerCase();
                     });
                   } else {
                     _scaffoldstate.currentState.showSnackBar(new SnackBar(
@@ -259,8 +259,8 @@ class _State extends State<SignupForm> {
           .then((signedInUser) {
         signedInUser.sendEmailVerification();
 
-        Firestore.instance.collection('users').document(email).setData({
-          'email': signedInUser.email,
+        Firestore.instance.collection('users').document(email.toLowerCase()).setData({
+          'email': signedInUser.email.toLowerCase(),
           'uid': signedInUser.uid,
           "First Name ": firstname,
           "Last Name": lastName,
