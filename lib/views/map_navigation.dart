@@ -26,7 +26,9 @@ class MapsNavigation extends StatefulWidget {
 
 class _MapsNavigationState extends State<MapsNavigation> {
 
-  double olddistnaceoftheuser;
+  double olddistnaceofthedriver;
+  double olddistnaceofthepassenger;
+
   bool status =false;
   double distanceInMeters;
   double rideprice ;
@@ -35,7 +37,9 @@ class _MapsNavigationState extends State<MapsNavigation> {
   FirebaseUser firebaseuser;
   String rideguest;
   _MapsNavigationState(this. startposition, this. firebaseuser, this. rideguest);
-  double overall;
+  double overallDriver;
+  double overallPassenger;
+
 
 //  Future _incrementCounter() async {
 //
@@ -73,20 +77,26 @@ class _MapsNavigationState extends State<MapsNavigation> {
     distanceInMeters = await Geolocator().distanceBetween(31.1143,30.94012, 29.30995, 30.8418);
      distnacecoveredinkilo=distanceInMeters/1000;
 
-   overall= distnacecoveredinkilo+olddistnaceoftheuser ;
+   overallDriver= distnacecoveredinkilo+olddistnaceofthedriver ;
+    overallPassenger=distnacecoveredinkilo+olddistnaceofthepassenger;
     rideprice = distnacecoveredinkilo*1.0;
 
 // here we updated the distance travelled by the car owner
     Firestore.instance.collection('users').document(firebaseuser.email).updateData({
-      "distance covered": overall,
+      "distance covered": overallDriver,
     });
 
-  // TODO  we need also TO UPDATE the distance travelled by the ride guest (passenger)
-
+  //  we  UPDATEe the distance travelled by the ride guest (passenger)
+    Firestore.instance.collection('users').document(rideguest).updateData({
+      "distance covered": overallPassenger,
+    });
 setState(() {
   status=true;
 
-  print("the old distance of the user is "+olddistnaceoftheuser.toString());
+  print("the old distance of the driver is "+olddistnaceofthedriver.toString());
+  print("the old distance of the passenger is "+olddistnaceofthepassenger.toString());
+
+
 
 
 });
@@ -104,6 +114,7 @@ setState(() {
   void initState() {
     super.initState();
     gettheoldistanceofthedriver();
+    gettheoldistanceofthePassenger();
 
   print("the ride guest  email is "+rideguest);
 //    getLocation();
@@ -119,7 +130,7 @@ setState(() {
         .listen((data) => data.documents.forEach((doc) {
       //olddistance="sds";
 
-      olddistnaceoftheuser= (doc["distance covered"]);
+      olddistnaceofthedriver= (doc["distance covered"]);
     }));
   }
 
@@ -132,7 +143,7 @@ setState(() {
         .listen((data) => data.documents.forEach((doc) {
       //olddistance="sds";
 
-      olddistnaceoftheuser= (doc["distance covered"]);
+      olddistnaceofthepassenger= (doc["distance covered"]);
     }));
   }
 
