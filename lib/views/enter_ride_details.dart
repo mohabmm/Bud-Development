@@ -207,7 +207,6 @@ void _onSubmitdcarType(String value) {
                     hasFloatingPlaceholder: false),
                 onChanged: (date) {
                   setState(() {
-                    //Todo
                     //currentdate = date.toString();
                     currentdate = date.day.toString()+"/"+date.month.toString()+"/"+date.year.toString()+" "+date.hour.toString()+":"+date.minute.toString();
                     print("the data is " + currentdate);

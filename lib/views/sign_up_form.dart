@@ -264,9 +264,10 @@ class _State extends State<SignupForm> {
           'uid': signedInUser.uid,
           "First Name ": firstname,
           "Last Name": lastName,
-          "Number Of Rides": 0,
+          "Number Of Rides As Driver": 0,
           "CO2 saved":0,
-          "distance covered":0.01,
+        "Number Of Rides As guest":0,
+          "distance covered":0,
           "Driver authnticated": false,
         });
 

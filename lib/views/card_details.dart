@@ -6,7 +6,6 @@ import 'package:flutter_rating/flutter_rating.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart' as lan;
 
-//TODO
 
 
 
@@ -68,7 +67,9 @@ class _CardDetailsState extends State<CardDetails> {
   new GlobalKey<ScaffoldState>();
   String start;
   double rate = 0.0;
-  int number_of_rides;
+  int number_of_ridesasDriver;
+  int number_of_ridesasguest;
+
   FirebaseUser rideowneruser;
   String user;
   String describtion;
@@ -138,7 +139,17 @@ class _CardDetailsState extends State<CardDetails> {
 //
 //    });
 
-      if(rideguest!=" "||rideguest!=null) {
+      if(rideguest==" "||rideguest==null||rideguest.isEmpty) {
+
+
+        _scaffoldstate.currentState.showSnackBar(
+            new SnackBar(content: new Text("You cant start the  ride unless someone joined your ride")));
+        print("you cant start ride unless you have people to go with");
+
+
+      }else{
+
+        print("the current ride guest status is "+rideguest);
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -147,11 +158,6 @@ class _CardDetailsState extends State<CardDetails> {
           ),
 
         );
-      }else{
-
-        _scaffoldstate.currentState.showSnackBar(
-            new SnackBar(content: new Text("You cant start the  ride unless someone joined your ride")));
-        print("you cant start ride unless you have people to go with");
       }
     }
   }
@@ -217,7 +223,8 @@ class _CardDetailsState extends State<CardDetails> {
 
     print("telephone is "+telephone);
     checktherideowner();
-    getnumberofrides();
+    getnumberofridesasguest();
+    getnumberofridesasdriver();
     Firestore.instance
         .collection('Offer Ride list')
         .where("RideId", isEqualTo: id)
@@ -226,7 +233,7 @@ class _CardDetailsState extends State<CardDetails> {
       ridestatus = doc.data['RideStatus'];
     }));
 
-
+// used to read the ride guest
     Firestore.instance
         .collection('Offer Ride list')
         .where("RideId", isEqualTo: id)
@@ -236,15 +243,25 @@ class _CardDetailsState extends State<CardDetails> {
     }));
 
   }
-// used to read the number of rides of the current user in the database
-  Future getnumberofrides() async {
+// used to read the number of rides as driver of the current user in the database
+  Future getnumberofridesasdriver() async {
     Firestore.instance
         .collection('users')
         .where("email", isEqualTo: rideowneruser.email)
         .snapshots()
         .listen((data) => data.documents.forEach((doc) {
-              number_of_rides = doc.data['Number Of Rides'];
+              number_of_ridesasDriver = doc.data['Number Of Rides As guest'];
             }));
+  }
+
+  Future getnumberofridesasguest() async {
+    Firestore.instance
+        .collection('users')
+        .where("email", isEqualTo: rideguest)
+        .snapshots()
+        .listen((data) => data.documents.forEach((doc) {
+      number_of_ridesasguest = doc.data['Number Of Rides As guest'];
+    }));
   }
 
   @override
@@ -434,7 +451,7 @@ class _CardDetailsState extends State<CardDetails> {
                           onPressed: () =>
 
     setState(() {
-      showTapMsg(context, number_of_rides, rideowneruser,_scaffoldstate,id,rideguest);
+      showTapMsg(context, number_of_ridesasguest, rideowneruser,_scaffoldstate,id,rideguest);
     }),
 
 
@@ -497,11 +514,11 @@ class _CardDetailsState extends State<CardDetails> {
   }
 }
 
-void showTapMsg(BuildContext context, int number_of_rides, FirebaseUser datauser, GlobalKey<ScaffoldState> scaffoldstate, int id, String rideguest) {
+void showTapMsg(BuildContext context, int number_of_ridesasguest, FirebaseUser datauser, GlobalKey<ScaffoldState> scaffoldstate, int id, String rideguest) {
 
+// in this part we updated number of rides of the user as guest to show achievement of the ride guest
 
-
-  number_of_rides += 1;
+  number_of_ridesasguest += 1;
 
   var alert = new AlertDialog(
     title: new Text(
@@ -528,7 +545,7 @@ void showTapMsg(BuildContext context, int number_of_rides, FirebaseUser datauser
       });
 
   Firestore.instance.collection('users').document(datauser.email).updateData({
-    "Number Of Rides": number_of_rides,
+    "Number Of Rides As guest": number_of_ridesasguest,
 
   });
 
@@ -541,7 +558,6 @@ void showTapMsg(BuildContext context, int number_of_rides, FirebaseUser datauser
 
   });
   rideguest=datauser.email;
-  //Todo where ride id is equal to id
 
 // if ride status is true then the user cant join this ride as it is congested or he joined it before
   Firestore.instance.collection('Offer Ride list')
@@ -554,99 +570,99 @@ void showTapMsg(BuildContext context, int number_of_rides, FirebaseUser datauser
 
 
 
-  if(number_of_rides==1|| number_of_rides==3|| number_of_rides==5|| number_of_rides==10|| number_of_rides==20||  number_of_rides==30|| number_of_rides==40|| number_of_rides==50){
+  if(number_of_ridesasguest==1|| number_of_ridesasguest==3|| number_of_ridesasguest==5|| number_of_ridesasguest==10|| number_of_ridesasguest==20||  number_of_ridesasguest==30|| number_of_ridesasguest==40|| number_of_ridesasguest==50){
 
 
 
     scaffoldstate.currentState
-        .showSnackBar(new SnackBar(content: new Text("Congurtlation new Achievement is reached having "+number_of_rides.toString()+" rides in our app")));
+        .showSnackBar(new SnackBar(content: new Text("Congurtlation new Achievement is reached having "+number_of_ridesasguest.toString()+" rides in our app")));
 
     print("congurtlation new achievement is reached");
-if(number_of_rides==1){
+if(number_of_ridesasguest==1){
 
-  Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+  Firestore.instance.collection('Achievements').document(rideguest).updateData({
     "first ride": true,
 
   });
 }
-if(number_of_rides==3){
+if(number_of_ridesasguest==3){
 
-  Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+  Firestore.instance.collection('Achievements').document(rideguest).updateData({
     "third ride": true,
 
   });
 }
 
-    if(number_of_rides==5){
+    if(number_of_ridesasguest==5){
 
-      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+      Firestore.instance.collection('Achievements').document(rideguest).updateData({
         "fifth ride": true,
 
       });
     }
-    if(number_of_rides==10){
+    if(number_of_ridesasguest==10){
 
-      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+      Firestore.instance.collection('Achievements').document(rideguest).updateData({
         "10 ride": true,
 
       });
     }
-    if(number_of_rides==20){
+    if(number_of_ridesasguest==20){
 
-      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+      Firestore.instance.collection('Achievements').document(rideguest).updateData({
         "20 ride": true,
 
       });
     }
-    if(number_of_rides==30){
+    if(number_of_ridesasguest==30){
 
-      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+      Firestore.instance.collection('Achievements').document(rideguest).updateData({
         "30 ride": true,
 
       });
     }
-    if(number_of_rides==40){
+    if(number_of_ridesasguest==40){
 
-      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+      Firestore.instance.collection('Achievements').document(rideguest).updateData({
         "40 ride": true,
 
       });
     }
-    if(number_of_rides==50){
+    if(number_of_ridesasguest==50){
 
-      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+      Firestore.instance.collection('Achievements').document(rideguest).updateData({
         "50 ride": true,
 
       });
     }
-    if(number_of_rides==60){
+    if(number_of_ridesasguest==60){
 
-      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+      Firestore.instance.collection('Achievements').document(rideguest).updateData({
         "60 ride": true,
 
       });
-    }if(number_of_rides==70){
+    }if(number_of_ridesasguest==70){
 
-      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+      Firestore.instance.collection('Achievements').document(rideguest).updateData({
         "70 ride": true,
 
       });
-    }if(number_of_rides==80){
+    }if(number_of_ridesasguest==80){
 
-      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+      Firestore.instance.collection('Achievements').document(rideguest).updateData({
         "80 ride": true,
 
       });
-    }if(number_of_rides==90){
+    }if(number_of_ridesasguest==90){
 
-      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+      Firestore.instance.collection('Achievements').document(rideguest).updateData({
         "90 ride": true,
 
       });
     }
-    if(number_of_rides==100){
+    if(number_of_ridesasguest==100){
 
-      Firestore.instance.collection('Achievements').document(datauser.email).updateData({
+      Firestore.instance.collection('Achievements').document(rideguest).updateData({
         "100 ride": true,
 
       });
