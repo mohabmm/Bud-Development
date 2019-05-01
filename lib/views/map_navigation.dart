@@ -40,7 +40,8 @@ class _MapsNavigationState extends State<MapsNavigation> {
   Position startposition;
   FirebaseUser firebaseuser;
   String rideguest;
-
+  int Number_Of_Rides_As_Driver;
+  int Number_Of_Rides_As_guest;
   _MapsNavigationState(this.startposition, this.firebaseuser, this.rideguest);
 
   double overallDriver;
@@ -88,7 +89,26 @@ class _MapsNavigationState extends State<MapsNavigation> {
     overallDriver = distnacecoveredinkilo + olddistnaceofthedriver;
     overallPassenger =
         distnacecoveredinkilo + olddistnaceofthepassenger;
-    rideprice = distnacecoveredinkilo * 1.0.round();
+
+    if(Number_Of_Rides_As_guest>=20&&Number_Of_Rides_As_guest<40){
+      // here we decreased the ride price when the user has number of rides equal to 20
+      rideprice = distnacecoveredinkilo * 1.0.round()-2;
+    }
+    else if(Number_Of_Rides_As_guest>=40&&Number_Of_Rides_As_guest<80){
+      rideprice = distnacecoveredinkilo * 1.0.round()-4;
+
+    }
+
+    else if(Number_Of_Rides_As_guest>=80&&Number_Of_Rides_As_guest<150){
+      rideprice = distnacecoveredinkilo * 1.0.round()-5;
+
+    }
+
+    else{
+      rideprice = distnacecoveredinkilo * 1.0.round();
+
+    }
+
 
 // here we updated the distance travelled by the car owner
     Firestore.instance.collection('users')
@@ -109,6 +129,12 @@ class _MapsNavigationState extends State<MapsNavigation> {
       print("the old distance of the passenger is " +
           olddistnaceofthepassenger.toString());
     });
+
+
+// here we check number of rides as driver to show the user acheievemnt for number of rides as driver
+    if(Number_Of_Rides_As_Driver==1){
+      // show achievements for the user as driver 
+    }
 
 //here we check for co2 saved for showing achievements
     // we will start with the driver
@@ -334,6 +360,8 @@ class _MapsNavigationState extends State<MapsNavigation> {
       super.initState();
       gettheoldistanceofthedriver();
       gettheoldistanceofthePassenger();
+      getnumberofridesasguets();
+      getnumberofridesasdriver();
 
       print("the ride guest  email is " + rideguest);
 //    getLocation();
@@ -353,6 +381,34 @@ class _MapsNavigationState extends State<MapsNavigation> {
             olddistnaceofthedriver = (doc["distance covered"]);
           }));
     }
+
+
+  getnumberofridesasguets() {
+    Firestore.instance
+        .collection('users')
+        .where("email", isEqualTo: rideguest)
+        .snapshots()
+        .listen((data) =>
+        data.documents.forEach((doc) {
+          //olddistance="sds";
+
+          Number_Of_Rides_As_guest = (doc["Number Of Rides As guest"]);
+        }));
+  }
+
+
+  getnumberofridesasdriver() {
+    Firestore.instance
+        .collection('users')
+        .where("email", isEqualTo: firebaseuser.email)
+        .snapshots()
+        .listen((data) =>
+        data.documents.forEach((doc) {
+          //olddistance="sds";
+
+          Number_Of_Rides_As_Driver = (doc["Number Of Rides As Driver"]);
+        }));
+  }
 
 
 
