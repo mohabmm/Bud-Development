@@ -57,6 +57,7 @@ class _State extends State<EnterRideDetails> {
   String carType;
   bool ridestatus;
   String carColor;
+ int number_of_ridesasDriver;
   String carNumber; 
   final dateFormat = new DateFormat.yMd().add_jm();
   final timeFormat = DateFormat("h:mm a");
@@ -88,8 +89,22 @@ class _State extends State<EnterRideDetails> {
     });
   }
 
+        Future getnumberofridesasdriver() async {
+          Firestore.instance
+              .collection('users')
+              .where("email", isEqualTo: user.email)
+              .snapshots()
+              .listen((data) => data.documents.forEach((doc) {
+            number_of_ridesasDriver = doc.data['Number Of Rides As Driver'];
+            print("iam in old screen ");
+          }));
+        }
 
-  
+  @override
+  void initState() {
+    super.initState();
+    getnumberofridesasdriver();
+  }
 
   void _onSubmitcarNumber(String value) {
     setState(() {
@@ -456,18 +471,18 @@ void _onSubmitdcarType(String value) {
    // String carType;
   //String carColor;
   //String carNumber; 
+//
+//    if (currentdate != null &&
+//    Telephone!=null&&
+//    carNumber != null &&
+//    carColor != null &&
+//    carType != null &&
+//        describtion != null &&
+//        From != null &&
+//        To != null &&
+//        counter != null &&
+//        name != null) {
 
-    if (currentdate != null &&
-    Telephone!=null&&
-    carNumber != null &&
-    carColor != null &&
-    carType != null &&
-        describtion != null &&
-        From != null &&
-        To != null &&
-        counter != null &&
-        name != null) {
-      setState(() {
         _scaffoldstate.currentState.showSnackBar(
             new SnackBar(content: new Text("Uploading your trip data ")));
 
@@ -477,6 +492,10 @@ void _onSubmitdcarType(String value) {
         rnd = new Random();
         int id;
         id = min + rnd.nextInt(max - min);
+
+        //TODO here in this part we need to inscrease number of rides
+        // as driver inside the app
+
 
         Firestore.instance.collection('Offer Ride list').document(id.toString()).setData({
           "Trip Date": currentdate.replaceAll(":00.000", ''),
@@ -494,11 +513,29 @@ void _onSubmitdcarType(String value) {
           "RideStatus":false,
           "GusestUser":"",
         });
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => HomePage(
-              user: user,
-            )));
-      });
+
+
+        // error fy goz2 update da
+     //   number_of_ridesasDriver+=1;
+        Firestore.instance.collection('users').document(user.email).updateData({
+
+          "Number Of Rides As Driver": number_of_ridesasDriver+1,
+        });
+
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+              builder: (context) => HomePage(
+                user: user,
+              )));
+   // Navigator.of(context).pop();
+
+
+//        setState(() {
+//
+//
+//
+//        });
+
+
     }
   }
-}
+//}

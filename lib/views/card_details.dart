@@ -169,6 +169,8 @@ class _CardDetailsState extends State<CardDetails> {
        .where("RideId", isEqualTo: id)
         .snapshots()
         .listen((data) => data.documents.forEach((doc) {
+          // here we compare between the current user email with doc ride woner whitch is uploaded
+      //to be equal to the ride owner email
       if (user.email == doc["Ride Owner"]) {
         print("the doc Rideowner is"+doc["Ride Owner"].toString());
         setState(() {
@@ -254,6 +256,7 @@ class _CardDetailsState extends State<CardDetails> {
             }));
   }
 
+  // in this part we read number of rides of the user as guest
   Future getnumberofridesasguest() async {
     Firestore.instance
         .collection('users')
@@ -491,6 +494,8 @@ class _CardDetailsState extends State<CardDetails> {
                     ])
                   ],
                 ):new Container(),
+
+                // here we check if the rideowner variable is true then we show the start ride button
                 (isrideowner==true)?Padding(
                   padding: const EdgeInsets.only(right:66.0),
                   child: Center(
@@ -543,14 +548,15 @@ void showTapMsg(BuildContext context, int number_of_ridesasguest, FirebaseUser d
       builder: (context) {
         return alert;
       });
-
+  // here we updated the number of rides as guest
   Firestore.instance.collection('users').document(datauser.email).updateData({
     "Number Of Rides As guest": number_of_ridesasguest,
 
   });
 
 
-
+// here we added the guest user as this part of code is not accible for ride owner
+  // so the one who clicks the button to reserve ride is a ride guest and we add his mail as guest email
   Firestore.instance.collection('Offer Ride list')
       .document(id.toString())
       .updateData({

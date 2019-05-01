@@ -22,6 +22,7 @@ class _State extends State<Trip> {
 
   final color = const Color(0xFF13DDD2);
 
+  bool correct;
   Future checkFirstSeen() async {
     Firestore.instance
         .collection('users')
@@ -31,7 +32,7 @@ class _State extends State<Trip> {
               if (doc["Driver authnticated"] == true) {
                 print("the current driver status is " +
                     doc["Driver authnticated"].toString());
-                Navigator.of(context).push(new MaterialPageRoute(
+                Navigator.of(context).pushReplacement(new MaterialPageRoute(
                     builder: (BuildContext context) =>
                         new EnterRideDetails(user: firebaseuser)));
               } else {
@@ -42,13 +43,52 @@ class _State extends State<Trip> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    Firestore.instance
+        .collection('users')
+        .where("email", isEqualTo: firebaseuser.email)
+        .snapshots()
+        .listen((data) => data.documents.forEach((doc) {
+      if (doc["Driver authnticated"] == true) {
+        correct=true;
+      } else {
+        correct=false;
+      }
+    }));
+
+  }
+  @override
   Widget build(BuildContext context) {
     return new Scaffold(
       floatingActionButton: new FloatingActionButton(
-        heroTag: "btn1",
+        heroTag: "btn5",
         backgroundColor: color,
         onPressed: () {
-          checkFirstSeen();
+
+
+
+
+
+
+
+
+
+
+
+         if(correct){
+           Navigator.of(context).pushReplacement(new MaterialPageRoute(
+               builder: (BuildContext context) =>
+               new EnterRideDetails(user: firebaseuser)));
+
+         }
+          else{
+           Navigator.of(context).push(MaterialPageRoute(
+               builder: (context) => CheckDriverStatus(firebaseuser)));
+         }
+        //  checkFirstSeen();
         },
         tooltip: 'add new trip',
         child: new Icon(Icons.add),
