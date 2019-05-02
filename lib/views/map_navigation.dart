@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,15 +32,16 @@ class _MapsNavigationState extends State<MapsNavigation> {
 
   int olddistnaceofthedriver;
   bool star;
-  double rategiven =0.0;
+  //double rategiven =0.0;
   int olddistnaceofthepassenger;
   final GlobalKey<ScaffoldState> _scaffoldstate =
   new GlobalKey<ScaffoldState>();
   bool status = false;
   double distanceInMeters;
   double rideprice;
-  double driverrate ;
-  double passengerrate;
+  String driverrate ;
+  String passengerrate;
+  var rating = 0.0;
 
 
   double distnacecoveredinkilo;
@@ -96,6 +98,8 @@ class _MapsNavigationState extends State<MapsNavigation> {
 
     }
 
+    // this is the rate the driver give to the passenger when he ends the ride
+    //TODO rategiven+oldrate/numberofrides as guest
 
 // here we updated the distance travelled by the car owner
     Firestore.instance.collection('users')
@@ -351,6 +355,7 @@ class _MapsNavigationState extends State<MapsNavigation> {
       super.initState();
       gettheoldistanceofthedriver();
       gettheoldistanceofthePassenger();
+      // in this screen i will update the rate of the passenger
       getnumberofridesasguets();
       getnumberofridesasdriver();
       getthedriverrate();
@@ -541,17 +546,63 @@ class _MapsNavigationState extends State<MapsNavigation> {
                   padding: const EdgeInsets.only(top:18.0),
                   child: new Text("please rate the passenger who had ride with you "),
                 ):new Container(),
-                (star==true)?new StarRating(
-                  rating: rategiven,
-                  starCount: 5,
-                  size: 20,
-                  onRatingChanged: (r) {
+                (star==true)?SmoothStarRating(
+                  allowHalfRating: false,
+                  onRatingChanged: (v) {
+                    rating = v;
+                    String actualrate=rating.toString();
+
                     setState(() {
-                      rategiven = r;
-                      print("the given rate is "+rategiven.toString());
+                      print("the given rate is "+rating.toString());
+
+
+                      actualrate=  ((rating+double.parse(passengerrate))/Number_Of_Rides_As_guest).toString();
+                    print("the rate after update is "+actualrate.toString());
+
+                    // here the update to the passenger rate sshould be finished by the driver
+                      Firestore.instance.collection('users')
+                          .document(rideguest)
+                          .updateData({
+                        "passengerrate": actualrate,
+                      });
+
                     });
                   },
-                ):new Container(),
+                  starCount: 5,
+                  rating: rating,
+                  size: 40.0,
+                  color: Colors.green,
+                  borderColor: Colors.green,
+                )
+//
+//                ?new StarRating(
+//                  allowHalfRating: false,
+//
+//                  rating: rategiven,
+//                  starCount: 5,
+//                  size: 20,
+//                  onRatingChanged: (r) {
+//                    setState(() {
+//                      rategiven = r;
+//                      print("the given rate is "+rategiven.toString());
+//
+//                      String actualrate=rategiven.toString();
+//
+//                      actualrate=  ((rategiven+double.parse(passengerrate))/Number_Of_Rides_As_guest).toString();
+//                    print("the rate after update is "+rategiven.toString());
+//
+//                    // here the update to the passenger rate sshould be finished by the driver
+//                      Firestore.instance.collection('users')
+//                          .document(rideguest)
+//                          .updateData({
+//                        "passengerrate": rategiven,
+//                      });
+//
+//
+//                    });
+//                  },
+//               )
+               :new Container(),
               ],
             ),
           ),
