@@ -19,13 +19,15 @@ class MapsNavigation extends StatefulWidget {
   String start;
   Position position;
   String rideguest;
+  bool ridefinished;
+  int rideid;
 
   FirebaseUser firebaseuser;
-  MapsNavigation(this.position, this.firebaseuser, this.rideguest);
+  MapsNavigation(this.position, this.firebaseuser, this.rideguest,this.ridefinished,this.rideid );
 
   @override
   _MapsNavigationState createState() =>
-      _MapsNavigationState(position, firebaseuser, rideguest);
+      _MapsNavigationState(position, firebaseuser, rideguest,rideid);
 }
 
 class _MapsNavigationState extends State<MapsNavigation> {
@@ -50,7 +52,8 @@ class _MapsNavigationState extends State<MapsNavigation> {
   String rideguest;
   int Number_Of_Rides_As_Driver;
   int Number_Of_Rides_As_guest;
-  _MapsNavigationState(this.startposition, this.firebaseuser, this.rideguest);
+  int rideid;
+  _MapsNavigationState(this.startposition, this.firebaseuser, this.rideguest, this. rideid);
 
   double overallDriver;
   double overallPassenger;
@@ -65,6 +68,16 @@ class _MapsNavigationState extends State<MapsNavigation> {
 
 
   Future getLocation() async {
+
+
+    //TODO here we need to make the variable of ride finished to be true
+
+// we need to get id here
+    Firestore.instance.collection('Offer Ride list')
+        .document(rideid.toString())
+        .updateData({
+      "RideFinished": true,
+    });
     Position positionend = await Geolocator().getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 

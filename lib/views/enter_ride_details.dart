@@ -512,6 +512,7 @@ void _onSubmitdcarType(String value) {
           "RideId":id,
           "RideStatus":false,
           "GusestUser":"",
+          "RideFinished":"false"
         });
 
 

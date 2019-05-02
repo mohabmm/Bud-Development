@@ -26,6 +26,7 @@ class CardDetails extends StatefulWidget {
   String carcolor;
   String telephone;
   bool ridestatus;
+  bool ridefinished;
   CardDetails(
   this.id,
       this.firebaseuser,
@@ -38,7 +39,7 @@ class CardDetails extends StatefulWidget {
       this.carnumber,
       this.cartype,
     this.carcolor,
-      this. telephone, this. ridestatus,
+      this. telephone, this. ridestatus,this.ridefinished,
   );
 
   @override
@@ -56,6 +57,7 @@ class CardDetails extends StatefulWidget {
     carcolor,
       telephone,
     ridestatus,
+      ridefinished,
       );
 }
 
@@ -85,6 +87,8 @@ class _CardDetailsState extends State<CardDetails> {
   bool ridecond;
   bool ridestatus;
   String rideguest;
+  bool ridefinished;
+  int rideid;
 
   Future checktherideowner() async {
 
@@ -154,7 +158,7 @@ class _CardDetailsState extends State<CardDetails> {
           context,
           MaterialPageRoute(
             builder: (context) =>
-                MapsNavigation(position, rideowneruser, rideguest),
+                MapsNavigation(position, rideowneruser, rideguest,ridefinished,id),
           ),
 
         );
@@ -204,7 +208,7 @@ class _CardDetailsState extends State<CardDetails> {
       this.cartype,
       this.carnumber,
       this.carcolor,
-  this.telephone, this. ridestatus,
+  this.telephone, this. ridestatus, this. ridefinished,
        );
 
 
@@ -323,7 +327,7 @@ class _CardDetailsState extends State<CardDetails> {
                         fontWeight: FontWeight.w500, fontSize: 22.0),
                   )
                 : "sfsf",
-            new StarRating(
+            (ridefinished==true)?  new StarRating(
               rating: rate,
               starCount: 5,
               size: 20,
@@ -332,7 +336,7 @@ class _CardDetailsState extends State<CardDetails> {
                   rate = r;
                 });
               },
-            ),
+            ):new Container(),
             new Padding(padding: const EdgeInsets.all(5.0)),
             new Container(
               margin: const EdgeInsets.only(left: 14.0, right: 16.0),
@@ -468,15 +472,15 @@ class _CardDetailsState extends State<CardDetails> {
                       ]
                     ),
                     new Column(children: <Widget>[
-                      new Container(
+                      (ridefinished==false)?  new Container(
                           padding:
                               const EdgeInsets.fromLTRB(100.0, 10.0, 0.0, 10.0),
                           child: new Text(
                             "CALL THE DRIVER",
                             style: new TextStyle(fontWeight: FontWeight.w600),
-                          )),
+                          )):new Container(),
 
-                               new Container(
+                      (ridefinished==false)?    new Container(
                                 margin: const EdgeInsets.fromLTRB(
                                     100.0, 0.0, 0.0, 0.0),
                                 child: new FloatingActionButton(
@@ -489,7 +493,7 @@ class _CardDetailsState extends State<CardDetails> {
                                     size: 30.0,
                                   ),
                                 ),
-                              ),
+                              ):new Container(),
 
                     ])
                   ],

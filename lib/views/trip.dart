@@ -112,7 +112,8 @@ class _State extends State<Trip> {
 
     String Telephone =
     snapshot.data.documents[index].data['Telephone'].toString();
-
+    bool ridefinished =
+    snapshot.data.documents[index].data['RideFinished'];
     String carnumber =
     snapshot.data.documents[index].data['CarNumber'].toString();
 
@@ -157,6 +158,7 @@ class _State extends State<Trip> {
     carcolor,
         Telephone,
         ridestatus,
+        ridefinished,
 
     )));
     },
