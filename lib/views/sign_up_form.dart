@@ -265,8 +265,10 @@ class _State extends State<SignupForm> {
           "First Name ": firstname,
           "Last Name": lastName,
           "Number Of Rides As Driver": 0,
+          "passengerrate":0.0001,
+          "driverrate":0.0001,
           "CO2 saved":0,
-        "Number Of Rides As guest":0,
+          "Number Of Rides As guest":0,
           "distance covered":0,
           "Driver authnticated": false,
         });

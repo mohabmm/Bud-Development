@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating/flutter_rating.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:geolocator/geolocator.dart';
@@ -17,8 +18,8 @@ class MapsNavigation extends StatefulWidget {
   String start;
   Position position;
   String rideguest;
-  FirebaseUser firebaseuser;
 
+  FirebaseUser firebaseuser;
   MapsNavigation(this.position, this.firebaseuser, this.rideguest);
 
   @override
@@ -29,12 +30,17 @@ class MapsNavigation extends StatefulWidget {
 class _MapsNavigationState extends State<MapsNavigation> {
 
   int olddistnaceofthedriver;
+  bool star;
+  double rategiven =0.0;
   int olddistnaceofthepassenger;
   final GlobalKey<ScaffoldState> _scaffoldstate =
   new GlobalKey<ScaffoldState>();
   bool status = false;
   double distanceInMeters;
   double rideprice;
+  double driverrate ;
+  double passengerrate;
+
 
   double distnacecoveredinkilo;
   Position startposition;
@@ -48,20 +54,6 @@ class _MapsNavigationState extends State<MapsNavigation> {
   double overallPassenger;
 
 
-//  Future _incrementCounter() async {
-//
-//    setState(() {
-////      End=position.toString();
-//      print("my current latitude in the second screen of the start  postion is "+startposition.longitude.toString());
-//      status=true;
-////      print("the status now is "+status.toString());
-//
-//
-//    });
-//
-//    //
-//  }
-
   Completer<GoogleMapController> _controller = Completer();
 
   static final CameraPosition _kGooglePlex = CameraPosition(
@@ -69,19 +61,14 @@ class _MapsNavigationState extends State<MapsNavigation> {
     zoom: 14.4746,
   );
 
-//  static final CameraPosition _kLake = CameraPosition(
-//      bearing: 192.8334901395799,
-//      target: LatLng(37.43296265331129, -122.08832357078792),
-//      tilt: 59.440717697143555,
-//      zoom: 19.151926040649414);
-
 
   Future getLocation() async {
     Position positionend = await Geolocator().getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
-    //  ;
-//    distanceInMeters = await Geolocator().distanceBetween(startposition.latitude,startposition.longitude, positionend.latitude,positionend.longitude);
 
+    setState(() {
+      star=true;
+    });
     distanceInMeters =
     await Geolocator().distanceBetween(31.1143, 30.94012, 29.30995, 30.8418);
     distnacecoveredinkilo = distanceInMeters.round() / 1000;
@@ -354,6 +341,10 @@ class _MapsNavigationState extends State<MapsNavigation> {
 
       print("the actual distance is " + distnacecoveredinkilo.toString());
     }
+
+    // here we will show the driver give as rate for the passenger
+    // at first this will be hided then it will appear when the user end the ride
+
   }
     @override
     void initState() {
@@ -362,7 +353,9 @@ class _MapsNavigationState extends State<MapsNavigation> {
       gettheoldistanceofthePassenger();
       getnumberofridesasguets();
       getnumberofridesasdriver();
-
+      getthedriverrate();
+      getthepassengerrate();
+      star=false;
       print("the ride guest  email is " + rideguest);
 //    getLocation();
       //   print("the current start value is "+start);
@@ -381,6 +374,37 @@ class _MapsNavigationState extends State<MapsNavigation> {
             olddistnaceofthedriver = (doc["distance covered"]);
           }));
     }
+
+
+
+
+
+  getthedriverrate() {
+    Firestore.instance
+        .collection('users')
+        .where("email", isEqualTo: firebaseuser.email)
+        .snapshots()
+        .listen((data) =>
+        data.documents.forEach((doc) {
+          //olddistance="sds";
+
+          driverrate = (doc["driverrate"]);
+        }));
+  }
+
+
+
+  getthepassengerrate() {
+    Firestore.instance
+        .collection('users')
+        .where("email", isEqualTo:rideguest)
+        .snapshots()
+        .listen((data) =>
+        data.documents.forEach((doc) {
+          //olddistance="sds";
+          passengerrate = (doc["passengerrate"]);
+        }));
+  }
 
 
   getnumberofridesasguets() {
@@ -452,9 +476,13 @@ class _MapsNavigationState extends State<MapsNavigation> {
         body: Center(
           child: SingleChildScrollView(
             child: Column(
+
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
+
+
+
                 Container(
                   height: 300.0,
                   child: GoogleMap(
@@ -491,6 +519,8 @@ class _MapsNavigationState extends State<MapsNavigation> {
                           "The Price is " + rideprice.toString() + " " + "LE")
                           : new Container(),
 
+
+
                     ],
 
 
@@ -505,7 +535,23 @@ class _MapsNavigationState extends State<MapsNavigation> {
 //
 //    ],
                   ),
-                )
+                ),
+
+                (star==true)? Padding(
+                  padding: const EdgeInsets.only(top:18.0),
+                  child: new Text("please rate the passenger who had ride with you "),
+                ):new Container(),
+                (star==true)?new StarRating(
+                  rating: rategiven,
+                  starCount: 5,
+                  size: 20,
+                  onRatingChanged: (r) {
+                    setState(() {
+                      rategiven = r;
+                      print("the given rate is "+rategiven.toString());
+                    });
+                  },
+                ):new Container(),
               ],
             ),
           ),
