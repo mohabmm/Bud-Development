@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating/flutter_rating.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:url_launcher/url_launcher.dart' as lan;
 
 
@@ -27,6 +28,7 @@ class CardDetails extends StatefulWidget {
   String telephone;
   bool ridestatus;
   bool ridefinished;
+
   CardDetails(
   this.id,
       this.firebaseuser,
@@ -64,6 +66,7 @@ class CardDetails extends StatefulWidget {
 
 
 class _CardDetailsState extends State<CardDetails> {
+  String driverrate;
   int id;
   final GlobalKey<ScaffoldState> _scaffoldstate =
   new GlobalKey<ScaffoldState>();
@@ -89,6 +92,8 @@ class _CardDetailsState extends State<CardDetails> {
   String rideguest;
   bool ridefinished;
   int rideid;
+  var rating = 0.0;
+
 
   Future checktherideowner() async {
 
@@ -210,8 +215,15 @@ class _CardDetailsState extends State<CardDetails> {
       this.carcolor,
   this.telephone, this. ridestatus, this. ridefinished,
        );
-
-
+  getthedriverrate() {
+    Firestore.instance
+        .collection('users')
+        .where("email", isEqualTo: rideowneruser.email)
+        .snapshots()
+        .listen((data) => data.documents.forEach((doc) {
+      driverrate = doc.data['driverrate'];
+    }));
+  }
   @override
   void initState() {
     super.initState();
@@ -227,6 +239,7 @@ class _CardDetailsState extends State<CardDetails> {
     print("car number is "+carnumber);
     print("car color is "+carcolor);
 
+    getthedriverrate();
     print("telephone is "+telephone);
     checktherideowner();
     getnumberofridesasguest();
@@ -327,15 +340,36 @@ class _CardDetailsState extends State<CardDetails> {
                         fontWeight: FontWeight.w500, fontSize: 22.0),
                   )
                 : "sfsf",
-            (ridefinished==true)?  new StarRating(
-              rating: rate,
-              starCount: 5,
-              size: 20,
-              onRatingChanged: (r) {
+
+            // here we check for the ridefinised is pressed by the driver and the user is not
+            // the ride owner so he can give rate for the driver
+            (ridefinished==true&&isrideowner==false)?  SmoothStarRating(
+              allowHalfRating: false,
+              onRatingChanged: (v) {
+                rating = v;
+                String actualrate=rating.toString();
+
                 setState(() {
-                  rate = r;
+                  print("the given rate is "+rating.toString());
+
+
+                  actualrate=  ((rating+double.parse(driverrate))/number_of_ridesasDriver).toString();
+                  print("the rate after update is "+actualrate.toString());
+
+                  // here the update to the driver rate sshould be finished by the driver
+                  Firestore.instance.collection('users')
+                      .document( rideowneruser.email)
+                      .updateData({
+                    "driverrate": actualrate,
+                  });
+
                 });
               },
+              starCount: 5,
+              rating: rating,
+              size: 40.0,
+              color: Colors.green,
+              borderColor: Colors.green,
             ):new Container(),
             new Padding(padding: const EdgeInsets.all(5.0)),
             new Container(
