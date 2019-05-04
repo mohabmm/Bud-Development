@@ -55,8 +55,11 @@ class _MapsNavigationState extends State<MapsNavigation> {
   int rideid;
   _MapsNavigationState(this.startposition, this.firebaseuser, this.rideguest, this. rideid);
 
-  double overallDriver;
-  double overallPassenger;
+  double overalldistanceDriver;
+  double overalldistancePassenger;
+
+  String co2driver;
+  String co2passenger;
 
 
   Completer<GoogleMapController> _controller = Completer();
@@ -88,9 +91,30 @@ class _MapsNavigationState extends State<MapsNavigation> {
     await Geolocator().distanceBetween(31.1143, 30.94012, 29.30995, 30.8418);
     distnacecoveredinkilo = distanceInMeters.round() / 1000;
 
-    overallDriver = distnacecoveredinkilo + olddistnaceofthedriver;
-    overallPassenger =
+    overalldistanceDriver = distnacecoveredinkilo + olddistnaceofthedriver;
+    overalldistancePassenger =
         distnacecoveredinkilo + olddistnaceofthepassenger;
+
+
+    //here we calcuated the perecentage of co2 as driver and we upload it into database
+
+co2driver=((overalldistanceDriver*130.0)/1000.0).toString();
+    co2passenger=((olddistnaceofthepassenger*130.0)/1000.0).toString();
+
+    //update the carpon dioxsie by the driver
+    Firestore.instance.collection('users')
+        .document(firebaseuser.email)
+        .updateData({
+      "CO2driver": co2driver,
+    });
+
+    //update the carpon dioxsie by the passenger
+    Firestore.instance.collection('users')
+        .document(rideguest)
+        .updateData({
+      "CO2passenger": co2passenger,
+    });
+
 
     if(Number_Of_Rides_As_guest>=20&&Number_Of_Rides_As_guest<40){
       // here we decreased the ride price when the user has number of rides equal to 20
@@ -114,16 +138,16 @@ class _MapsNavigationState extends State<MapsNavigation> {
     // this is the rate the driver give to the passenger when he ends the ride
     //TODO rategiven+oldrate/numberofrides as guest
 
-// here we updated the distance travelled by the car owner
+// here we updated the distance travelled by the driver
     Firestore.instance.collection('users')
         .document(firebaseuser.email)
         .updateData({
-      "distance covered": overallDriver.round(),
+      "distance covered": overalldistanceDriver.round(),
     });
 
     //  we  UPDATEed the distance travelled by the ride guest (passenger)
     Firestore.instance.collection('users').document(rideguest).updateData({
-      "distance covered": overallPassenger.round(),
+      "distance covered": overalldistancePassenger.round(),
     });
     setState(() {
       status = true;
@@ -373,6 +397,8 @@ class _MapsNavigationState extends State<MapsNavigation> {
       getnumberofridesasdriver();
       getthedriverrate();
       getthepassengerrate();
+      getc02passenger();
+      getco2driver();
       star=false;
       print("the ride guest  email is " + rideguest);
 //    getLocation();
@@ -421,6 +447,33 @@ class _MapsNavigationState extends State<MapsNavigation> {
         data.documents.forEach((doc) {
           //olddistance="sds";
           passengerrate = (doc["passengerrate"]);
+        }));
+  }
+
+
+
+  getc02passenger() {
+    Firestore.instance
+        .collection('users')
+        .where("email", isEqualTo:rideguest)
+        .snapshots()
+        .listen((data) =>
+        data.documents.forEach((doc) {
+          //olddistance="sds";
+          co2passenger = (doc["CO2passenger"]);
+        }));
+  }
+
+
+  getco2driver() {
+    Firestore.instance
+        .collection('users')
+        .where("email", isEqualTo:firebaseuser)
+        .snapshots()
+        .listen((data) =>
+        data.documents.forEach((doc) {
+          //olddistance="sds";
+          co2driver = (doc["CO2driver"]);
         }));
   }
 
