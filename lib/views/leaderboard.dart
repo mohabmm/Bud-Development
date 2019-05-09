@@ -115,7 +115,6 @@ class _LeaderboardState extends State<Leaderboard>
                                                     ),
                                                   ],
                                                 ),
-
                                                 Column(
                                                   children: <Widget>[
                                                     Padding(
@@ -252,7 +251,6 @@ class _LeaderboardState extends State<Leaderboard>
                                                     ),
                                                   ],
                                                 ),
-
                                                 Column(
                                                   children: <Widget>[
                                                     Padding(

@@ -101,9 +101,7 @@ class _CardDetailsState extends State<CardDetails> {
             content:
                 new Text("please enable your GPS as access to it is denied")));
       });
-    }
-
-    else if (status == GeolocationStatus.restricted) {
+    } else if (status == GeolocationStatus.restricted) {
       setState(() {
         _scaffoldstate.currentState.showSnackBar(
             new SnackBar(content: new Text("please enable your GPS ")));

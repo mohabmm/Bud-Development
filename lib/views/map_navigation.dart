@@ -62,7 +62,7 @@ class _MapsNavigationState extends State<MapsNavigation> {
   );
 
   Future getLocation() async {
-     Firestore.instance
+    Firestore.instance
         .collection('Offer Ride list')
         .document(rideid.toString())
         .updateData({

@@ -1491,7 +1491,6 @@ class _AchievementsState extends State<Achievements> {
                                                         ),
                                                       ),
                                                     ),
-
                                                     Expanded(
                                                       child: Padding(
                                                         padding:
