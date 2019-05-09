@@ -298,7 +298,7 @@ class _LeaderboardState extends State<Leaderboard>
                           });
                   }
                 },
-              ), ////              Icon(Icons.directions_bike),
+              ),
             ],
           ),
         ),
