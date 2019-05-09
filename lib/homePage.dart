@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
   FirebaseUser user;
-
   HomePage({@required this.user});
 
   @override
@@ -63,8 +62,8 @@ class _HomePageState extends State<HomePage> {
                       onTap: () {
                         Navigator.of(context).pop();
                         Navigator.of(context).push(new MaterialPageRoute(
-                            builder: (BuildContext context) => new Leaderboard(
-                                )));
+                            builder: (BuildContext context) =>
+                                new Leaderboard()));
                       }),
                   new ListTile(
                       title: new Text(
@@ -79,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.of(context).pop();
                         Navigator.of(context).push(new MaterialPageRoute(
                             builder: (BuildContext context) => new Achievements(
-                                   user,
+                                  user,
                                 )));
                       }),
                   new ListTile(

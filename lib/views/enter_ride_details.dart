@@ -1,22 +1,20 @@
 import 'dart:math';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:budupdated/homePage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class EnterRideDetails extends StatefulWidget {
-
   FirebaseUser user;
+
   EnterRideDetails({this.user});
 
   @override
   _State createState() => new _State(user: user);
 }
-
-
 
 class _State extends State<EnterRideDetails> {
   FirebaseUser user;
@@ -33,14 +31,8 @@ class _State extends State<EnterRideDetails> {
   final myController8 = TextEditingController();
   final myController9 = TextEditingController();
 
-
-
-
   final formats = {
- InputType.both: DateFormat("EEEE, MMMM d, yyyy 'at' h:mma"),
-//   // InputType.both: DateFormat("yyyy, MMMM d, EEEE 'at' h:mma"),
-//   DateFormat.yMd().add_jm()
-//
+    InputType.both: DateFormat("EEEE, MMMM d, yyyy 'at' h:mma"),
   };
 
   InputType inputType = InputType.both;
@@ -57,8 +49,8 @@ class _State extends State<EnterRideDetails> {
   String carType;
   bool ridestatus;
   String carColor;
- int number_of_ridesasDriver;
-  String carNumber; 
+  int number_of_ridesasDriver;
+  String carNumber;
   final dateFormat = new DateFormat.yMd().add_jm();
   final timeFormat = DateFormat("h:mm a");
 
@@ -74,14 +66,13 @@ class _State extends State<EnterRideDetails> {
     });
   }
 
-
   void _onSubmittelephone(String value) {
     setState(() {
       Telephone = value;
       print("the data inside telephone " + From);
     });
   }
-  
+
   void _onSubmitcarColor(String value) {
     setState(() {
       carColor = value;
@@ -89,16 +80,16 @@ class _State extends State<EnterRideDetails> {
     });
   }
 
-        Future getnumberofridesasdriver() async {
-          Firestore.instance
-              .collection('users')
-              .where("email", isEqualTo: user.email)
-              .snapshots()
-              .listen((data) => data.documents.forEach((doc) {
-            number_of_ridesasDriver = doc.data['Number Of Rides As Driver'];
-            print("iam in old screen ");
-          }));
-        }
+  Future getnumberofridesasdriver() async {
+    Firestore.instance
+        .collection('users')
+        .where("email", isEqualTo: user.email)
+        .snapshots()
+        .listen((data) => data.documents.forEach((doc) {
+              number_of_ridesasDriver = doc.data['Number Of Rides As Driver'];
+              print("iam in old screen ");
+            }));
+  }
 
   @override
   void initState() {
@@ -112,16 +103,16 @@ class _State extends State<EnterRideDetails> {
       print("the data inside From in itstate is " + carNumber);
     });
   }
+
   void _onSubmitTo(String value) {
     setState(() => To = value);
     print("the value of To is " + To);
   }
 
-void _onSubmitdcarType(String value) {
+  void _onSubmitdcarType(String value) {
     setState(() => carType = value);
     print("the value of To is " + carType);
   }
-  
 
   void _onSubmitName(String value) {
     setState(() => name = value);
@@ -148,13 +139,18 @@ void _onSubmitdcarType(String value) {
                   )),
         ),
         body: new Container(
-          padding: new EdgeInsets.only(left:20.0,right: 20.0,top: 20.0,bottom: 20.0),
+          padding: new EdgeInsets.only(
+              left: 20.0, right: 20.0, top: 20.0, bottom: 20.0),
           child: new ListView(
             children: <Widget>[
-
-              Center(child: Padding(
-                padding: const EdgeInsets.only(bottom:8.0),
-                child: new Text("Offer Ride",style: new TextStyle(fontWeight: FontWeight.bold,fontSize: 20.0),),
+              Center(
+                  child: Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: new Text(
+                  "Offer Ride",
+                  style: new TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 20.0),
+                ),
               )),
               TextField(
                 onSubmitted: _onSubmitName,
@@ -214,7 +210,7 @@ void _onSubmitdcarType(String value) {
                 inputType: inputType,
                 initialTime: TimeOfDay.now(),
                 firstDate: DateTime.now(),
-                format:  formats[1],
+                format: formats[1],
                 editable: editable,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(borderSide: BorderSide()),
@@ -222,8 +218,15 @@ void _onSubmitdcarType(String value) {
                     hasFloatingPlaceholder: false),
                 onChanged: (date) {
                   setState(() {
-                    //currentdate = date.toString();
-                    currentdate = date.day.toString()+"/"+date.month.toString()+"/"+date.year.toString()+" "+date.hour.toString()+":"+date.minute.toString();
+                    currentdate = date.day.toString() +
+                        "/" +
+                        date.month.toString() +
+                        "/" +
+                        date.year.toString() +
+                        " " +
+                        date.hour.toString() +
+                        ":" +
+                        date.minute.toString();
                     print("the data is " + currentdate);
                   });
                 },
@@ -237,71 +240,74 @@ void _onSubmitdcarType(String value) {
               SizedBox(
                 height: 10.0,
               ),
-               TextField(
-                  controller: myController4,
-                  onSubmitted: _onSubmitdescribtion,
-                  onChanged: _onSubmitdescribtion,
-                  decoration: InputDecoration(
-                    labelText: 'Describtion',
-                    border: OutlineInputBorder(borderSide: BorderSide()),
-                    contentPadding: EdgeInsets.all(15.0),
-                  ),
+              TextField(
+                controller: myController4,
+                onSubmitted: _onSubmitdescribtion,
+                onChanged: _onSubmitdescribtion,
+                decoration: InputDecoration(
+                  labelText: 'Describtion',
+                  border: OutlineInputBorder(borderSide: BorderSide()),
+                  contentPadding: EdgeInsets.all(15.0),
                 ),
+              ),
 
               SizedBox(
                 height: 10.0,
               ),
-               TextField(
-                  controller: myController6,
-                  onSubmitted: _onSubmitdcarType,
-                  onChanged: _onSubmitdcarType,
-                  decoration: InputDecoration(
-                    labelText: 'Car Type',
-                    border: OutlineInputBorder(borderSide: BorderSide()),
-                    contentPadding: EdgeInsets.all(15.0),
-                  ),
+              TextField(
+                controller: myController6,
+                onSubmitted: _onSubmitdcarType,
+                onChanged: _onSubmitdcarType,
+                decoration: InputDecoration(
+                  labelText: 'Car Type',
+                  border: OutlineInputBorder(borderSide: BorderSide()),
+                  contentPadding: EdgeInsets.all(15.0),
                 ),
-
-              SizedBox(
-                height: 10.0,
               ),
-
- TextField(
-                  controller: myController7,
-                  onSubmitted: _onSubmitcarNumber,
-                  onChanged: _onSubmitcarNumber,
-                  decoration: InputDecoration(
-                    labelText: 'Car Number',
-                    border: OutlineInputBorder(borderSide: BorderSide()),
-                    contentPadding: EdgeInsets.all(15.0),
-                  ),
-                ),
 
               SizedBox(
                 height: 10.0,
               ),
 
-
- TextField(
-                  controller: myController8,
-                  onSubmitted: _onSubmitcarColor,
-                  onChanged: _onSubmitcarColor,
-                  decoration: InputDecoration(
-                    labelText: 'Car Color',
-                    border: OutlineInputBorder(borderSide: BorderSide()),
-                    contentPadding: EdgeInsets.all(15.0),
-                  ),
+              TextField(
+                controller: myController7,
+                onSubmitted: _onSubmitcarNumber,
+                onChanged: _onSubmitcarNumber,
+                decoration: InputDecoration(
+                  labelText: 'Car Number',
+                  border: OutlineInputBorder(borderSide: BorderSide()),
+                  contentPadding: EdgeInsets.all(15.0),
                 ),
+              ),
 
               SizedBox(
                 height: 10.0,
               ),
-              Center(child: new Text("Please choose number of seats",style: new TextStyle(fontSize: 19.0,fontWeight: FontWeight.bold),)),
+
+              TextField(
+                controller: myController8,
+                onSubmitted: _onSubmitcarColor,
+                onChanged: _onSubmitcarColor,
+                decoration: InputDecoration(
+                  labelText: 'Car Color',
+                  border: OutlineInputBorder(borderSide: BorderSide()),
+                  contentPadding: EdgeInsets.all(15.0),
+                ),
+              ),
+
+              SizedBox(
+                height: 10.0,
+              ),
+              Center(
+                  child: new Text(
+                "Please choose number of seats",
+                style:
+                    new TextStyle(fontSize: 19.0, fontWeight: FontWeight.bold),
+              )),
 
               Row(
-                mainAxisAlignment:MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: new FloatingActionButton(
@@ -375,8 +381,6 @@ void _onSubmitdcarType(String value) {
     });
   }
 
-
-
   void upload() {
     if (currentdate == null) {
       setState(() {
@@ -387,11 +391,10 @@ void _onSubmitdcarType(String value) {
       print("the current date inside upload is " + currentdate);
     }
 
-
-      if (carType == null) {
+    if (carType == null) {
       setState(() {
-        _scaffoldstate.currentState.showSnackBar(new SnackBar(
-            content: new Text("please choose car type")));
+        _scaffoldstate.currentState.showSnackBar(
+            new SnackBar(content: new Text("please choose car type")));
       });
     } else {
       print("the current car type is " + currentdate);
@@ -399,27 +402,26 @@ void _onSubmitdcarType(String value) {
 
     if (Telephone == null) {
       setState(() {
-        _scaffoldstate.currentState.showSnackBar(new SnackBar(
-            content: new Text("please enter Telephone number")));
+        _scaffoldstate.currentState.showSnackBar(
+            new SnackBar(content: new Text("please enter Telephone number")));
       });
     } else {
       print("the current telephone number is " + currentdate);
     }
 
-
     if (carColor == null) {
       setState(() {
-        _scaffoldstate.currentState.showSnackBar(new SnackBar(
-            content: new Text("please choose the car color")));
+        _scaffoldstate.currentState.showSnackBar(
+            new SnackBar(content: new Text("please choose the car color")));
       });
     } else {
       print("the car color date inside upload is " + currentdate);
     }
 
-      if (carNumber == null) {
+    if (carNumber == null) {
       setState(() {
-        _scaffoldstate.currentState.showSnackBar(new SnackBar(
-            content: new Text("please choose  car number ")));
+        _scaffoldstate.currentState.showSnackBar(
+            new SnackBar(content: new Text("please choose  car number ")));
       });
     } else {
       print("the current car number inside upload is " + currentdate);
@@ -467,76 +469,47 @@ void _onSubmitdcarType(String value) {
       print("the registered name is   " + name.toString());
     }
 
+    _scaffoldstate.currentState.showSnackBar(
+        new SnackBar(content: new Text("Uploading your trip data ")));
 
-   // String carType;
-  //String carColor;
-  //String carNumber; 
-//
-//    if (currentdate != null &&
-//    Telephone!=null&&
-//    carNumber != null &&
-//    carColor != null &&
-//    carType != null &&
-//        describtion != null &&
-//        From != null &&
-//        To != null &&
-//        counter != null &&
-//        name != null) {
+    Random rnd;
+    int min = 1;
+    int max = 100000000;
+    rnd = new Random();
+    int id;
+    id = min + rnd.nextInt(max - min);
 
-        _scaffoldstate.currentState.showSnackBar(
-            new SnackBar(content: new Text("Uploading your trip data ")));
+    // here in this part we need to inscrease number of rides
+    // as driver inside the app
 
-        Random rnd;
-        int min = 1;
-        int max = 100000000;
-        rnd = new Random();
-        int id;
-        id = min + rnd.nextInt(max - min);
+    Firestore.instance
+        .collection('Offer Ride list')
+        .document(id.toString())
+        .setData({
+      "Trip Date": currentdate.replaceAll(":00.000", ''),
+      "describtion": describtion,
+      "From": From,
+      "To": To,
+      "No Of Seats": counter,
+      "User name": name,
+      "CarType": carType,
+      "Telephone": Telephone,
+      "CarColor": carColor,
+      "CarNumber": carNumber,
+      "Ride Owner": user.email,
+      "RideId": id,
+      "RideStatus": false,
+      "GusestUser": "",
+      "RideFinished": "false"
+    });
 
-        //TODO here in this part we need to inscrease number of rides
-        // as driver inside the app
-
-
-        Firestore.instance.collection('Offer Ride list').document(id.toString()).setData({
-          "Trip Date": currentdate.replaceAll(":00.000", ''),
-          "describtion": describtion,
-          "From": From,
-          "To": To,
-          "No Of Seats": counter,
-          "User name": name,
-          "CarType":carType,
-          "Telephone":Telephone,
-          "CarColor":carColor,
-          "CarNumber":carNumber,
-          "Ride Owner":user.email,
-          "RideId":id,
-          "RideStatus":false,
-          "GusestUser":"",
-          "RideFinished":"false"
-        });
-
-
-        // error fy goz2 update da
-     //   number_of_ridesasDriver+=1;
-        Firestore.instance.collection('users').document(user.email).updateData({
-
-          "Number Of Rides As Driver": number_of_ridesasDriver+1,
-        });
+    Firestore.instance.collection('users').document(user.email).updateData({
+      "Number Of Rides As Driver": number_of_ridesasDriver + 1,
+    });
 
     Navigator.of(context).pushReplacement(MaterialPageRoute(
-              builder: (context) => HomePage(
-                user: user,
-              )));
-   // Navigator.of(context).pop();
-
-
-//        setState(() {
-//
-//
-//
-//        });
-
-
-    }
+        builder: (context) => HomePage(
+              user: user,
+            )));
   }
-//}
+}

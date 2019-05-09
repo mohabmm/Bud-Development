@@ -61,11 +61,11 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/carpool.jpg
-     - assets/login-bg.png
-     - images/path animation.flr
-     - images/trophy.flr
-     - images/Reloj.flr
+    - assets/carpool.jpg
+    - assets/login-bg.png
+    - images/path animation.flr
+    - images/trophy.flr
+    - images/Reloj.flr
 
 
 

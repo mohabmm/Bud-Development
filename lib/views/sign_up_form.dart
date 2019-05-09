@@ -120,7 +120,8 @@ class _State extends State<SignupForm> {
                   }
                 },
                 onChanged: (value) {
-                  if (value.endsWith("msa.edu.eg")||value.endsWith("MSA.EDU.EG")) {
+                  if (value.endsWith("msa.edu.eg") ||
+                      value.endsWith("MSA.EDU.EG")) {
                     setState(() {
                       email = value;
                     });
@@ -153,7 +154,6 @@ class _State extends State<SignupForm> {
             SizedBox(
               height: 10.0,
             ),
-
             ButtonTheme(
               minWidth: 4.0,
               child: new RaisedButton(
@@ -191,14 +191,11 @@ class _State extends State<SignupForm> {
 
   Future<String> _pickSaveImage() async {
     imageFiles = await ImagePicker.pickImage(source: ImageSource.camera);
-    // we need later here to replace Mohab name with the user signed in inside our
-    // system to easily identify each driver photos
     final String fileName = "${Random().nextInt(1000000)}.jpg" + "signupData";
     StorageReference ref = FirebaseStorage.instance.ref().child(fileName);
     StorageUploadTask uploadTask = ref.putFile(imageFiles);
     return await (await uploadTask.onComplete).ref.getDownloadURL();
   }
-
 
   void _onSubmitUserName(String value) {
     setState(() {
@@ -241,12 +238,6 @@ class _State extends State<SignupForm> {
       });
     }
 
-//    if (imageFiles == null) {
-//      setState(() {
-//        _scaffoldstate.currentState.showSnackBar(new SnackBar(
-//            content: new Text("please upload the front id image  ")));
-//      });
-//    }
     if (firstname != null &&
         lastName != null &&
 
@@ -258,21 +249,23 @@ class _State extends State<SignupForm> {
           .then((signedInUser) {
         signedInUser.sendEmailVerification();
 
-        Firestore.instance.collection('users').document(email.toLowerCase()).setData({
+        Firestore.instance
+            .collection('users')
+            .document(email.toLowerCase())
+            .setData({
           'email': signedInUser.email.toLowerCase(),
           'uid': signedInUser.uid,
           "First Name ": firstname,
           "Last Name": lastName,
           "Number Of Rides As Driver": 0,
-          "passengerrate":"0",
-          "driverrate":"0",
-          "CO2driver":"0",
-          "CO2passenger":"0",
-          "Number Of Rides As guest":0,
-          "distance covered":0,
+          "passengerrate": "0",
+          "driverrate": "0",
+          "CO2driver": "0",
+          "CO2passenger": "0",
+          "Number Of Rides As guest": 0,
+          "distance covered": 0,
           "Driver authnticated": false,
         });
-
 
         Firestore.instance.collection('Achievements').document(email).setData({
           'email': signedInUser.email,
@@ -282,62 +275,64 @@ class _State extends State<SignupForm> {
           "10 ride": false,
           "20 ride": false,
           "30 ride": false,
-          "40 ride":false,
-          "50 ride":false,
-          "60 ride":false,
-          "70 ride":false,
-          "80 ride":false,
-          "90 ride":false,
-          "100 ride":false,
-          "110 ride":false,
-          "120 ride":false,
-          "130vride":false,
-          "140 ride":false,
-          "150 ride":false,
-          "160 ride":false,
-          "170 ride":false,
-          "180 ride":false,
-          "190 ride":false,
-          "200 ride":false,
-          "210 ride":false,
-          "220 ride":false,
-          "0.5 ton":false,
-          "1 ton":false,
-          "2 ton":false,
-          "3 ton":false,
-          "4 ton":false,
-          "5 ton":false,
-          "6 ton":false,
-          "7 ton":false,
-          "8 ton":false,
-          "9 ton":false,
-          "10 ton":false,
-          "11 ton":false,
-          "12 ton":false,
-          "13 ton":false,
-          "14 ton":false,
-          "15 ton":false,
-          "16 ton":false,
-          "17 ton":false,
-          "18 ton":false,
-          "19 ton":false,
-          "20 ton":false,
-          "21 ton":false,
-          "22 ton":false,
-          "23 ton":false,
-          "24 ton":false,
-          "25 ton":false,
-          "26 ton":false,
-          "27 ton":false,
-          "28 ton":false,
-          "29 ton":false,
-          "30 ton":false,
-
+          "40 ride": false,
+          "50 ride": false,
+          "60 ride": false,
+          "70 ride": false,
+          "80 ride": false,
+          "90 ride": false,
+          "100 ride": false,
+          "110 ride": false,
+          "120 ride": false,
+          "130vride": false,
+          "140 ride": false,
+          "150 ride": false,
+          "160 ride": false,
+          "170 ride": false,
+          "180 ride": false,
+          "190 ride": false,
+          "200 ride": false,
+          "210 ride": false,
+          "220 ride": false,
+          "0.5 ton": false,
+          "1 ton": false,
+          "2 ton": false,
+          "3 ton": false,
+          "4 ton": false,
+          "5 ton": false,
+          "6 ton": false,
+          "7 ton": false,
+          "8 ton": false,
+          "9 ton": false,
+          "10 ton": false,
+          "11 ton": false,
+          "12 ton": false,
+          "13 ton": false,
+          "14 ton": false,
+          "15 ton": false,
+          "16 ton": false,
+          "17 ton": false,
+          "18 ton": false,
+          "19 ton": false,
+          "20 ton": false,
+          "21 ton": false,
+          "22 ton": false,
+          "23 ton": false,
+          "24 ton": false,
+          "25 ton": false,
+          "26 ton": false,
+          "27 ton": false,
+          "28 ton": false,
+          "29 ton": false,
+          "30 ton": false,
         });
 
-
-        _scaffoldstate.currentState
-            .showSnackBar(new SnackBar(content: new Text("Congutrlation account with email"+" "+email+" "+"is succefully created")));
+        _scaffoldstate.currentState.showSnackBar(new SnackBar(
+            content: new Text("Congutrlation account with email" +
+                " " +
+                email +
+                " " +
+                "is succefully created")));
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -352,4 +347,3 @@ class _State extends State<SignupForm> {
     }
   }
 }
-
