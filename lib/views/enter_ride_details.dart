@@ -39,6 +39,8 @@ class _State extends State<EnterRideDetails> {
   bool editable = true;
   final GlobalKey<ScaffoldState> _scaffoldstate =
       new GlobalKey<ScaffoldState>();
+  String firstletterfrom;
+  String firstletterto;
   String Telephone;
   String currentdate;
   String describtion;
@@ -61,7 +63,8 @@ class _State extends State<EnterRideDetails> {
 
   void _onSubmitFrom(String value) {
     setState(() {
-      From = value;
+      From = value.substring(0, 1).toUpperCase() + value.substring(1);
+      firstletterfrom=value.substring(0, 1).toUpperCase();
       print("the data inside From in itstate is " + From);
     });
   }
@@ -105,7 +108,14 @@ class _State extends State<EnterRideDetails> {
   }
 
   void _onSubmitTo(String value) {
-    setState(() => To = value);
+    setState(() {
+      To = value.substring(0, 1).toUpperCase() + value.substring(1);
+      firstletterto = value.substring(0, 1).toUpperCase();
+      print("the first letter to is"+firstletterto);
+    });
+
+
+
     print("the value of To is " + To);
   }
 
@@ -500,7 +510,9 @@ class _State extends State<EnterRideDetails> {
       "RideId": id,
       "RideStatus": false,
       "GusestUser": "",
-      "RideFinished": "false"
+      "RideFinished": false,
+      "SearchFrom":firstletterfrom,
+      "SearchTo":firstletterto,
     });
 
     Firestore.instance.collection('users').document(user.email).updateData({
