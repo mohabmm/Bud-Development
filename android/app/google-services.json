@@ -8,6 +8,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:173887963197:android:94e05ef42e960047",
+        "android_client_info": {
+          "package_name": "com.example.budupdated"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "173887963197-3fcun2t5mmn76tti146diicqfbpmmhro.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.budupdated",
+            "certificate_hash": "53fb4b622f8c58964d0d50e75f4eb5373a38f27f"
+          }
+        },
+        {
+          "client_id": "173887963197-e71c0asubrv4dnejgijtde9r8rkcc137.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFRUB83kw8JsXt-lsgVdhI5WiTSkM8RBE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "173887963197-e71c0asubrv4dnejgijtde9r8rkcc137.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:173887963197:android:dde3db172a2913b9",
         "android_client_info": {
           "package_name": "com.example.budupdated"
@@ -25,15 +62,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
+          "other_platform_oauth_client": [
+            {
+              "client_id": "173887963197-e71c0asubrv4dnejgijtde9r8rkcc137.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

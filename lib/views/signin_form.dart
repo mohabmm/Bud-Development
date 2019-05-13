@@ -17,6 +17,31 @@ class _State extends State<SigninForm> {
   String mail;
   String password;
 
+
+  Widget _showEmailInput() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
+      child: new TextFormField(
+        maxLines: 1,
+        keyboardType: TextInputType.emailAddress,
+        autofocus: false,
+        controller: myController1,
+        decoration: new InputDecoration(
+            hintText: 'Email',
+            border: OutlineInputBorder(borderSide: BorderSide()),
+            contentPadding: EdgeInsets.all(10.0),
+            icon: new Icon(
+              Icons.mail,
+              color: Colors.grey,
+
+            )),
+        validator: (value) => value.isEmpty ? 'Please write your MSA email in order to login to the app' : null,
+        onSaved: (value) => mail = value,
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -32,6 +57,9 @@ class _State extends State<SigninForm> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 TextField(
+                  keyboardType: TextInputType.emailAddress,
+
+
                   onSubmitted: (value) {
                     setState(() {
                       if (value == null) {
