@@ -47,7 +47,8 @@ class _State extends State<SigninForm> {
     return new Scaffold(
       key: _scaffoldstate,
       appBar: new AppBar(
-        title: new Text('Sign In Form'),
+        backgroundColor: Colors.lightBlueAccent,
+        title: new Text('Sign In'),
       ),
       body: Center(
         child: new Container(
@@ -111,6 +112,8 @@ class _State extends State<SigninForm> {
                 ),
                 new RaisedButton(
                     child: new Text("Log in "),
+                    shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(30.0)), color: Colors.lightBlueAccent,
                     onPressed: () {
                       FirebaseAuth.instance
                           .signInWithEmailAndPassword(

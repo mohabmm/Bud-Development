@@ -38,21 +38,13 @@ class _State extends State<SignupForm> {
       key: _scaffoldstate,
       appBar: new AppBar(
         backgroundColor: Colors.lightBlueAccent,
-        title: new Text('Sign up'),
+        title: new Text('Sign Up'),
       ),
       body: new Container(
         padding: new EdgeInsets.all(8.0),
         child: new ListView(
           children: <Widget>[
-            Center(
-              child: new Text(
-                "Bud Sign Up Form",
-                style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    color: Colors.black,
-                    fontSize: 32.0),
-              ),
-            ),
+
             SizedBox(
               height: 10.0,
             ),
@@ -103,7 +95,7 @@ class _State extends State<SignupForm> {
                   _pickSaveImage();
                 },
                 child: new Text(
-                  "Click to upload MSA id front image ",
+                  "Click to upload MSA ID front image ",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 )),
             Padding(
