@@ -154,7 +154,7 @@ class _CardDetailsState extends State<CardDetails> {
         .where("RideId", isEqualTo: id)
         .snapshots()
         .listen((data) => data.documents.forEach((doc) {
-              // here we compare between the current user email with doc ride woner whitch is uploaded
+              // here we compare between the current user email with doc ride owner whitch is uploaded
               //to be equal to the ride owner email
               if (user.email == doc["Ride Owner"]) {
                 print("the doc Rideowner is" + doc["Ride Owner"].toString());

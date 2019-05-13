@@ -64,7 +64,7 @@ class _State extends State<EnterRideDetails> {
   void _onSubmitFrom(String value) {
     setState(() {
       From = value.substring(0, 1).toUpperCase() + value.substring(1);
-      firstletterfrom=value.substring(0, 1).toUpperCase();
+      firstletterfrom = value.substring(0, 1).toUpperCase();
       print("the data inside From in itstate is " + From);
     });
   }
@@ -111,10 +111,8 @@ class _State extends State<EnterRideDetails> {
     setState(() {
       To = value.substring(0, 1).toUpperCase() + value.substring(1);
       firstletterto = value.substring(0, 1).toUpperCase();
-      print("the first letter to is"+firstletterto);
+      print("the first letter to is" + firstletterto);
     });
-
-
 
     print("the value of To is " + To);
   }
@@ -511,13 +509,14 @@ class _State extends State<EnterRideDetails> {
       "RideStatus": false,
       "GusestUser": "",
       "RideFinished": false,
-      "SearchFrom":firstletterfrom,
-      "SearchTo":firstletterto,
+      "SearchFrom": firstletterfrom,
+      "SearchTo": firstletterto,
     });
 
     Firestore.instance.collection('users').document(user.email).updateData({
       "Number Of Rides As Driver": number_of_ridesasDriver + 1,
     });
+    //TODO HERE I NEED TO MAKE NUMBER OF RIDES AS DRIVER BOOLEAN VARAIBLE ACCORDING TO NUMBER OF RIDES
 
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => HomePage(
