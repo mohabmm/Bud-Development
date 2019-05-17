@@ -101,45 +101,38 @@ class _AchievementsState extends State<Achievements> {
                                                   children: <Widget>[
                                                     Stack(
                                                       children: [
-                                                        BackdropFilter(
-                                                          child: new Container(
-                                                            width: 100.0,
-                                                            height: 100.0,
-                                                            decoration:
-                                                                new BoxDecoration(
-                                                              color: const Color(
-                                                                  0xff7c94b6),
-                                                              image: (oneride ==
-                                                                      false)
-                                                                  ? new DecorationImage(
-                                                                      image: new NetworkImage(
-                                                                          'http://i.imgur.com/QSev0hg.jpg'),
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                    )
-                                                                  : new DecorationImage(
-                                                                      image: new NetworkImage(
-                                                                          'https://image.shutterstock.com/image-vector/golden-trophy-winners-cup-flat-450w-1330855736.jpg'),
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                    ),
-                                                              borderRadius:
-                                                                  new BorderRadius
-                                                                      .all(new Radius
-                                                                          .circular(
-                                                                      50.0)),
-                                                              border: new Border
-                                                                  .all(
-                                                                color: Colors
-                                                                    .white,
-                                                                width: 4.0,
-                                                              ),
+                                                        new Container(
+                                                          width: 100.0,
+                                                          height: 100.0,
+                                                          decoration:
+                                                              new BoxDecoration(
+                                                            color: const Color(
+                                                                0xff7c94b6),
+                                                            image: (oneride ==
+                                                                    false)
+                                                                ? new DecorationImage(
+                                                                    image: new NetworkImage(
+                                                                        'http://i.imgur.com/QSev0hg.jpg'),
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  )
+                                                                : new DecorationImage(
+                                                                    image: new NetworkImage(
+                                                                        'https://image.shutterstock.com/image-vector/golden-trophy-winners-cup-flat-450w-1330855736.jpg'),
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                            borderRadius:
+                                                                new BorderRadius
+                                                                    .all(new Radius
+                                                                        .circular(
+                                                                    50.0)),
+                                                            border:
+                                                                new Border.all(
+                                                              color:
+                                                                  Colors.white,
+                                                              width: 4.0,
                                                             ),
-                                                          ),
-                                                          filter:
-                                                              ImageFilter.blur(
-                                                            sigmaY: 5,
-                                                            sigmaX: 5,
                                                           ),
                                                         ),
                                                       ],
@@ -198,45 +191,38 @@ class _AchievementsState extends State<Achievements> {
                                                   children: <Widget>[
                                                     Stack(
                                                       children: [
-                                                        BackdropFilter(
-                                                          child: new Container(
-                                                            width: 100.0,
-                                                            height: 100.0,
-                                                            decoration:
-                                                                new BoxDecoration(
-                                                              color: const Color(
-                                                                  0xff7c94b6),
-                                                              image: (thirdride ==
-                                                                      false)
-                                                                  ? new DecorationImage(
-                                                                      image: new NetworkImage(
-                                                                          'http://i.imgur.com/QSev0hg.jpg'),
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                    )
-                                                                  : new DecorationImage(
-                                                                      image: new NetworkImage(
-                                                                          'https://4.imimg.com/data4/EH/CI/MY-29481057/winner-trophy-cup-500x500.jpg'),
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                    ),
-                                                              borderRadius:
-                                                                  new BorderRadius
-                                                                      .all(new Radius
-                                                                          .circular(
-                                                                      50.0)),
-                                                              border: new Border
-                                                                  .all(
-                                                                color: Colors
-                                                                    .white,
-                                                                width: 4.0,
-                                                              ),
+                                                        new Container(
+                                                          width: 100.0,
+                                                          height: 100.0,
+                                                          decoration:
+                                                              new BoxDecoration(
+                                                            color: const Color(
+                                                                0xff7c94b6),
+                                                            image: (thirdride ==
+                                                                    false)
+                                                                ? new DecorationImage(
+                                                                    image: new NetworkImage(
+                                                                        'http://i.imgur.com/QSev0hg.jpg'),
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  )
+                                                                : new DecorationImage(
+                                                                    image: new NetworkImage(
+                                                                        'https://4.imimg.com/data4/EH/CI/MY-29481057/winner-trophy-cup-500x500.jpg'),
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                            borderRadius:
+                                                                new BorderRadius
+                                                                    .all(new Radius
+                                                                        .circular(
+                                                                    50.0)),
+                                                            border:
+                                                                new Border.all(
+                                                              color:
+                                                                  Colors.white,
+                                                              width: 4.0,
                                                             ),
-                                                          ),
-                                                          filter:
-                                                              ImageFilter.blur(
-                                                            sigmaY: 5,
-                                                            sigmaX: 5,
                                                           ),
                                                         ),
                                                       ],
