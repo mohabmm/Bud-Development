@@ -31,6 +31,7 @@ dependencies:
   google_maps_flutter: ^0.5.7
   flare_flutter: ^1.5.0
   firebase_core: ^0.4.0
+  intro_slider: ^1.2.1
 
 
 
@@ -68,6 +69,7 @@ flutter:
     - images/path animation.flr
     - images/trophy.flr
     - images/Reloj.flr
+    - screen/first.jpg
 
 
 
