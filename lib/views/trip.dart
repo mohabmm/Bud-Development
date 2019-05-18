@@ -129,25 +129,28 @@ class _State extends State<Trip> {
                       .data.documents[index].data['describtion']
                       .toString();
 
+                  String rideowner = snapshot
+                      .data.documents[index].data['Ride Owner']
+                      .toString();
                   return GestureDetector(
                     onTap: () {
                       Navigator.of(context).push(new MaterialPageRoute(
                           builder: (BuildContext context) => new CardDetails(
-                                id,
-                                firebaseuser,
-                                username,
-                                describtion,
-                                from,
-                                To,
-                                Trip_date,
-                                NoOfSeats,
-                                carnumber,
-                                cartype,
-                                carcolor,
-                                Telephone,
-                                ridestatus,
-                                ridefinished,
-                              )));
+                              id,
+                              firebaseuser,
+                              username,
+                              describtion,
+                              from,
+                              To,
+                              Trip_date,
+                              NoOfSeats,
+                              carnumber,
+                              cartype,
+                              carcolor,
+                              Telephone,
+                              ridestatus,
+                              ridefinished,
+                              rideowner)));
                     },
                     child: Padding(
                       padding: EdgeInsets.all(16.0),

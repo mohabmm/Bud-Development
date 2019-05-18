@@ -136,235 +136,235 @@ class _MapsNavigationState extends State<MapsNavigation> {
           olddistnaceofthepassenger.toString());
     });
 
-// here we check number of rides as driver to show the user acheievemnt for number of rides as driver
-    if (Number_Of_Rides_As_Driver == 1) {
-      // show achievements for the user as driver
-    }
+//// here we check number of rides as driver to show the user acheievemnt for number of rides as driver
+//    if (Number_Of_Rides_As_Driver == 1) {
+//      // show achievements for the user as driver
+//    }
 
 //here we check for co2 saved for showing achievements
     // we will start with the driver
 
     // then the same for the passenger
-    if (olddistnaceofthedriver == 1000 ||
-        olddistnaceofthedriver == 3000 ||
-        olddistnaceofthedriver == 5000 ||
-        olddistnaceofthedriver == 10000 ||
-        olddistnaceofthedriver == 20000 ||
-        olddistnaceofthedriver == 30 ||
-        olddistnaceofthedriver == 40000 ||
-        olddistnaceofthedriver == 50000) {
-      _scaffoldstate.currentState.showSnackBar(new SnackBar(
-          content: new Text(
-              "Congurtlation new Achievement is reached you have saved   " +
-                  olddistnaceofthedriver.toString() +
-                  "KM" +
-                  " of C02 to the environment")));
-
-      print("congurtlation new achievement is reached");
-      if (olddistnaceofthedriver == 500) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(firebaseuser.email)
-            .updateData({
-          "0.5 ton": true,
-        });
-      }
-      if (olddistnaceofthedriver == 1000) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(firebaseuser.email)
-            .updateData({
-          "1 ton": true,
-        });
-      }
-      if (olddistnaceofthedriver == 3000) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(firebaseuser.email)
-            .updateData({
-          "3 ton": true,
-        });
-      }
-
-      if (olddistnaceofthedriver == 5000) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(firebaseuser.email)
-            .updateData({
-          "5 ton": true,
-        });
-      }
-      if (olddistnaceofthedriver == 10000) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(firebaseuser.email)
-            .updateData({
-          "10 ton": true,
-        });
-      }
-      if (olddistnaceofthedriver == 11000) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(firebaseuser.email)
-            .updateData({
-          "11 ton": true,
-        });
-      }
-      if (olddistnaceofthedriver == 12000) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(firebaseuser.email)
-            .updateData({
-          "30 ride": true,
-        });
-      }
-      if (olddistnaceofthedriver == 40000) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(firebaseuser.email)
-            .updateData({
-          "12 ton": true,
-        });
-      }
-      if (olddistnaceofthedriver == 13000) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(firebaseuser.email)
-            .updateData({
-          "13 ton": true,
-        });
-      }
-      if (olddistnaceofthedriver == 14000) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(firebaseuser.email)
-            .updateData({
-          "14 ton": true,
-        });
-      }
-      if (olddistnaceofthedriver == 15000) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(firebaseuser.email)
-            .updateData({
-          "15 ton": true,
-        });
-      }
-
-      print("the actual distance is " + distnacecoveredinkilo.toString());
-    }
+//    if (olddistnaceofthedriver == 1000 ||
+//        olddistnaceofthedriver == 3000 ||
+//        olddistnaceofthedriver == 5000 ||
+//        olddistnaceofthedriver == 10000 ||
+//        olddistnaceofthedriver == 20000 ||
+//        olddistnaceofthedriver == 30 ||
+//        olddistnaceofthedriver == 40000 ||
+//        olddistnaceofthedriver == 50000) {
+//      _scaffoldstate.currentState.showSnackBar(new SnackBar(
+//          content: new Text(
+//              "Congurtlation new Achievement is reached you have saved   " +
+//                  olddistnaceofthedriver.toString() +
+//                  "KM" +
+//                  " of C02 to the environment")));
+//
+//      print("congurtlation new achievement is reached");
+//      if (olddistnaceofthedriver == 500) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(firebaseuser.email)
+//            .updateData({
+//          "0.5 ton": true,
+//        });
+//      }
+//      if (olddistnaceofthedriver == 1000) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(firebaseuser.email)
+//            .updateData({
+//          "1 ton": true,
+//        });
+//      }
+//      if (olddistnaceofthedriver == 3000) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(firebaseuser.email)
+//            .updateData({
+//          "3 ton": true,
+//        });
+//      }
+//
+//      if (olddistnaceofthedriver == 5000) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(firebaseuser.email)
+//            .updateData({
+//          "5 ton": true,
+//        });
+//      }
+//      if (olddistnaceofthedriver == 10000) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(firebaseuser.email)
+//            .updateData({
+//          "10 ton": true,
+//        });
+//      }
+//      if (olddistnaceofthedriver == 11000) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(firebaseuser.email)
+//            .updateData({
+//          "11 ton": true,
+//        });
+//      }
+//      if (olddistnaceofthedriver == 12000) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(firebaseuser.email)
+//            .updateData({
+//          "30 ride": true,
+//        });
+//      }
+//      if (olddistnaceofthedriver == 40000) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(firebaseuser.email)
+//            .updateData({
+//          "12 ton": true,
+//        });
+//      }
+//      if (olddistnaceofthedriver == 13000) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(firebaseuser.email)
+//            .updateData({
+//          "13 ton": true,
+//        });
+//      }
+//      if (olddistnaceofthedriver == 14000) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(firebaseuser.email)
+//            .updateData({
+//          "14 ton": true,
+//        });
+//      }
+//      if (olddistnaceofthedriver == 15000) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(firebaseuser.email)
+//            .updateData({
+//          "15 ton": true,
+//        });
+//      }
+//
+//      print("the actual distance is " + distnacecoveredinkilo.toString());
+//    }
 
 /////////////////////////////////////////////this part needs to be updated over all saving of environment///
 
     //  n7sb his total distance we awrelo hwa 3ml save ll environment ad eh until now
-
-    if (olddistnaceofthepassenger == 1000 ||
-        olddistnaceofthepassenger == 3000 ||
-        olddistnaceofthepassenger == 5000 ||
-        olddistnaceofthepassenger == 10000 ||
-        olddistnaceofthepassenger == 20000 ||
-        olddistnaceofthepassenger == 30 ||
-        olddistnaceofthepassenger == 40000 ||
-        olddistnaceofthepassenger == 50000) {
-//      _scaffoldstate.currentState
-//          .showSnackBar(new SnackBar(content: new Text(
-//          "Congurtlation new Achievement is reached you have saved   " +
-//              olddistnaceofthepassenger.toString() + "KM" +
-//              " of C02 to the environment")));
-
-      print("congurtlation new achievement is reached");
-      if (olddistnaceofthepassenger == 500) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(rideguest)
-            .updateData({
-          "0.5 ton": true,
-        });
-      }
-      if (olddistnaceofthepassenger == 1000) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(rideguest)
-            .updateData({
-          "1 ton": true,
-        });
-      }
-      if (olddistnaceofthepassenger == 3000) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(rideguest)
-            .updateData({
-          "3 ton": true,
-        });
-      }
-
-      if (olddistnaceofthepassenger == 5000) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(rideguest)
-            .updateData({
-          "5 ton": true,
-        });
-      }
-      if (olddistnaceofthepassenger == 10000) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(rideguest)
-            .updateData({
-          "10 ton": true,
-        });
-      }
-      if (olddistnaceofthepassenger == 11000) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(rideguest)
-            .updateData({
-          "11 ton": true,
-        });
-      }
-      if (olddistnaceofthepassenger == 12000) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(rideguest)
-            .updateData({
-          "30 ride": true,
-        });
-      }
-      if (olddistnaceofthepassenger == 40000) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(rideguest)
-            .updateData({
-          "12 ton": true,
-        });
-      }
-      if (olddistnaceofthepassenger == 13000) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(rideguest)
-            .updateData({
-          "13 ton": true,
-        });
-      }
-      if (olddistnaceofthepassenger == 14000) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(rideguest)
-            .updateData({
-          "14 ton": true,
-        });
-      }
-      if (olddistnaceofthepassenger == 15000) {
-        Firestore.instance
-            .collection('Achievements')
-            .document(rideguest)
-            .updateData({
-          "15 ton": true,
-        });
-      }
-
-      print("the actual distance is " + distnacecoveredinkilo.toString());
-    }
+//
+//    if (olddistnaceofthepassenger == 1000 ||
+//        olddistnaceofthepassenger == 3000 ||
+//        olddistnaceofthepassenger == 5000 ||
+//        olddistnaceofthepassenger == 10000 ||
+//        olddistnaceofthepassenger == 20000 ||
+//        olddistnaceofthepassenger == 30 ||
+//        olddistnaceofthepassenger == 40000 ||
+//        olddistnaceofthepassenger == 50000) {
+////      _scaffoldstate.currentState
+////          .showSnackBar(new SnackBar(content: new Text(
+////          "Congurtlation new Achievement is reached you have saved   " +
+////              olddistnaceofthepassenger.toString() + "KM" +
+////              " of C02 to the environment")));
+//
+//      print("congurtlation new achievement is reached");
+//      if (olddistnaceofthepassenger == 500) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(rideguest)
+//            .updateData({
+//          "0.5 ton": true,
+//        });
+//      }
+//      if (olddistnaceofthepassenger == 1000) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(rideguest)
+//            .updateData({
+//          "1 ton": true,
+//        });
+//      }
+//      if (olddistnaceofthepassenger == 3000) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(rideguest)
+//            .updateData({
+//          "3 ton": true,
+//        });
+//      }
+//
+//      if (olddistnaceofthepassenger == 5000) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(rideguest)
+//            .updateData({
+//          "5 ton": true,
+//        });
+//      }
+//      if (olddistnaceofthepassenger == 10000) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(rideguest)
+//            .updateData({
+//          "10 ton": true,
+//        });
+//      }
+//      if (olddistnaceofthepassenger == 11000) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(rideguest)
+//            .updateData({
+//          "11 ton": true,
+//        });
+//      }
+//      if (olddistnaceofthepassenger == 12000) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(rideguest)
+//            .updateData({
+//          "30 ride": true,
+//        });
+//      }
+//      if (olddistnaceofthepassenger == 40000) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(rideguest)
+//            .updateData({
+//          "12 ton": true,
+//        });
+//      }
+//      if (olddistnaceofthepassenger == 13000) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(rideguest)
+//            .updateData({
+//          "13 ton": true,
+//        });
+//      }
+//      if (olddistnaceofthepassenger == 14000) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(rideguest)
+//            .updateData({
+//          "14 ton": true,
+//        });
+//      }
+//      if (olddistnaceofthepassenger == 15000) {
+//        Firestore.instance
+//            .collection('Achievements')
+//            .document(rideguest)
+//            .updateData({
+//          "15 ton": true,
+//        });
+//      }
+//
+//      print("the actual distance is " + distnacecoveredinkilo.toString());
+//    }
   }
 
   @override
@@ -379,6 +379,7 @@ class _MapsNavigationState extends State<MapsNavigation> {
     getc02passenger();
     getco2driver();
     star = false;
+    bool status = false;
     print("the ride guest  email is " + rideguest);
   }
 
@@ -542,6 +543,7 @@ class _MapsNavigationState extends State<MapsNavigation> {
                         String actualrate = rating.toString();
 
                         setState(() {
+                          status = true;
                           print("the given rate is " + rating.toString());
 
                           actualrate = ((rating + double.parse(passengerrate)) /

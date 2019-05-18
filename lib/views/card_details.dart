@@ -21,6 +21,7 @@ class CardDetails extends StatefulWidget {
   String telephone;
   bool ridestatus;
   bool ridefinished;
+  String rideowner;
 
   CardDetails(
     this.id,
@@ -37,6 +38,7 @@ class CardDetails extends StatefulWidget {
     this.telephone,
     this.ridestatus,
     this.ridefinished,
+    this.rideowner,
   );
 
   @override
@@ -55,6 +57,7 @@ class CardDetails extends StatefulWidget {
         telephone,
         ridestatus,
         ridefinished,
+        rideowner,
       );
 }
 
@@ -69,7 +72,7 @@ class _CardDetailsState extends State<CardDetails> {
   int number_of_ridesasguest;
 
   FirebaseUser rideowneruser;
-  String user;
+  String guestuser;
   String describtion;
   String from;
   String to;
@@ -86,6 +89,7 @@ class _CardDetailsState extends State<CardDetails> {
   bool ridefinished;
   int rideid;
   var rating = 0.0;
+  String rideowner;
 
   Future checktherideowner() async {
     checkingfunction();
@@ -122,11 +126,7 @@ class _CardDetailsState extends State<CardDetails> {
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       print("the start longitude from the first screen is " +
           position.longitude.toString());
-      Future.delayed(new Duration(milliseconds: 30)
-
-          //  ;
-
-          );
+      Future.delayed(new Duration(milliseconds: 30));
 
       if (rideguest == " " || rideguest == null || rideguest.isEmpty) {
         _scaffoldstate.currentState.showSnackBar(new SnackBar(
@@ -177,7 +177,7 @@ class _CardDetailsState extends State<CardDetails> {
   _CardDetailsState(
     this.id,
     this.rideowneruser,
-    this.user,
+    this.guestuser,
     this.describtion,
     this.from,
     this.to,
@@ -189,33 +189,35 @@ class _CardDetailsState extends State<CardDetails> {
     this.telephone,
     this.ridestatus,
     this.ridefinished,
+    this.rideowner,
   );
 
   getthedriverrate() {
     Firestore.instance
         .collection('users')
-        .where("email", isEqualTo: rideowneruser.email)
+        .where("email", isEqualTo: rideowner)
         .snapshots()
         .listen((data) => data.documents.forEach((doc) {
               driverrate = doc.data['driverrate'];
             }));
+
+    print("the driver rate is " + driverrate.toString());
   }
 
   @override
   void initState() {
     super.initState();
-    print("the data user is " + rideowneruser.toString());
-    print("the user is " + user.toString());
+    print("the ride owner  user  inside initstate is " +
+        rideowneruser.toString());
+    print("the guest  user is " + guestuser.toString());
     print("the describtion is " + describtion);
     print("from is" + from);
     print("to is " + to);
     print("trip date is " + trip_date);
     print("number of seta is " + noOfSeats);
-
     print("car type is" + cartype);
     print("car number is " + carnumber);
     print("car color is " + carcolor);
-
     getthedriverrate();
     print("telephone is " + telephone);
     checktherideowner();
@@ -246,7 +248,7 @@ class _CardDetailsState extends State<CardDetails> {
         .where("email", isEqualTo: rideowneruser.email)
         .snapshots()
         .listen((data) => data.documents.forEach((doc) {
-              number_of_ridesasDriver = doc.data['Number Of Rides As guest'];
+              number_of_ridesasDriver = doc.data['Number Of Rides As Driver'];
             }));
   }
 
@@ -309,9 +311,9 @@ class _CardDetailsState extends State<CardDetails> {
                 )
               ],
             ),
-            (user != null)
+            (guestuser != null)
                 ? new Text(
-                    user,
+                    guestuser,
                     style: new TextStyle(
                         fontWeight: FontWeight.w500, fontSize: 22.0),
                   )
@@ -338,7 +340,7 @@ class _CardDetailsState extends State<CardDetails> {
                         // here the update to the driver rate sshould be finished by the driver
                         Firestore.instance
                             .collection('users')
-                            .document(rideowneruser.email)
+                            .document(rideowner)
                             .updateData({
                           "driverrate": actualrate,
                         });
