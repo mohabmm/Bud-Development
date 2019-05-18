@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:budupdated/homePage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
@@ -91,6 +90,8 @@ class _State extends State<EnterRideDetails> {
         .listen((data) => data.documents.forEach((doc) {
               number_of_ridesasDriver = doc.data['Number Of Rides As Driver'];
               print("iam in old screen ");
+              print("the current number of rides as driver is" +
+                  number_of_ridesasDriver.toString());
             }));
   }
 
@@ -638,6 +639,9 @@ class _State extends State<EnterRideDetails> {
         });
       }
     }
+
+    print("the current number of rides as driver after new ride is " +
+        number_of_ridesasDriver.toString());
 
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => HomePage(

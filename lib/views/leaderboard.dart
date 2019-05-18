@@ -49,6 +49,8 @@ class _LeaderboardState extends State<Leaderboard>
                       return new Text('Loading...');
                     default:
                       return ListView.builder(
+                          // if error occurs replace the next line with shrinkWrap: true, instead of item extent
+
                           itemExtent: 150.0,
                           itemCount: snapshot.data.documents.length,
                           itemBuilder: (BuildContext context, int index) {

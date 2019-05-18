@@ -54,7 +54,8 @@ class _CheckDriverStatusState extends State<CheckDriverStatus> {
     File imageFile = await ImagePicker.pickImage(source: ImageSource.camera);
     final String fileName =
         "${Random().nextInt(1000000)}.jpg" + firebaseuser.displayName;
-    StorageReference ref = FirebaseStorage.instance.ref().child(fileName);
+    StorageReference ref =
+        FirebaseStorage.instance.ref().child(fileName + firebaseuser.email);
     StorageUploadTask uploadTask = ref.putFile(imageFile);
     return await (await uploadTask.onComplete).ref.getDownloadURL();
   }
@@ -64,7 +65,13 @@ class _CheckDriverStatusState extends State<CheckDriverStatus> {
     return new Scaffold(
       key: _scaffoldstate,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        leading: new IconButton(
+          icon: new Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
       ),
       body: new Container(
         color: Colors.white,
@@ -75,13 +82,17 @@ class _CheckDriverStatusState extends State<CheckDriverStatus> {
               child: new Text(
                 "We just need a few more details",
                 style: new TextStyle(
-                    fontWeight: FontWeight.bold, color: Colors.black),
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 8.0, left: 10, right: 10.0),
               child: new Text(
-                  "To drive with BUD you need to be a student or a member stuff at MSA university so please fill this data and we will let you offer ride once we checked your data  "),
+                "To drive with BUD you need to be a student or a member stuff at MSA university so please fill this data and we will let you offer ride once we checked your data ",
+                style: TextStyle(fontSize: 18.0),
+              ),
             ),
             new Padding(
               padding: EdgeInsets.only(top: 30.0),

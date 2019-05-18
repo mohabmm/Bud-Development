@@ -17,7 +17,6 @@ class _State extends State<SigninForm> {
   String mail;
   String password;
 
-
   Widget _showEmailInput() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0.0, 100.0, 0.0, 0.0),
@@ -33,14 +32,14 @@ class _State extends State<SigninForm> {
             icon: new Icon(
               Icons.mail,
               color: Colors.grey,
-
             )),
-        validator: (value) => value.isEmpty ? 'Please write your MSA email in order to login to the app' : null,
+        validator: (value) => value.isEmpty
+            ? 'Please write your MSA email in order to login to the app'
+            : null,
         onSaved: (value) => mail = value,
       ),
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +58,9 @@ class _State extends State<SigninForm> {
               children: <Widget>[
                 TextField(
                   keyboardType: TextInputType.emailAddress,
-
-
                   onSubmitted: (value) {
                     setState(() {
-                      if (value == null) {
+                      if (value == null || value.isEmpty) {
                         _scaffoldstate.currentState.showSnackBar(new SnackBar(
                             content: new Text(
                                 "Please write your MSA email in order to login to the app")));
@@ -88,7 +85,7 @@ class _State extends State<SigninForm> {
                   child: TextField(
                     onSubmitted: (value) {
                       setState(() {
-                        if (value == null) {
+                        if (value == null || value.isEmpty) {
                           _scaffoldstate.currentState.showSnackBar(new SnackBar(
                               content: new Text(
                                   "Please write your password in order to login to the app")));
@@ -113,21 +110,24 @@ class _State extends State<SigninForm> {
                 new RaisedButton(
                     child: new Text("Log in "),
                     shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(30.0)), color: Colors.lightBlueAccent,
+                        borderRadius: new BorderRadius.circular(30.0)),
+                    color: Colors.lightBlueAccent,
                     onPressed: () {
                       FirebaseAuth.instance
                           .signInWithEmailAndPassword(
                               email: mail ?? "", password: password ?? "")
                           .then((user) {
                         if (user.isEmailVerified) {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => HomePage(
-                                    user: user,
-                                  )));
+                          setState(() {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => HomePage(
+                                      user: user,
+                                    )));
+                          });
                         } else {
                           _scaffoldstate.currentState.showSnackBar(new SnackBar(
                               content: new Text(
-                                  "please verify your MSA email in order to get access ")));
+                                  "We send verfication email to your MSA email please go and verify it ")));
                         }
                       }).catchError((e) {
                         String error;
