@@ -623,7 +623,7 @@ void showTapMsg(
           .collection('Achievements')
           .document(rideguest)
           .updateData({
-        "first ride": true,
+        "first ride as guest": true,
       });
     }
     if (number_of_ridesasguest == 3) {
@@ -631,7 +631,7 @@ void showTapMsg(
           .collection('Achievements')
           .document(rideguest)
           .updateData({
-        "third ride": true,
+        "third ride as guest": true,
       });
     }
 
@@ -640,7 +640,7 @@ void showTapMsg(
           .collection('Achievements')
           .document(rideguest)
           .updateData({
-        "fifth ride": true,
+        "fifth ride as guest": true,
       });
     }
     if (number_of_ridesasguest == 10) {
@@ -648,7 +648,7 @@ void showTapMsg(
           .collection('Achievements')
           .document(rideguest)
           .updateData({
-        "10 ride": true,
+        "10 ride as guest": true,
       });
     }
     if (number_of_ridesasguest == 20) {
@@ -656,7 +656,7 @@ void showTapMsg(
           .collection('Achievements')
           .document(rideguest)
           .updateData({
-        "20 ride": true,
+        "20 ride as guest": true,
       });
     }
     if (number_of_ridesasguest == 30) {
@@ -664,7 +664,7 @@ void showTapMsg(
           .collection('Achievements')
           .document(rideguest)
           .updateData({
-        "30 ride": true,
+        "30 ride as guest": true,
       });
     }
     if (number_of_ridesasguest == 40) {
@@ -672,7 +672,7 @@ void showTapMsg(
           .collection('Achievements')
           .document(rideguest)
           .updateData({
-        "40 ride": true,
+        "40 ride as guest": true,
       });
     }
     if (number_of_ridesasguest == 50) {
@@ -680,7 +680,7 @@ void showTapMsg(
           .collection('Achievements')
           .document(rideguest)
           .updateData({
-        "50 ride": true,
+        "50 ride as guest": true,
       });
     }
     if (number_of_ridesasguest == 60) {
@@ -688,7 +688,7 @@ void showTapMsg(
           .collection('Achievements')
           .document(rideguest)
           .updateData({
-        "60 ride": true,
+        "60 ride as guest": true,
       });
     }
     if (number_of_ridesasguest == 70) {
@@ -696,7 +696,7 @@ void showTapMsg(
           .collection('Achievements')
           .document(rideguest)
           .updateData({
-        "70 ride": true,
+        "70 ride as guest": true,
       });
     }
     if (number_of_ridesasguest == 80) {
@@ -704,7 +704,7 @@ void showTapMsg(
           .collection('Achievements')
           .document(rideguest)
           .updateData({
-        "80 ride": true,
+        "80 ride as guest": true,
       });
     }
     if (number_of_ridesasguest == 90) {
@@ -712,7 +712,7 @@ void showTapMsg(
           .collection('Achievements')
           .document(rideguest)
           .updateData({
-        "90 ride": true,
+        "90 ride as guest": true,
       });
     }
     if (number_of_ridesasguest == 100) {
@@ -720,7 +720,7 @@ void showTapMsg(
           .collection('Achievements')
           .document(rideguest)
           .updateData({
-        "100 ride": true,
+        "100 ride as guest": true,
       });
     }
   }
