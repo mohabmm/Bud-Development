@@ -22,7 +22,14 @@ class _LeaderboardState extends State<Leaderboard>
                 Tab(text: "Buds"),
               ],
             ),
-            title: Text('Tabs Demo'),
+            leading: new IconButton(
+              icon: new Icon(
+                Icons.arrow_back,
+              ),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            centerTitle: true,
+            title: Text('Leaderboard'),
           ),
           body: TabBarView(
             children: [

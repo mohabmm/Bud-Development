@@ -6,31 +6,29 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(new MainApp());
 
-class MainApp extends StatefulWidget{
+class MainApp extends StatefulWidget {
   @override
   StateClass createState() => StateClass();
-
 }
-class StateClass extends State<MainApp> {
 
-  bool intro=false;
+class StateClass extends State<MainApp> {
+  bool intro = false;
+  final color = const Color(0xFF13DDD2);
 
   @override
   void initState() {
     super.initState();
-
   }
 
+//
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'BUD',
-      theme: new ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: new ThemeData(primarySwatch: color),
       routes: <String, WidgetBuilder>{
-        "MySplashScreen":(_)=>MySplashScreen(),
-        "Signin":(_)=>Signin(),
+        "MySplashScreen": (_) => MySplashScreen(),
+        "Signin": (_) => Signin(),
         '/landingpage': (BuildContext context) => new MainApp(),
         '/signup': (BuildContext context) => new SignupForm(),
       },
@@ -38,4 +36,3 @@ class StateClass extends State<MainApp> {
     );
   }
 }
-

@@ -518,6 +518,127 @@ class _State extends State<EnterRideDetails> {
     });
     //TODO HERE I NEED TO MAKE NUMBER OF RIDES AS DRIVER BOOLEAN VARAIBLE ACCORDING TO NUMBER OF RIDES
 
+    if (number_of_ridesasDriver == 1 ||
+        number_of_ridesasDriver == 3 ||
+        number_of_ridesasDriver == 5 ||
+        number_of_ridesasDriver == 10 ||
+        number_of_ridesasDriver == 20 ||
+        number_of_ridesasDriver == 30 ||
+        number_of_ridesasDriver == 40 ||
+        number_of_ridesasDriver == 50) {
+      _scaffoldstate.currentState.showSnackBar(new SnackBar(
+          content: new Text("Congurtlation new Achievement is reached having " +
+              number_of_ridesasDriver.toString() +
+              " rides as driver in our app")));
+
+      print("congurtlation new achievement is reached");
+      if (number_of_ridesasDriver == 1) {
+        Firestore.instance
+            .collection('Achievements')
+            .document(user.email)
+            .updateData({
+          "first ride as driver": true,
+        });
+      }
+      if (number_of_ridesasDriver == 3) {
+        Firestore.instance
+            .collection('Achievements')
+            .document(user.email)
+            .updateData({
+          "third ride as driver": true,
+        });
+      }
+
+      if (number_of_ridesasDriver == 5) {
+        Firestore.instance
+            .collection('Achievements')
+            .document(user.email)
+            .updateData({
+          "fifth ride as driver": true,
+        });
+      }
+      if (number_of_ridesasDriver == 10) {
+        Firestore.instance
+            .collection('Achievements')
+            .document(user.email)
+            .updateData({
+          "10 ride as driver": true,
+        });
+      }
+      if (number_of_ridesasDriver == 20) {
+        Firestore.instance
+            .collection('Achievements')
+            .document(user.email)
+            .updateData({
+          "20 ride as driver": true,
+        });
+      }
+      if (number_of_ridesasDriver == 30) {
+        Firestore.instance
+            .collection('Achievements')
+            .document(user.email)
+            .updateData({
+          "30 ride as driver": true,
+        });
+      }
+      if (number_of_ridesasDriver == 40) {
+        Firestore.instance
+            .collection('Achievements')
+            .document(user.email)
+            .updateData({
+          "40 ride as driver": true,
+        });
+      }
+      if (number_of_ridesasDriver == 50) {
+        Firestore.instance
+            .collection('Achievements')
+            .document(user.email)
+            .updateData({
+          "50 ride as driver": true,
+        });
+      }
+      if (number_of_ridesasDriver == 60) {
+        Firestore.instance
+            .collection('Achievements')
+            .document(user.email)
+            .updateData({
+          "60 ride as driver": true,
+        });
+      }
+      if (number_of_ridesasDriver == 70) {
+        Firestore.instance
+            .collection('Achievements')
+            .document(user.email)
+            .updateData({
+          "70 ride as driver": true,
+        });
+      }
+      if (number_of_ridesasDriver == 80) {
+        Firestore.instance
+            .collection('Achievements')
+            .document(user.email)
+            .updateData({
+          "80 ride as driver": true,
+        });
+      }
+      if (number_of_ridesasDriver == 90) {
+        Firestore.instance
+            .collection('Achievements')
+            .document(user.email)
+            .updateData({
+          "90 ride as driver": true,
+        });
+      }
+      if (number_of_ridesasDriver == 100) {
+        Firestore.instance
+            .collection('Achievements')
+            .document(user.email)
+            .updateData({
+          "100 ride as driver": true,
+        });
+      }
+    }
+
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (context) => HomePage(
               user: user,

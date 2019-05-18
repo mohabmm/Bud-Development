@@ -75,7 +75,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   new ListTile(
                       title: new Text(
-                        "Leaderboards",
+                        "Leaderboard",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 22.0,
@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                       }),
                   new ListTile(
                       title: new Text(
-                        "Achievemnts",
+                        "Achievements",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 22.0,
@@ -168,13 +168,6 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SizedBox(height: 10.0),
                 Column(
-
-//                    padding: EdgeInsets.only(left: 10.0, right: 10.0),
-//                    crossAxisCount: 4,
-//                    crossAxisSpacing: 4.0,
-//                    mainAxisSpacing: 4.0,
-////                    primary: false,
-//                    shrinkWrap: true,
                     children: tempSearchStore.map((element) {
                   return buildResultCard(element);
                 }).toList())
