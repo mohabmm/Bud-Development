@@ -230,7 +230,7 @@ class _CardDetailsState extends State<CardDetails> {
     getthedriverrate();
     print("telephone is " + telephone);
 
-//    (rideguestemail != null) ? getnumberofridesasguest() : print("moha");
+//    (rideguestemail != null) ? getnumberofridesasguesttostartride() : print("moha");
     getnumberofridesasdriver();
     Firestore.instance
         .collection('Offer Ride list')
@@ -240,17 +240,17 @@ class _CardDetailsState extends State<CardDetails> {
               ridestatus = doc.data['RideStatus'];
             }));
 
-    /// used to read the ride guest
-//    Firestore.instance
-//        .collection('Offer Ride list')
-//        .where("RideId", isEqualTo: id)
-//        .snapshots()
-//        .listen((data) => data.documents.forEach((doc) {
-//              rideguestemail = doc.data['GusestUser'];
-//            }));
-//    (rideguestemail != null)
-//        ? print("the current ride guest of this ride is " + rideguestemail)
-//        : print("the ride guest is still null");
+    // used to read the ride guest
+    Firestore.instance
+        .collection('Offer Ride list')
+        .where("RideId", isEqualTo: id)
+        .snapshots()
+        .listen((data) => data.documents.forEach((doc) {
+              rideguestemail = doc.data['GusestUser'];
+            }));
+    (rideguestemail != null)
+        ? print("the current ride guest of this ride is " + rideguestemail)
+        : print("the ride guest is still null");
   }
 
 // used to read the number of rides as driver of the current user in the database
@@ -273,6 +273,24 @@ class _CardDetailsState extends State<CardDetails> {
     Firestore.instance
         .collection('users')
         .where("email", isEqualTo: potentialrideguest)
+        .snapshots()
+        .listen((data) => data.documents.forEach((doc) {
+              setState(() {
+                number_of_ridesasguest = doc.data['Number Of Rides As guest'];
+                print("the number of rides as guest is " +
+                    number_of_ridesasguest.toString());
+              });
+            }));
+    return number_of_ridesasguest;
+  }
+
+  getnumberofridesasguesttostartride() {
+    print(
+        "the potential ride guest inside get the number of rides as guest funtion is" +
+            potentialrideguest);
+    Firestore.instance
+        .collection('users')
+        .where("email", isEqualTo: rideguestemail)
         .snapshots()
         .listen((data) => data.documents.forEach((doc) {
               setState(() {
@@ -512,6 +530,9 @@ class _CardDetailsState extends State<CardDetails> {
                                           "RideStatus": true,
                                         });
 
+                                        rideguestemail = loggedinuser.email;
+                                        print("the current ride guest is " +
+                                            rideguestemail.toString());
                                         Firestore.instance
                                             .collection('Offer Ride list')
                                             .document(id.toString())
