@@ -220,8 +220,8 @@ class _State extends State<EnterRideDetails> {
                 inputType: inputType,
                 initialTime: TimeOfDay.now(),
                 firstDate: DateTime.now(),
-                format: formats[1],
-                editable: editable,
+                format: DateFormat("EEEE, MMMM d, yyyy 'at' h:mma"),
+                editable: false,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(borderSide: BorderSide()),
                     labelText: 'Date/Time',

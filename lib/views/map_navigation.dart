@@ -44,6 +44,7 @@ class _MapsNavigationState extends State<MapsNavigation> {
   int Number_Of_Rides_As_Driver;
   int Number_Of_Rides_As_guest;
   int rideid;
+  double originalprice;
 
   _MapsNavigationState(
       this.startposition, this.firebaseuser, this.rideguest, this.rideid);
@@ -99,6 +100,8 @@ class _MapsNavigationState extends State<MapsNavigation> {
     Firestore.instance.collection('users').document(rideguest).updateData({
       "CO2passenger": co2passenger,
     });
+
+    originalprice = distnacecoveredinkilo * 1.0.round();
 
     if (Number_Of_Rides_As_guest >= 20 && Number_Of_Rides_As_guest < 40) {
       // here we decreased the ride price when the user has number of rides equal to 20
@@ -528,6 +531,13 @@ class _MapsNavigationState extends State<MapsNavigation> {
                   ],
                 ),
               ),
+              (star == true)
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 18.0),
+                      child: new Text("The ride original price is " +
+                          originalprice.toString()),
+                    )
+                  : new Container(),
               (star == true)
                   ? Padding(
                       padding: const EdgeInsets.only(top: 18.0),
