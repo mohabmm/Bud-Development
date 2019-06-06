@@ -1,4 +1,5 @@
 import 'package:budupdated/views/achievements.dart';
+import 'package:budupdated/views/card_details.dart';
 import 'package:budupdated/views/leaderboard.dart';
 import 'package:budupdated/views/searchservice.dart';
 import 'package:budupdated/views/trip.dart';
@@ -169,11 +170,49 @@ class _HomePageState extends State<HomePage> {
                 SizedBox(height: 10.0),
                 Column(
                     children: tempSearchStore.map((element) {
-                  return buildResultCard(element);
+                  return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(new MaterialPageRoute(
+                            builder: (BuildContext context) => new CardDetails(
+                                element['RideId'],
+                                user,
+                                element['User name'],
+                                element['describtion'],
+                                element['From'],
+                                element['To'],
+                                element['Trip Date'],
+                                element['No Of Seats'],
+                                element['CarNumber'],
+                                element['CarType'],
+                                element['CarColor'],
+                                element['Telephone'],
+                                element['RideStatus'],
+                                element['RideFinished'],
+                                element['Ride Owner'])));
+                      },
+
+//
+//                      id,
+//                      loggedinuser,
+//                      rideownerusername,
+//                      describtion,
+//                      from,
+//                      To,
+//                      Trip_date,
+//                      NoOfSeats,
+//                      carnumber,
+//                      cartype,
+//                      carcolor,
+//                      Telephone,
+//                      ridestatus,
+//                      ridefinished,
+//                      rideowneremail
+
+                      child: buildResultCard(element));
                 }).toList())
               ])
             : new Center(
-                child: new Trip(user: widget.user),
+                child: new Trip(loggedinuser: widget.user),
               ));
   }
 

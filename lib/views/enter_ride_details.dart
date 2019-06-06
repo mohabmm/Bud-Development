@@ -1,4 +1,5 @@
 import 'dart:math';
+
 import 'package:budupdated/homePage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
@@ -491,49 +492,49 @@ class _State extends State<EnterRideDetails> {
     // here in this part we need to inscrease number of rides
     // as driver inside the app
 
-    Firestore.instance
-        .collection('Offer Ride list')
-        .document(id.toString())
-        .setData({
-      "Trip Date": currentdate.replaceAll(":00.000", ''),
-      "describtion": describtion,
-      "From": From,
-      "To": To,
-      "No Of Seats": counter,
-      "User name": name,
-      "CarType": carType,
-      "Telephone": Telephone,
-      "CarColor": carColor,
-      "CarNumber": carNumber,
-      "Ride Owner": user.email,
-      "RideId": id,
-      "RideStatus": false,
-      "GusestUser": "",
-      "RideFinished": false,
-      "SearchFrom": firstletterfrom,
-      "SearchTo": firstletterto,
-    });
+    if (currentdate != null &&
+        carType != null &&
+        Telephone != null &&
+        carColor != null &&
+        carNumber != null &&
+        describtion != null &&
+        From != null &&
+        To != null &&
+        counter != null &&
+        name != null) {
+      Firestore.instance
+          .collection('Offer Ride list')
+          .document(id.toString())
+          .setData({
+        "Trip Date": currentdate.replaceAll(":00.000", ''),
+        "describtion": describtion,
+        "From": From,
+        "To": To,
+        "No Of Seats": counter,
+        "User name": name,
+        "CarType": carType,
+        "Telephone": Telephone,
+        "CarColor": carColor,
+        "CarNumber": carNumber,
+        "Ride Owner": user.email,
+        "RideId": id,
+        "RideStatus": false,
+        "GusestUser": "",
+        "RideFinished": false,
+        "SearchFrom": firstletterfrom,
+        "SearchTo": firstletterto,
+      });
 
-    Firestore.instance.collection('users').document(user.email).updateData({
-      "Number Of Rides As Driver": number_of_ridesasDriver + 1,
-    });
-    //TODO HERE I NEED TO MAKE NUMBER OF RIDES AS DRIVER BOOLEAN VARAIBLE ACCORDING TO NUMBER OF RIDES
+      Firestore.instance.collection('users').document(user.email).updateData({
+        "Number Of Rides As Driver": number_of_ridesasDriver + 1,
+      });
+      //TODO here we need to read number of rides as driver again to reflect the latest update
 
-    if (number_of_ridesasDriver == 1 ||
-        number_of_ridesasDriver == 3 ||
-        number_of_ridesasDriver == 5 ||
-        number_of_ridesasDriver == 10 ||
-        number_of_ridesasDriver == 20 ||
-        number_of_ridesasDriver == 30 ||
-        number_of_ridesasDriver == 40 ||
-        number_of_ridesasDriver == 50) {
-      _scaffoldstate.currentState.showSnackBar(new SnackBar(
-          content: new Text("Congurtlation new Achievement is reached having " +
-              number_of_ridesasDriver.toString() +
-              " rides as driver in our app")));
+      print("the current number of rides as driver now  after upate is " +
+          number_of_ridesasDriver.toString());
 
       print("congurtlation new achievement is reached");
-      if (number_of_ridesasDriver == 1) {
+      if (number_of_ridesasDriver + 1 == 1) {
         Firestore.instance
             .collection('Achievements')
             .document(user.email)
@@ -541,7 +542,7 @@ class _State extends State<EnterRideDetails> {
           "first ride as driver": true,
         });
       }
-      if (number_of_ridesasDriver == 3) {
+      if (number_of_ridesasDriver + 1 == 3) {
         Firestore.instance
             .collection('Achievements')
             .document(user.email)
@@ -550,7 +551,7 @@ class _State extends State<EnterRideDetails> {
         });
       }
 
-      if (number_of_ridesasDriver == 5) {
+      if (number_of_ridesasDriver + 1 == 5) {
         Firestore.instance
             .collection('Achievements')
             .document(user.email)
@@ -558,7 +559,7 @@ class _State extends State<EnterRideDetails> {
           "fifth ride as driver": true,
         });
       }
-      if (number_of_ridesasDriver == 10) {
+      if (number_of_ridesasDriver + 1 == 10) {
         Firestore.instance
             .collection('Achievements')
             .document(user.email)
@@ -566,7 +567,7 @@ class _State extends State<EnterRideDetails> {
           "10 ride as driver": true,
         });
       }
-      if (number_of_ridesasDriver == 20) {
+      if (number_of_ridesasDriver + 1 == 20) {
         Firestore.instance
             .collection('Achievements')
             .document(user.email)
@@ -574,7 +575,7 @@ class _State extends State<EnterRideDetails> {
           "20 ride as driver": true,
         });
       }
-      if (number_of_ridesasDriver == 30) {
+      if (number_of_ridesasDriver + 1 == 30) {
         Firestore.instance
             .collection('Achievements')
             .document(user.email)
@@ -582,7 +583,7 @@ class _State extends State<EnterRideDetails> {
           "30 ride as driver": true,
         });
       }
-      if (number_of_ridesasDriver == 40) {
+      if (number_of_ridesasDriver + 1 == 40) {
         Firestore.instance
             .collection('Achievements')
             .document(user.email)
@@ -590,7 +591,7 @@ class _State extends State<EnterRideDetails> {
           "40 ride as driver": true,
         });
       }
-      if (number_of_ridesasDriver == 50) {
+      if (number_of_ridesasDriver + 1 == 50) {
         Firestore.instance
             .collection('Achievements')
             .document(user.email)
@@ -598,7 +599,7 @@ class _State extends State<EnterRideDetails> {
           "50 ride as driver": true,
         });
       }
-      if (number_of_ridesasDriver == 60) {
+      if (number_of_ridesasDriver + 1 == 60) {
         Firestore.instance
             .collection('Achievements')
             .document(user.email)
@@ -606,7 +607,7 @@ class _State extends State<EnterRideDetails> {
           "60 ride as driver": true,
         });
       }
-      if (number_of_ridesasDriver == 70) {
+      if (number_of_ridesasDriver + 1 == 70) {
         Firestore.instance
             .collection('Achievements')
             .document(user.email)
@@ -614,7 +615,7 @@ class _State extends State<EnterRideDetails> {
           "70 ride as driver": true,
         });
       }
-      if (number_of_ridesasDriver == 80) {
+      if (number_of_ridesasDriver + 1 == 80) {
         Firestore.instance
             .collection('Achievements')
             .document(user.email)
@@ -622,7 +623,7 @@ class _State extends State<EnterRideDetails> {
           "80 ride as driver": true,
         });
       }
-      if (number_of_ridesasDriver == 90) {
+      if (number_of_ridesasDriver + 1 == 90) {
         Firestore.instance
             .collection('Achievements')
             .document(user.email)
@@ -630,7 +631,7 @@ class _State extends State<EnterRideDetails> {
           "90 ride as driver": true,
         });
       }
-      if (number_of_ridesasDriver == 100) {
+      if (number_of_ridesasDriver + 1 == 100) {
         Firestore.instance
             .collection('Achievements')
             .document(user.email)
@@ -638,14 +639,10 @@ class _State extends State<EnterRideDetails> {
           "100 ride as driver": true,
         });
       }
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => HomePage(
+                user: user,
+              )));
     }
-
-    print("the current number of rides as driver after new ride is " +
-        number_of_ridesasDriver.toString());
-
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => HomePage(
-              user: user,
-            )));
   }
 }

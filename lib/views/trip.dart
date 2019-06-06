@@ -7,27 +7,27 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Trip extends StatefulWidget {
-  FirebaseUser user;
+  FirebaseUser loggedinuser;
 
-  Trip({this.user});
+  Trip({this.loggedinuser});
 
   @override
-  _State createState() => new _State(firebaseuser: user);
+  _State createState() => new _State(loggedinuser: loggedinuser);
 }
 
 class _State extends State<Trip> {
-  FirebaseUser firebaseuser;
+  FirebaseUser loggedinuser;
 
-  _State({this.firebaseuser});
+  _State({this.loggedinuser});
 
   final color = const Color(0xFF13DDD2);
 
-  bool correct;
+  bool haspremition;
 
   Future checkFirstSeen() async {
     Firestore.instance
         .collection('users')
-        .where("email", isEqualTo: firebaseuser.email)
+        .where("email", isEqualTo: loggedinuser.email)
         .snapshots()
         .listen((data) => data.documents.forEach((doc) {
               if (doc["Driver authnticated"] == true) {
@@ -35,10 +35,10 @@ class _State extends State<Trip> {
                     doc["Driver authnticated"].toString());
                 Navigator.of(context).pushReplacement(new MaterialPageRoute(
                     builder: (BuildContext context) =>
-                        new EnterRideDetails(user: firebaseuser)));
+                        new EnterRideDetails(user: loggedinuser)));
               } else {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => CheckDriverStatus(firebaseuser)));
+                    builder: (context) => CheckDriverStatus(loggedinuser)));
               }
             }));
   }
@@ -48,13 +48,13 @@ class _State extends State<Trip> {
     super.initState();
     Firestore.instance
         .collection('users')
-        .where("email", isEqualTo: firebaseuser.email)
+        .where("email", isEqualTo: loggedinuser.email)
         .snapshots()
         .listen((data) => data.documents.forEach((doc) {
               if (doc["Driver authnticated"] == true) {
-                correct = true;
+                haspremition = true;
               } else {
-                correct = false;
+                haspremition = false;
               }
             }));
   }
@@ -66,13 +66,13 @@ class _State extends State<Trip> {
         heroTag: "btn5",
         backgroundColor: color,
         onPressed: () {
-          if (correct) {
+          if (haspremition) {
             Navigator.of(context).pushReplacement(new MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    new EnterRideDetails(user: firebaseuser)));
+                    new EnterRideDetails(user: loggedinuser)));
           } else {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => CheckDriverStatus(firebaseuser)));
+                builder: (context) => CheckDriverStatus(loggedinuser)));
           }
           //  checkFirstSeen();
         },
@@ -109,9 +109,9 @@ class _State extends State<Trip> {
                       .data.documents[index].data['CarColor']
                       .toString();
 
-                  String NoOfSeats = snapshot
-                      .data.documents[index].data['No Of Seats']
-                      .toString();
+                  int NoOfSeats =
+                      snapshot.data.documents[index].data['No Of Seats'];
+
                   String To =
                       snapshot.data.documents[index].data['To'].toString();
 
@@ -122,14 +122,14 @@ class _State extends State<Trip> {
                       .data.documents[index].data['Trip Date']
                       .toString();
 
-                  String username = snapshot
+                  String rideownerusername = snapshot
                       .data.documents[index].data['User name']
                       .toString();
                   String describtion = snapshot
                       .data.documents[index].data['describtion']
                       .toString();
 
-                  String rideowner = snapshot
+                  String rideowneremail = snapshot
                       .data.documents[index].data['Ride Owner']
                       .toString();
                   return GestureDetector(
@@ -137,8 +137,8 @@ class _State extends State<Trip> {
                       Navigator.of(context).push(new MaterialPageRoute(
                           builder: (BuildContext context) => new CardDetails(
                               id,
-                              firebaseuser,
-                              username,
+                              loggedinuser,
+                              rideownerusername,
                               describtion,
                               from,
                               To,
@@ -150,7 +150,7 @@ class _State extends State<Trip> {
                               Telephone,
                               ridestatus,
                               ridefinished,
-                              rideowner)));
+                              rideowneremail)));
                     },
                     child: Padding(
                       padding: EdgeInsets.all(16.0),
@@ -259,7 +259,7 @@ class _State extends State<Trip> {
                                               padding: const EdgeInsets.only(
                                                   bottom: 6.0, left: 30.0),
                                               child: new Text(
-                                                username,
+                                                rideownerusername,
                                                 style: new TextStyle(
                                                   fontSize: 18.0,
                                                 ),
