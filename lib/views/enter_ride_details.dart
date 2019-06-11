@@ -523,6 +523,7 @@ class _State extends State<EnterRideDetails> {
         "RideFinished": false,
         "SearchFrom": firstletterfrom,
         "SearchTo": firstletterto,
+        "userimage": user.photoUrl
       });
 
       Firestore.instance.collection('users').document(user.email).updateData({

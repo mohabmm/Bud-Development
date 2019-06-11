@@ -93,6 +93,10 @@ class _State extends State<Trip> {
 
                   int id = snapshot.data.documents[index].data['RideId'];
 
+                  String userimage = snapshot
+                      .data.documents[index].data['userimage']
+                      .toString();
+
                   String Telephone = snapshot
                       .data.documents[index].data['Telephone']
                       .toString();
@@ -150,7 +154,8 @@ class _State extends State<Trip> {
                               Telephone,
                               ridestatus,
                               ridefinished,
-                              rideowneremail)));
+                              rideowneremail,
+                              userimage)));
                     },
                     child: Padding(
                       padding: EdgeInsets.all(16.0),
@@ -182,7 +187,7 @@ class _State extends State<Trip> {
                                                       const Color(0xff7c94b6),
                                                   image: new DecorationImage(
                                                     image: new NetworkImage(
-                                                        'http://i.imgur.com/QSev0hg.jpg'),
+                                                        userimage),
                                                     fit: BoxFit.cover,
                                                   ),
                                                   borderRadius:

@@ -1,6 +1,7 @@
 import 'package:budupdated/views/achievements.dart';
 import 'package:budupdated/views/card_details.dart';
 import 'package:budupdated/views/leaderboard.dart';
+import 'package:budupdated/views/profilepage.dart';
 import 'package:budupdated/views/searchservice.dart';
 import 'package:budupdated/views/trip.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -61,17 +62,18 @@ class _HomePageState extends State<HomePage> {
                     padding: const EdgeInsets.only(top: 30.0),
                     child: new ListTile(
                         title: new Text(
-                          "Wallet",
+                          "My Profile",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 22.0,
                           ),
                         ),
                         onTap: () {
-                          // Navigator.of(context).pop();
-                          // Navigator.of(context).push(new MaterialPageRoute(
-                          //   builder: (BuildContext context) =>
-                          // new MainProfile(widget.user)));
+//
+//                          Navigator.of(context).pop();
+                          Navigator.of(context).push(new MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  new ProfilePage(user)));
                         }),
                   ),
                   new ListTile(
@@ -174,21 +176,23 @@ class _HomePageState extends State<HomePage> {
                       onTap: () {
                         Navigator.of(context).push(new MaterialPageRoute(
                             builder: (BuildContext context) => new CardDetails(
-                                element['RideId'],
-                                user,
-                                element['User name'],
-                                element['describtion'],
-                                element['From'],
-                                element['To'],
-                                element['Trip Date'],
-                                element['No Of Seats'],
-                                element['CarNumber'],
-                                element['CarType'],
-                                element['CarColor'],
-                                element['Telephone'],
-                                element['RideStatus'],
-                                element['RideFinished'],
-                                element['Ride Owner'])));
+                                  element['RideId'],
+                                  user,
+                                  element['User name'],
+                                  element['describtion'],
+                                  element['From'],
+                                  element['To'],
+                                  element['Trip Date'],
+                                  element['No Of Seats'],
+                                  element['CarNumber'],
+                                  element['CarType'],
+                                  element['CarColor'],
+                                  element['Telephone'],
+                                  element['RideStatus'],
+                                  element['RideFinished'],
+                                  element['Ride Owner'],
+                                  element['userimage'],
+                                )));
                       },
 
 //

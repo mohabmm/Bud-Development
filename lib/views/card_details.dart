@@ -22,7 +22,7 @@ class CardDetails extends StatefulWidget {
   bool ridestatus;
   bool ridefinished;
   String rideowneremail;
-
+  String photourl;
   CardDetails(
     this.id,
     this.loggedinuser,
@@ -39,6 +39,7 @@ class CardDetails extends StatefulWidget {
     this.ridestatus,
     this.ridefinished,
     this.rideowneremail,
+    this.photourl,
   );
 
   @override
@@ -59,6 +60,7 @@ class CardDetails extends StatefulWidget {
         ridestatus,
         ridefinished,
         rideowneremail,
+        photourl,
       );
 }
 
@@ -91,6 +93,7 @@ class _CardDetailsState extends State<CardDetails> {
   var rating = 0.0;
   String rideowner;
   String potentialrideguest;
+  String photourl;
 
   Future checktherideowner() async {
     FirebaseUser user = await FirebaseAuth.instance.currentUser();
@@ -198,6 +201,7 @@ class _CardDetailsState extends State<CardDetails> {
     this.ridestatus,
     this.ridefinished,
     this.rideowner,
+    this.photourl,
   );
 
   getthedriverrate() {
@@ -335,8 +339,7 @@ class _CardDetailsState extends State<CardDetails> {
                     decoration: new BoxDecoration(
                       color: const Color(0xff7c94b6),
                       image: new DecorationImage(
-                        image:
-                            new NetworkImage('http://i.imgur.com/QSev0hg.jpg'),
+                        image: new NetworkImage(photourl),
                         fit: BoxFit.cover,
                       ),
                       borderRadius:
