@@ -9,6 +9,46 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+class EmailFieldValidator {
+  static String validate(String value) {
+    if (value.isEmpty) {
+      // The form is empty
+      return "Enter email address";
+    }
+    // This is just a regular expression for email addresses
+    String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
+        "\\@" +
+        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
+        "(" +
+        "\\." +
+        "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
+        ")+";
+    RegExp regExp = new RegExp(p);
+
+    if (regExp.hasMatch(value)) {
+      // So, the email is valid
+      return null;
+    }
+
+    // The pattern of the email didn't match the regex above.
+    return 'Email is not valid';
+  }
+}
+
+class PasswordFieldValidatr {
+  static String validatePassword(String value) {
+    if (value.isEmpty) {
+      return "Password must be up to 6 characters";
+    }
+    if (value.length > 5) {
+      return null;
+    }
+    if (value.length < 6) {
+      return "Password must be up to 6 characters";
+    }
+  }
+}
+
 class SignupForm extends StatefulWidget {
   @override
   _State createState() => new _State();
@@ -108,7 +148,7 @@ class _State extends State<SignupForm> {
               Padding(
                 padding: const EdgeInsets.only(top: 17.0),
                 child: TextFormField(
-                  validator: _validateEmail,
+                  validator: EmailFieldValidator.validate,
                   onSaved: (value) {
                     if (value.endsWith("msa.edu.eg") ||
                         value.endsWith("MSA.EDU.EG")) {
@@ -147,7 +187,7 @@ class _State extends State<SignupForm> {
                   border: OutlineInputBorder(borderSide: BorderSide()),
                   contentPadding: EdgeInsets.all(15.0),
                 ),
-                validator: _validatePassword,
+                validator: PasswordFieldValidatr.validatePassword,
                 onSaved: (value) {
                   setState(() {
                     password = value;
@@ -351,30 +391,6 @@ class _State extends State<SignupForm> {
   }
 }
 
-String _validateEmail(String value) {
-  if (value.isEmpty) {
-    // The form is empty
-    return "Enter email address";
-  }
-  // This is just a regular expression for email addresses
-  String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
-      "\\@" +
-      "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,64}" +
-      "(" +
-      "\\." +
-      "[a-zA-Z0-9][a-zA-Z0-9\\-]{0,25}" +
-      ")+";
-  RegExp regExp = new RegExp(p);
-
-  if (regExp.hasMatch(value)) {
-    // So, the email is valid
-    return null;
-  }
-
-  // The pattern of the email didn't match the regex above.
-  return 'Email is not valid';
-}
-
 String _validateusername(String value) {
   if (value.isEmpty) {
     // The form is empty
@@ -394,12 +410,4 @@ String _validatefirstname(String value) {
     // The form is empty
     return "Enter valid first name";
   }
-}
-
-String _validatePassword(String value) {
-  if (value.length > 5) {
-    return null;
-  }
-
-  return 'Password must be up to 6 characters';
 }
