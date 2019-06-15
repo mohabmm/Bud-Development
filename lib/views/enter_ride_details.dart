@@ -163,6 +163,7 @@ class _State extends State<EnterRideDetails> {
                 ),
               )),
               TextField(
+                key: Key('username'),
                 onSubmitted: _onSubmitName,
                 onChanged: _onSubmitName,
                 controller: myController5,

@@ -4,6 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Signin extends StatelessWidget {
+  final VoidCallback onSignedIn;
+
+  const Signin({Key key, this.onSignedIn}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final signupColor = const Color(0xFF3d3d3d);
@@ -25,6 +28,7 @@ class Signin extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(20.0, 0.0, 0.0, 60.0),
                 child: new Text(
                   "It's dangerous to go alone,grab a bud ",
+                  key: Key("danger"),
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 30.0,
@@ -32,6 +36,7 @@ class Signin extends StatelessWidget {
                 ),
               ),
               new RaisedButton(
+                key: Key("sparta"),
                 shape: new RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(30.0)),
                 color: Colors.lightBlueAccent,

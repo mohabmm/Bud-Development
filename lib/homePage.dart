@@ -10,12 +10,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
+  final VoidCallback onSignedOut;
+
   FirebaseUser user;
 
-  HomePage({@required this.user});
+  HomePage({@required this.user, this.onSignedOut});
 
   @override
-  _HomePageState createState() => new _HomePageState(user: user);
+  _HomePageState createState() =>
+      new _HomePageState(user: user, onSignedOut: onSignedOut);
 }
 
 class _HomePageState extends State<HomePage> {
@@ -32,13 +35,13 @@ class _HomePageState extends State<HomePage> {
 
   final globalKey = new GlobalKey<ScaffoldState>();
   final TextEditingController _controller = new TextEditingController();
+  final VoidCallback onSignedOut;
 
   bool _isSearching;
 
   var queryResultSet = [];
   var tempSearchStore = [];
-
-  _HomePageState({this.user});
+  _HomePageState({this.user, this.onSignedOut});
 
   @override
   void initState() {
@@ -52,115 +55,119 @@ class _HomePageState extends State<HomePage> {
 
     return new Scaffold(
         appBar: buildAppBar(context),
-        drawer: new Drawer(
-          child: Container(
-            color: color,
-            child: Center(
-              child: new ListView(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 30.0),
-                    child: new ListTile(
+        drawer: Tooltip(
+          child: new Drawer(
+            child: Container(
+              color: color,
+              child: Center(
+                child: new ListView(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 30.0),
+                      child: new ListTile(
+                          title: new Text(
+                            "My Profile",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 22.0,
+                            ),
+                          ),
+                          onTap: () {
+//
+//                          Navigator.of(context).pop();
+                            Navigator.of(context).push(new MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    new ProfilePage(user, onSignedOut)));
+                          }),
+                    ),
+                    new ListTile(
                         title: new Text(
-                          "My Profile",
+                          "Leaderboard",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 22.0,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         onTap: () {
-//
-//                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
                           Navigator.of(context).push(new MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  new ProfilePage(user)));
+                                  new Leaderboard()));
                         }),
-                  ),
-                  new ListTile(
+                    new ListTile(
+                        title: new Text(
+                          "Achievements",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).push(new MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  new Achievements(
+                                    user,
+                                  )));
+                        }),
+                    new ListTile(
+                        title: new Text(
+                          "Trip History",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        onTap: () {
+//                          Navigator.of(context).pop();
+//                          Navigator.of(context).push(new MaterialPageRoute(
+//                              builder: (BuildContext context) => new HomePage(
+//                                    user: user,
+//                                  )));
+                        }),
+                    new Divider(),
+                    new ListTile(
                       title: new Text(
-                        "Leaderboard",
+                        "Report a Problem",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 22.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).push(new MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                new Leaderboard()));
-                      }),
-                  new ListTile(
+                      onTap: () => Navigator.pop(context),
+                    ),
+                    new ListTile(
                       title: new Text(
-                        "Achievements",
+                        "About Us",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 22.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).push(new MaterialPageRoute(
-                            builder: (BuildContext context) => new Achievements(
-                                  user,
-                                )));
-                      }),
-                  new ListTile(
+                      onTap: () => Navigator.pop(context),
+                    ),
+                    new ListTile(
                       title: new Text(
-                        "Trip History",
+                        "Sign Out",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 22.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      onTap: () {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).push(new MaterialPageRoute(
-                            builder: (BuildContext context) => new HomePage(
-                                  user: user,
-                                )));
-                      }),
-                  new Divider(),
-                  new ListTile(
-                    title: new Text(
-                      "Report a Problem",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      onTap: () => Navigator.pop(context),
                     ),
-                    onTap: () => Navigator.pop(context),
-                  ),
-                  new ListTile(
-                    title: new Text(
-                      "About Us",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    onTap: () => Navigator.pop(context),
-                  ),
-                  new ListTile(
-                    title: new Text(
-                      "Sign Out",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    onTap: () => Navigator.pop(context),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
+          message: "Open navigation menu",
         ),
         body: (queryResultSet.length != 0 ||
 //                _controller.text.isNotEmpty ||
@@ -216,7 +223,7 @@ class _HomePageState extends State<HomePage> {
                 }).toList())
               ])
             : new Center(
-                child: new Trip(loggedinuser: widget.user),
+                child: new Trip(loggedinuser: user),
               ));
   }
 

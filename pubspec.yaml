@@ -32,6 +32,8 @@ dependencies:
   flare_flutter: ^1.5.0
   firebase_core: ^0.4.0+1
   intro_slider: ^1.2.1
+  mockito: ^4.1.0
+
 
 
 
@@ -45,9 +47,9 @@ dependencies:
 
 
 dev_dependencies:
-  flutter_test:
+  flutter_driver:
     sdk: flutter
-
+  test: any
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec

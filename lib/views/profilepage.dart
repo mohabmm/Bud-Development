@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:budupdated/inherited/auth.dart';
+import 'package:budupdated/inherited/authprovider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -10,14 +12,16 @@ import 'package:image_picker/image_picker.dart';
 
 class ProfilePage extends StatefulWidget {
   FirebaseUser user;
-  ProfilePage(this.user);
+  final VoidCallback onSignedOut;
+  ProfilePage(this.user, this.onSignedOut);
 
   @override
-  _ProfilePageState createState() => new _ProfilePageState(user);
+  _ProfilePageState createState() => new _ProfilePageState(user, onSignedOut);
 }
 
 class _ProfilePageState extends State<ProfilePage> {
   var profilePicUrl;
+  final VoidCallback onSignedOut;
 
   var nickName = 'Tom';
   StorageReference ref;
@@ -31,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String oldorcurrentimage;
   FirebaseAuth _auth;
   FirebaseUser user;
-  _ProfilePageState(this.user);
+  _ProfilePageState(this.user, this.onSignedOut);
 
   // else read the photo stored in the user database photourl
   @override
@@ -126,6 +130,16 @@ class _ProfilePageState extends State<ProfilePage> {
         : Container();
   }
 
+  Future<void> _signOut(BuildContext context) async {
+    try {
+      final BaseAuth auth = AuthProvider.of(context).auth;
+      await auth.signOut();
+      onSignedOut();
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -215,12 +229,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               elevation: 7.0,
                               child: GestureDetector(
                                 onTap: () {
-                                  FirebaseAuth.instance.signOut().then((val) {
-                                    Navigator.of(context)
-                                        .pushReplacementNamed('/landingpage');
-                                  }).catchError((e) {
-                                    print(e);
-                                  });
+                                  _signOut(context);
                                 },
                                 child: Center(
                                   child: Text(

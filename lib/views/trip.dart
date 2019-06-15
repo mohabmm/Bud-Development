@@ -46,6 +46,8 @@ class _State extends State<Trip> {
   @override
   void initState() {
     super.initState();
+    print("the logged in user email isdie trip is " + loggedinuser.email);
+
     Firestore.instance
         .collection('users')
         .where("email", isEqualTo: loggedinuser.email)

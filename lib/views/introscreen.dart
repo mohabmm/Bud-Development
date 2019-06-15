@@ -22,16 +22,23 @@ class MySplashScreenState extends State<MySplashScreen> {
 
     slides.add(
       new Slide(
-        title:
-        "Welcome to our carpooling app BUD",
+        title: "Welcome to our carpooling app BUD",
         maxLineTitle: 2,
-        styleTitle:
-        TextStyle(color: Colors.white, fontSize: 25.0, fontWeight: FontWeight.bold, fontFamily: 'RobotoMono'),
+        styleTitle: TextStyle(
+            color: Colors.white,
+            fontSize: 25.0,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'RobotoMono'),
         description:
-        "Let's make friends, reduce congestion, arrive faster in a luxury ride with an affordable price and make a dent in our current air pollution crisis! ",
-        styleDescription:
-        TextStyle(color: Colors.white, fontSize: 18.0, fontStyle: FontStyle.italic, fontFamily: 'Raleway'),
-        marginDescription: EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0, bottom: 70.0),
+            "Let's make friends, reduce congestion, arrive faster in a luxury ride with an affordable price and make a dent in our current air pollution crisis! ",
+        key: Key("slide"),
+        styleDescription: TextStyle(
+            color: Colors.white,
+            fontSize: 18.0,
+            fontStyle: FontStyle.italic,
+            fontFamily: 'Raleway'),
+        marginDescription:
+            EdgeInsets.only(left: 20.0, right: 20.0, top: 20.0, bottom: 70.0),
         centerWidget: Text("", style: TextStyle(color: Colors.white)),
         colorBegin: Color(0xffFFDAB9),
         colorEnd: Color(0xff40E0D0),
@@ -44,11 +51,18 @@ class MySplashScreenState extends State<MySplashScreen> {
     slides.add(
       new Slide(
         title: "Join us!",
-        styleTitle:
-        TextStyle(color: Color(0xffD02090), fontSize: 30.0, fontWeight: FontWeight.bold, fontFamily: 'RobotoMono'),
-        description: "Our app is easily used, just sign up, create your account then offer or join a ride!",
-        styleDescription:
-        TextStyle(color: Color(0xffD02090), fontSize: 18.0, fontStyle: FontStyle.italic, fontFamily: 'Raleway'),
+        styleTitle: TextStyle(
+            color: Color(0xffD02090),
+            fontSize: 30.0,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'RobotoMono'),
+        description:
+            "Our app is easily used, just sign up, create your account then offer or join a ride!",
+        styleDescription: TextStyle(
+            color: Color(0xffD02090),
+            fontSize: 18.0,
+            fontStyle: FontStyle.italic,
+            fontFamily: 'Raleway'),
         colorBegin: Color(0xffFFA500),
         colorEnd: Color(0xff7FFFD4),
         directionColorBegin: Alignment.topRight,
@@ -58,12 +72,18 @@ class MySplashScreenState extends State<MySplashScreen> {
     slides.add(
       new Slide(
         title: "How competitive are u?!",
-        styleTitle:
-        TextStyle(color: Color(0xffD02090), fontSize: 30.0, fontWeight: FontWeight.bold, fontFamily: 'RobotoMono'),
+        styleTitle: TextStyle(
+            color: Color(0xffD02090),
+            fontSize: 30.0,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'RobotoMono'),
         description:
-        "With more rides,get discount codes!Get badges by completing more tasks and see how well you are doing compared to others using the leaderboard!",
-        styleDescription:
-        TextStyle(color: Color(0xffD02090), fontSize: 17.0, fontStyle: FontStyle.italic, fontFamily: 'Raleway'),
+            "With more rides,get discount codes!Get badges by completing more tasks and see how well you are doing compared to others using the leaderboard!",
+        styleDescription: TextStyle(
+            color: Color(0xffD02090),
+            fontSize: 17.0,
+            fontStyle: FontStyle.italic,
+            fontFamily: 'Raleway'),
         colorBegin: Color(0xffFFA500),
         colorEnd: Color(0xff7FFFD4),
         directionColorBegin: Alignment.topCenter,
@@ -73,8 +93,8 @@ class MySplashScreenState extends State<MySplashScreen> {
     );
   }
 
-  void saveIntro()async{
-    var prefs=await SharedPreferences.getInstance();
+  void saveIntro() async {
+    var prefs = await SharedPreferences.getInstance();
     prefs.setBool("intro", true);
   }
 
@@ -83,9 +103,7 @@ class MySplashScreenState extends State<MySplashScreen> {
       context,
       MaterialPageRoute(builder: (context) => Signin()),
     );
-
   }
-
 
   Widget renderNextBtn() {
     return Icon(
@@ -98,6 +116,7 @@ class MySplashScreenState extends State<MySplashScreen> {
   Widget renderDoneBtn() {
     return Icon(
       Icons.done,
+      key: Key("PINKBUTTON"),
       color: Color(0xffD02090),
     );
   }
@@ -114,6 +133,7 @@ class MySplashScreenState extends State<MySplashScreen> {
     return new IntroSlider(
       // List slides
       slides: this.slides,
+      key: Key("intro"),
 
       // Skip button
       renderSkipBtn: this.renderSkipBtn(),
@@ -135,7 +155,7 @@ class MySplashScreenState extends State<MySplashScreen> {
       sizeDot: 13.0,
 
       // Locale
-     // locale: 'en',
+      // locale: 'en',
 
       // Show or hide status bar
       shouldHideStatusBar: true,
