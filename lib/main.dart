@@ -28,7 +28,7 @@ class StateClass extends State<MainApp> {
         "Signin": (_) => Signin(),
         '/landingpage': (BuildContext context) => new MainApp(),
         '/signup': (BuildContext context) => new SignupForm(),
-      },
+      }, 
       home: new SplashState(),
     );
   }

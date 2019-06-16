@@ -4,6 +4,7 @@ import 'package:budupdated/homePage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+
 class SigninForm extends StatefulWidget {
   @override
   _State createState() => new _State();
@@ -12,17 +13,51 @@ class SigninForm extends StatefulWidget {
 class _State extends State<SigninForm> {
   final myController1 = TextEditingController();
   final myController2 = TextEditingController();
-  final GlobalKey<ScaffoldState> _scaffoldstate =
-      new GlobalKey<ScaffoldState>();
+  final pass= TextEditingController();
+  final GlobalKey<ScaffoldState> _scaffoldstate = new GlobalKey<ScaffoldState>();
   String mail;
   String password;
-
   bool _autoValidate = false;
-
   final GlobalKey<FormState> _formKeys = GlobalKey<FormState>();
+
+  void _popForgetPassword() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return AlertDialog(
+          title: new Text(
+            "Reset Password",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.blueAccent),
+          ),
+          content: new SingleChildScrollView(child: new Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              new TextField(
+                  controller: pass,
+                  decoration: InputDecoration(
+                      hintText:" Enter your email",
+                     ),
+                  style: new TextStyle(
+                    fontSize: 15,
+                    color: const Color(0xFF000000),
+                  )),
+              new RaisedButton( child: new Text("Reset"), shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(30.0)), color: Colors.lightBlueAccent,onPressed:()async{
+                await FirebaseAuth.instance.sendPasswordResetEmail(email: pass.text);
+              })
+            ],
+          ),),
+
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return new Scaffold(
       key: _scaffoldstate,
       appBar: new AppBar(
@@ -182,6 +217,8 @@ class _State extends State<SigninForm> {
                           print("error");
                         }
                       }),
+              new RaisedButton( child: new Text("Forgot password?"), shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(30.0)), color: Colors.lightBlueAccent,onPressed: _popForgetPassword)
                 ],
               ),
             ),
@@ -222,4 +259,5 @@ class _State extends State<SigninForm> {
 
     return 'Password must be up to 6 characters';
   }
+
 }
