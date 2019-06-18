@@ -259,9 +259,103 @@ class _State extends State<SignupForm> {
 
     if (form.validate()) {
       form.save();
+      print("yes");
+
+      if (firstname != null &&
+          lastName != null &&
+
+          //  imageFiles != null &&
+          email != null &&
+          userName != null) {
+        FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password)
+            .then((signedInUser) {
+          signedInUser.sendEmailVerification();
+
+          var userUpdateInfo = new UserUpdateInfo();
+          userUpdateInfo.displayName = userName;
+          userUpdateInfo.photoUrl =
+              'https://sanitationsolutions.net/wp-content/uploads/2015/05/empty-image.png';
+          signedInUser.updateProfile(userUpdateInfo).then((user) {
+            FirebaseAuth.instance.currentUser().then((user) {
+              Firestore.instance
+                  .collection('users')
+                  .document(email.toLowerCase())
+                  .setData({
+                'email': signedInUser.email.toLowerCase(),
+                'uid': signedInUser.uid,
+                "First Name ": firstname,
+                "Last Name": lastName,
+                "Number Of Rides As Driver": 0,
+                "passengerrate": "0",
+                "driverrate": "0",
+                "CO2driver": "0",
+                "CO2passenger": "0",
+                "Number Of Rides As guest": 0,
+                "distance covered": 0,
+                "photo_url":
+                    "https://sanitationsolutions.net/wp-content/uploads/2015/05/empty-image.png",
+                "Driver authnticated": false,
+              });
+
+              Firestore.instance
+                  .collection('Achievements')
+                  .document(email)
+                  .setData({
+                'email': signedInUser.email,
+                'first ride as guest': false,
+                'third ride as guest': false,
+                "fifth ride as guest": false,
+                "10 ride as guest": false,
+                "20 ride as guest": false,
+                "30 ride as guest": false,
+                "40 ride as guest": false,
+                "50 ride as guest": false,
+                "60 ride as guest": false,
+                "70 ride as guest": false,
+                "80 ride as guest": false,
+                "90 ride as guest": false,
+                "100 ride as guest": false,
+                'first ride as driver': false,
+                'third ride as driver': false,
+                "fifth ride as driver": false,
+                "10 ride as driver": false,
+                "20 ride as driver": false,
+                "30 ride as driver": false,
+                "40 ride as driver": false,
+                "50 ride as driver": false,
+                "60 ride as driver": false,
+                "70 ride as driver": false,
+                "80 ride as driver": false,
+                "90 ride as driver": false,
+                "100 ride as driver": false,
+              });
+            }).catchError((e) {
+              print(e);
+            });
+          }).catchError((e) {
+            print(e);
+          });
+        }).catchError((e) {
+          print(e);
+        });
+
+        _scaffoldstate.currentState.showSnackBar(new SnackBar(
+            content: new Text("Congutrlation account with email" +
+                " " +
+                email +
+                " " +
+                "is succefully created")));
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SigninForm(),
+          ),
+        );
+      }
     } else {
+      print("no");
       setState(() => _autoValidate = true);
-    }
 
 //    if (firstname == null) {
 //      setState(() {
@@ -296,118 +390,27 @@ class _State extends State<SignupForm> {
 //      });
 //    }
 
-    if (firstname != null &&
-        lastName != null &&
-
-        //  imageFiles != null &&
-        email != null &&
-        userName != null) {
-      FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password)
-          .then((signedInUser) {
-        signedInUser.sendEmailVerification();
-
-        var userUpdateInfo = new UserUpdateInfo();
-        userUpdateInfo.displayName = userName;
-        userUpdateInfo.photoUrl =
-            'https://sanitationsolutions.net/wp-content/uploads/2015/05/empty-image.png';
-        signedInUser.updateProfile(userUpdateInfo).then((user) {
-          FirebaseAuth.instance.currentUser().then((user) {
-            Firestore.instance
-                .collection('users')
-                .document(email.toLowerCase())
-                .setData({
-              'email': signedInUser.email.toLowerCase(),
-              'uid': signedInUser.uid,
-              "First Name ": firstname,
-              "Last Name": lastName,
-              "Number Of Rides As Driver": 0,
-              "passengerrate": "0",
-              "driverrate": "0",
-              "CO2driver": "0",
-              "CO2passenger": "0",
-              "Number Of Rides As guest": 0,
-              "distance covered": 0,
-              "photo_url":
-                  "https://sanitationsolutions.net/wp-content/uploads/2015/05/empty-image.png",
-              "Driver authnticated": false,
-            });
-
-            Firestore.instance
-                .collection('Achievements')
-                .document(email)
-                .setData({
-              'email': signedInUser.email,
-              'first ride as guest': false,
-              'third ride as guest': false,
-              "fifth ride as guest": false,
-              "10 ride as guest": false,
-              "20 ride as guest": false,
-              "30 ride as guest": false,
-              "40 ride as guest": false,
-              "50 ride as guest": false,
-              "60 ride as guest": false,
-              "70 ride as guest": false,
-              "80 ride as guest": false,
-              "90 ride as guest": false,
-              "100 ride as guest": false,
-              'first ride as driver': false,
-              'third ride as driver': false,
-              "fifth ride as driver": false,
-              "10 ride as driver": false,
-              "20 ride as driver": false,
-              "30 ride as driver": false,
-              "40 ride as driver": false,
-              "50 ride as driver": false,
-              "60 ride as driver": false,
-              "70 ride as driver": false,
-              "80 ride as driver": false,
-              "90 ride as driver": false,
-              "100 ride as driver": false,
-            });
-          }).catchError((e) {
-            print(e);
-          });
-        }).catchError((e) {
-          print(e);
-        });
-      }).catchError((e) {
-        print(e);
-      });
-
-      _scaffoldstate.currentState.showSnackBar(new SnackBar(
-          content: new Text("Congutrlation account with email" +
-              " " +
-              email +
-              " " +
-              "is succefully created")));
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => SigninForm(),
-        ),
-      );
     }
   }
-}
 
-String _validateusername(String value) {
-  if (value.isEmpty) {
-    // The form is empty
-    return "Enter valid user name";
+  String _validateusername(String value) {
+    if (value.isEmpty) {
+      // The form is empty
+      return "Enter valid user name";
+    }
   }
-}
 
-String _validatelastname(String value) {
-  if (value.isEmpty) {
-    // The form is empty
-    return "Enter valid last name ";
+  String _validatelastname(String value) {
+    if (value.isEmpty) {
+      // The form is empty
+      return "Enter valid last name ";
+    }
   }
-}
 
-String _validatefirstname(String value) {
-  if (value.isEmpty) {
-    // The form is empty
-    return "Enter valid first name";
+  String _validatefirstname(String value) {
+    if (value.isEmpty) {
+      // The form is empty
+      return "Enter valid first name";
+    }
   }
 }

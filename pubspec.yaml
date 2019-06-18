@@ -66,9 +66,6 @@ flutter:
   assets:
     - assets/carpool.jpg
     - assets/login-bg.png
-    - images/path animation.flr
-    - images/trophy.flr
-    - images/Reloj.flr
     - screen/first.jpg
 
 

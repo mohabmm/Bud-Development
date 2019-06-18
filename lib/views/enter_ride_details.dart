@@ -256,7 +256,7 @@ class _State extends State<EnterRideDetails> {
                 onSubmitted: _onSubmitdescribtion,
                 onChanged: _onSubmitdescribtion,
                 decoration: InputDecoration(
-                  labelText: 'Describtion',
+                  labelText: 'Description',
                   border: OutlineInputBorder(borderSide: BorderSide()),
                   contentPadding: EdgeInsets.all(15.0),
                 ),

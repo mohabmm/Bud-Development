@@ -61,11 +61,15 @@ class _RootPageState extends State<RootPage> {
       case AuthStatus.notSignedIn:
         return SplashState();
       case AuthStatus.signedIn:
-        return HomePage(
-          onSignedOut: _signedOut,
-          user: (mCurrentUser != null) ? mCurrentUser : mCurrentUser,
-        );
+        if (mCurrentUser != null) {
+          return HomePage(
+            onSignedOut: _signedOut,
+            user: mCurrentUser,
+          );
+        } else
+          return SplashState();
     }
+
     return null;
   }
 
@@ -78,6 +82,7 @@ class _RootPageState extends State<RootPage> {
     if (mCurrentUser != null) {
       return mCurrentUser;
     }
+    return mCurrentUser;
   }
 
   Widget _buildWaitingScreen() {

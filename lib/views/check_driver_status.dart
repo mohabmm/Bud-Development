@@ -90,7 +90,7 @@ class _CheckDriverStatusState extends State<CheckDriverStatus> {
             Padding(
               padding: const EdgeInsets.only(top: 8.0, left: 10, right: 10.0),
               child: new Text(
-                "To drive with BUD you need to be a student or a member stuff at MSA university so please fill this data and we will let you offer ride once we checked your data ",
+                "To drive with BUD you need to be a student or a member stuff at MSA university so please fill this data and we will let you offer ride once we check your data ",
                 style: TextStyle(fontSize: 18.0),
               ),
             ),
@@ -120,13 +120,13 @@ class _CheckDriverStatusState extends State<CheckDriverStatus> {
                   DriverLiscenceFront = true;
                   _pickSaveImage();
                 },
-                child: new Text("Driver Liscence Front")),
+                child: new Text("Driver license Front")),
             new FlatButton(
                 onPressed: () {
                   DriverLiscenceBack = true;
                   _pickSaveImage();
                 },
-                child: new Text("Driver Liscence Back")),
+                child: new Text("Driver license Back")),
             new Divider(),
             new Column(mainAxisAlignment: MainAxisAlignment.end, children: <
                 Widget>[

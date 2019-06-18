@@ -31,7 +31,7 @@ class Signin extends StatelessWidget {
                   key: Key("danger"),
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: 30.0,
+                      fontSize: 40.0,
                       fontWeight: FontWeight.w400),
                 ),
               ),

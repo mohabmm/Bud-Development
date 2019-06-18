@@ -3,6 +3,7 @@ import 'package:budupdated/views/card_details.dart';
 import 'package:budupdated/views/leaderboard.dart';
 import 'package:budupdated/views/profilepage.dart';
 import 'package:budupdated/views/searchservice.dart';
+import 'package:budupdated/views/signin.dart';
 import 'package:budupdated/views/trip.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,6 +24,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   FirebaseUser user;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Widget appBarTitle = new Text(
     "BUD",
@@ -160,7 +162,15 @@ class _HomePageState extends State<HomePage> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      onTap: () => Navigator.pop(context),
+                      onTap: () async {
+                        await _auth.signOut();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Signin(),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),

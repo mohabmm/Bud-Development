@@ -72,7 +72,7 @@ class _State extends State<SigninForm> {
                     ),
                   ),
                   new RaisedButton(
-                    key: Key("buttont"),
+                    key: Key("login"),
                     child: new Text("Log in "),
                     shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(30.0)),
@@ -100,12 +100,13 @@ class _State extends State<SigninForm> {
           .signInWithEmailAndPassword(email: mail, password: password)
           .then((user) {
         if (user.isEmailVerified) {
-          setState(() {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => HomePage(
-                      user: user,
-                    )));
-          });
+//          widget.onSignedIn();
+          print("the email now is " + user.email);
+
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => HomePage(
+                    user: user,
+                  )));
         } else {
           _scaffoldstate.currentState.showSnackBar(new SnackBar(
               content: new Text(

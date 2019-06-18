@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
-import 'package:budupdated/inherited/auth.dart';
-import 'package:budupdated/inherited/authprovider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -22,6 +20,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   var profilePicUrl;
   final VoidCallback onSignedOut;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   var nickName = 'Tom';
   StorageReference ref;
@@ -33,7 +32,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   String newNickName;
   String oldorcurrentimage;
-  FirebaseAuth _auth;
   FirebaseUser user;
   _ProfilePageState(this.user, this.onSignedOut);
 
@@ -42,6 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
   initState() {
     // TODO: implement initState
     super.initState();
+    print("the current user inside the profile is " + user.email);
 
     Firestore.instance
         .collection('users')
@@ -130,15 +129,16 @@ class _ProfilePageState extends State<ProfilePage> {
         : Container();
   }
 
-  Future<void> _signOut(BuildContext context) async {
-    try {
-      final BaseAuth auth = AuthProvider.of(context).auth;
-      await auth.signOut();
-      onSignedOut();
-    } catch (e) {
-      print(e);
-    }
-  }
+//  Future<void> _signOut(BuildContext context) async {
+//    try {
+////      final BaseAuth auth = AuthProvider.of(context).auth;
+////      await auth.signOut();
+//      await FirebaseAuth.instance.signOut();
+//      onSignedOut();
+//    } catch (e) {
+//      print(e);
+//    }
+//  }
 
   @override
   Widget build(BuildContext context) {
@@ -228,8 +228,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               color: Colors.red,
                               elevation: 7.0,
                               child: GestureDetector(
-                                onTap: () {
-                                  _signOut(context);
+                                onTap: () async {
+                                  await _auth.signOut();
+//                                  onSignedOut();
                                 },
                                 child: Center(
                                   child: Text(
