@@ -177,7 +177,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               image: DecorationImage(
                                   image: (profilePicUrl != null)
                                       ? NetworkImage(profilePicUrl)
-                                      : NetworkImage(oldorcurrentimage),
+                                      : (oldorcurrentimage != null)
+                                          ? NetworkImage(oldorcurrentimage)
+                                          : AssetImage("assets/download.jpg"),
                                   fit: BoxFit.cover),
                               borderRadius:
                                   BorderRadius.all(Radius.circular(75.0)),
@@ -219,29 +221,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                               ),
                             )),
-                        Container(
-                            height: 30.0,
-                            width: 95.0,
-                            child: Material(
-                              borderRadius: BorderRadius.circular(20.0),
-                              shadowColor: Colors.redAccent,
-                              color: Colors.red,
-                              elevation: 7.0,
-                              child: GestureDetector(
-                                onTap: () async {
-                                  await _auth.signOut();
-//                                  onSignedOut();
-                                },
-                                child: Center(
-                                  child: Text(
-                                    'Log out',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'Montserrat'),
-                                  ),
-                                ),
-                              ),
-                            ))
+
                       ],
                     ),
                   ],

@@ -71,7 +71,7 @@ class MySplashScreenState extends State<MySplashScreen> {
     );
     slides.add(
       new Slide(
-        title: "How competitive are u?!",
+        title: "How competitive are you?!",
         styleTitle: TextStyle(
             color: Color(0xffD02090),
             fontSize: 30.0,

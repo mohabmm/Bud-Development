@@ -66,6 +66,7 @@ flutter:
   assets:
     - assets/carpool.jpg
     - assets/login-bg.png
+    - assets/download.jpg
     - screen/first.jpg
 
 

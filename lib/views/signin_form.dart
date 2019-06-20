@@ -122,7 +122,7 @@ class _State extends State<SigninForm> {
                   .showSnackBar(new SnackBar(content: new Text(error)));
               break;
             case 'The password is invalid or the user does not have a password.':
-              error = "PasswordNotValid";
+              error = "Password is not valid";
               _scaffoldstate.currentState
                   .showSnackBar(new SnackBar(content: new Text(error)));
               break;

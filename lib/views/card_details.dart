@@ -70,13 +70,15 @@ class _CardDetailsState extends State<CardDetails> {
   final GlobalKey<ScaffoldState> scaffoldstate = new GlobalKey<ScaffoldState>();
   String start;
   double rate = 0.0;
-  int number_of_ridesasDriver;
-  int number_of_ridesasguest;
+
+  int number_of_rides_as_driver_ofrideguest;
+  int number_of_ridesasguest_AS_rideguest;
 
   FirebaseUser loggedinuser;
   String rideownerusername;
   String describtion;
   String from;
+  int numberofridesofthedriverasrideowner;
   String to;
   String trip_date;
   int noOfSeats;
@@ -216,6 +218,19 @@ class _CardDetailsState extends State<CardDetails> {
     print("the driver rate is " + driverrate.toString());
   }
 
+  getnumberofridesasdriverofrideowner() {
+    Firestore.instance
+        .collection('users')
+        .where("email", isEqualTo: rideowner)
+        .snapshots()
+        .listen((data) => data.documents.forEach((doc) {
+              numberofridesofthedriverasrideowner =
+                  doc.data['Number Of Rides As Driver'];
+            }));
+
+    print("the driver rate is " + driverrate.toString());
+  }
+
   @override
   void initState() {
     super.initState();
@@ -233,6 +248,7 @@ class _CardDetailsState extends State<CardDetails> {
     print("car color is " + carcolor);
     getthedriverrate();
     print("telephone is " + telephone);
+    getnumberofridesasdriverofrideowner();
 
 //    (rideguestemail != null) ? getnumberofridesasguesttostartride() : print("moha");
     getnumberofridesasdriver();
@@ -257,6 +273,7 @@ class _CardDetailsState extends State<CardDetails> {
         : print("the ride guest is still null");
   }
 
+// error here we need to get the number of rides of the ride guest as the below one has errors
 // used to read the number of rides as driver of the current user in the database
   Future getnumberofridesasdriver() async {
     Firestore.instance
@@ -264,7 +281,8 @@ class _CardDetailsState extends State<CardDetails> {
         .where("email", isEqualTo: loggedinuser.email)
         .snapshots()
         .listen((data) => data.documents.forEach((doc) {
-              number_of_ridesasDriver = doc.data['Number Of Rides As Driver'];
+              number_of_rides_as_driver_ofrideguest =
+                  doc.data['Number Of Rides As Driver'];
             }));
   }
 
@@ -280,12 +298,13 @@ class _CardDetailsState extends State<CardDetails> {
         .snapshots()
         .listen((data) => data.documents.forEach((doc) {
               setState(() {
-                number_of_ridesasguest = doc.data['Number Of Rides As guest'];
+                number_of_ridesasguest_AS_rideguest =
+                    doc.data['Number Of Rides As guest'];
                 print("the number of rides as guest is " +
-                    number_of_ridesasguest.toString());
+                    number_of_ridesasguest_AS_rideguest.toString());
               });
             }));
-    return number_of_ridesasguest;
+    return number_of_ridesasguest_AS_rideguest;
   }
 
   getnumberofridesasguesttostartride() {
@@ -298,12 +317,13 @@ class _CardDetailsState extends State<CardDetails> {
         .snapshots()
         .listen((data) => data.documents.forEach((doc) {
               setState(() {
-                number_of_ridesasguest = doc.data['Number Of Rides As guest'];
+                number_of_ridesasguest_AS_rideguest =
+                    doc.data['Number Of Rides As guest'];
                 print("the number of rides as guest is " +
-                    number_of_ridesasguest.toString());
+                    number_of_ridesasguest_AS_rideguest.toString());
               });
             }));
-    return number_of_ridesasguest;
+    return number_of_ridesasguest_AS_rideguest;
   }
 
   @override
@@ -373,9 +393,12 @@ class _CardDetailsState extends State<CardDetails> {
                       setState(() {
                         print("the given rate is " + rating.toString());
 
+                        // hwa hna gab number of rides of the ride guest as driver
+                        print("number of rides as driver of ride guest  " +
+                            number_of_rides_as_driver_ofrideguest.toString());
                         actualrate = ((rating + double.parse(driverrate)) /
-                                number_of_ridesasDriver)
-                            .toString();
+                                numberofridesofthedriverasrideowner)
+                            .toStringAsFixed(3);
                         print("the rate after update is " +
                             actualrate.toString());
 
@@ -522,10 +545,9 @@ class _CardDetailsState extends State<CardDetails> {
                                       setState(() {
                                         getnumberofridesasguest();
 
-                                        print(
-                                            "the current number of rides as guest is " +
-                                                number_of_ridesasguest
-                                                    .toString());
+                                        print("the current number of rides as guest is " +
+                                            number_of_ridesasguest_AS_rideguest
+                                                .toString());
                                         Firestore.instance
                                             .collection('Offer Ride list')
                                             .document(id.toString())
@@ -548,33 +570,49 @@ class _CardDetailsState extends State<CardDetails> {
                                             .document(potentialrideguest)
                                             .updateData({
                                           "Number Of Rides As guest":
-                                              number_of_ridesasguest + 1,
+                                              number_of_ridesasguest_AS_rideguest +
+                                                  1,
                                         });
-                                        print(
-                                            "the number of ride guest after update is " +
-                                                (number_of_ridesasguest + 1)
-                                                    .toString());
+                                        print("the number of ride guest after update is " +
+                                            (number_of_ridesasguest_AS_rideguest +
+                                                    1)
+                                                .toString());
 
-                                        if (number_of_ridesasguest + 1 == 1 ||
-                                            number_of_ridesasguest + 1 == 3 ||
-                                            number_of_ridesasguest + 1 == 5 ||
-                                            number_of_ridesasguest + 1 == 10 ||
-                                            number_of_ridesasguest + 1 == 20 ||
-                                            number_of_ridesasguest + 1 == 30 ||
-                                            number_of_ridesasguest + 1 == 40 ||
-                                            number_of_ridesasguest + 1 == 50) {
+                                        if (number_of_ridesasguest_AS_rideguest + 1 == 1 ||
+                                            number_of_ridesasguest_AS_rideguest + 1 ==
+                                                3 ||
+                                            number_of_ridesasguest_AS_rideguest +
+                                                    1 ==
+                                                5 ||
+                                            number_of_ridesasguest_AS_rideguest +
+                                                    1 ==
+                                                10 ||
+                                            number_of_ridesasguest_AS_rideguest +
+                                                    1 ==
+                                                20 ||
+                                            number_of_ridesasguest_AS_rideguest +
+                                                    1 ==
+                                                30 ||
+                                            number_of_ridesasguest_AS_rideguest +
+                                                    1 ==
+                                                40 ||
+                                            number_of_ridesasguest_AS_rideguest +
+                                                    1 ==
+                                                50) {
                                           scaffoldstate.currentState
                                               .showSnackBar(new SnackBar(
                                                   content: new Text(
-                                                      "Congurtlation new Achievement is reached having " +
-                                                          (number_of_ridesasguest +
+                                                      "congratulations, new Achievement is reached having " +
+                                                          (number_of_ridesasguest_AS_rideguest +
                                                                   1)
                                                               .toString() +
-                                                          " rides in our app")));
+                                                          " rides in our app as a passenger")));
 
                                           print(
-                                              "congurtlation new achievement is reached");
-                                          if (number_of_ridesasguest + 1 == 1) {
+                                              "congratulations, new achievement is reached");
+                                          if (number_of_ridesasguest_AS_rideguest +
+                                                  1 ==
+                                              1) {
                                             Firestore.instance
                                                 .collection('Achievements')
                                                 .document(potentialrideguest)
@@ -582,7 +620,9 @@ class _CardDetailsState extends State<CardDetails> {
                                               "first ride as guest": true,
                                             });
                                           }
-                                          if (number_of_ridesasguest + 1 == 3) {
+                                          if (number_of_ridesasguest_AS_rideguest +
+                                                  1 ==
+                                              3) {
                                             Firestore.instance
                                                 .collection('Achievements')
                                                 .document(potentialrideguest)
@@ -591,7 +631,9 @@ class _CardDetailsState extends State<CardDetails> {
                                             });
                                           }
 
-                                          if (number_of_ridesasguest + 1 == 5) {
+                                          if (number_of_ridesasguest_AS_rideguest +
+                                                  1 ==
+                                              5) {
                                             Firestore.instance
                                                 .collection('Achievements')
                                                 .document(potentialrideguest)
@@ -599,7 +641,8 @@ class _CardDetailsState extends State<CardDetails> {
                                               "fifth ride as guest": true,
                                             });
                                           }
-                                          if (number_of_ridesasguest + 1 ==
+                                          if (number_of_ridesasguest_AS_rideguest +
+                                                  1 ==
                                               10) {
                                             Firestore.instance
                                                 .collection('Achievements')
@@ -608,7 +651,8 @@ class _CardDetailsState extends State<CardDetails> {
                                               "10 ride as guest": true,
                                             });
                                           }
-                                          if (number_of_ridesasguest + 1 ==
+                                          if (number_of_ridesasguest_AS_rideguest +
+                                                  1 ==
                                               20) {
                                             Firestore.instance
                                                 .collection('Achievements')
@@ -617,7 +661,8 @@ class _CardDetailsState extends State<CardDetails> {
                                               "20 ride as guest": true,
                                             });
                                           }
-                                          if (number_of_ridesasguest + 1 ==
+                                          if (number_of_ridesasguest_AS_rideguest +
+                                                  1 ==
                                               30) {
                                             Firestore.instance
                                                 .collection('Achievements')
@@ -626,7 +671,8 @@ class _CardDetailsState extends State<CardDetails> {
                                               "30 ride as guest": true,
                                             });
                                           }
-                                          if (number_of_ridesasguest + 1 ==
+                                          if (number_of_ridesasguest_AS_rideguest +
+                                                  1 ==
                                               40) {
                                             Firestore.instance
                                                 .collection('Achievements')
@@ -635,7 +681,8 @@ class _CardDetailsState extends State<CardDetails> {
                                               "40 ride as guest": true,
                                             });
                                           }
-                                          if (number_of_ridesasguest + 1 ==
+                                          if (number_of_ridesasguest_AS_rideguest +
+                                                  1 ==
                                               50) {
                                             Firestore.instance
                                                 .collection('Achievements')
@@ -644,7 +691,8 @@ class _CardDetailsState extends State<CardDetails> {
                                               "50 ride as guest": true,
                                             });
                                           }
-                                          if (number_of_ridesasguest + 1 ==
+                                          if (number_of_ridesasguest_AS_rideguest +
+                                                  1 ==
                                               60) {
                                             Firestore.instance
                                                 .collection('Achievements')
@@ -653,7 +701,8 @@ class _CardDetailsState extends State<CardDetails> {
                                               "60 ride as guest": true,
                                             });
                                           }
-                                          if (number_of_ridesasguest + 1 ==
+                                          if (number_of_ridesasguest_AS_rideguest +
+                                                  1 ==
                                               70) {
                                             Firestore.instance
                                                 .collection('Achievements')
@@ -662,7 +711,8 @@ class _CardDetailsState extends State<CardDetails> {
                                               "70 ride as guest": true,
                                             });
                                           }
-                                          if (number_of_ridesasguest + 1 ==
+                                          if (number_of_ridesasguest_AS_rideguest +
+                                                  1 ==
                                               80) {
                                             Firestore.instance
                                                 .collection('Achievements')
@@ -671,7 +721,8 @@ class _CardDetailsState extends State<CardDetails> {
                                               "80 ride as guest": true,
                                             });
                                           }
-                                          if (number_of_ridesasguest + 1 ==
+                                          if (number_of_ridesasguest_AS_rideguest +
+                                                  1 ==
                                               90) {
                                             Firestore.instance
                                                 .collection('Achievements')
@@ -680,7 +731,8 @@ class _CardDetailsState extends State<CardDetails> {
                                               "90 ride as guest": true,
                                             });
                                           }
-                                          if (number_of_ridesasguest + 1 ==
+                                          if (number_of_ridesasguest_AS_rideguest +
+                                                  1 ==
                                               100) {
                                             Firestore.instance
                                                 .collection('Achievements')
@@ -781,7 +833,7 @@ void showTapMsg(
 
   var alert = new AlertDialog(
     title: new Text(
-        "Congratulation You have reserved a seat,you can press on the telephone icon to call the driver and discuss the details. "),
+        "congratulations You have reserved a seat,you can press on the telephone icon to call the driver and discuss the details. "),
     actions: <Widget>[
       FlatButton(
         onPressed: () {

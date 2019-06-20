@@ -75,8 +75,9 @@ class _MapsNavigationState extends State<MapsNavigation> {
     setState(() {
       star = true;
     });
+    // cairo ,alex
     distanceInMeters = await Geolocator()
-        .distanceBetween(31.1143, 30.94012, 29.30995, 30.8418);
+        .distanceBetween(30.033333, 31.233334, 31.205753, 29.924526);
     distnacecoveredinkilo = distanceInMeters.round() / 1000;
 
     overalldistanceDriver = distnacecoveredinkilo + olddistnaceofthedriver;
@@ -85,8 +86,9 @@ class _MapsNavigationState extends State<MapsNavigation> {
 
     //here we calcuated the perecentage of co2 as driver and we upload it into database
 
-    co2driver = ((overalldistanceDriver * 130.0) / 1000.0).toString();
-    co2passenger = ((olddistnaceofthepassenger * 130.0) / 1000.0).toString();
+    co2driver = ((overalldistanceDriver * 130.0) / 1000.0).toStringAsFixed(3);
+    co2passenger =
+        ((olddistnaceofthepassenger * 130.0) / 1000.0).toStringAsFixed(3);
 
     //update the carpon dioxsie by the driver
     Firestore.instance
@@ -516,18 +518,25 @@ class _MapsNavigationState extends State<MapsNavigation> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 12.0),
-                child: new Row(
+                child: new Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     (status == true)
                         ? new Text("The Distance is " +
                             " " +
-                            distnacecoveredinkilo.toString())
+                            distnacecoveredinkilo.toString() +
+                            " " +
+                            "KM")
                         : new Container(),
-                    (status == true)
-                        ? new Text(
-                            "The Price is " + rideprice.toString() + " " + "LE")
-                        : new Container(),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: (status == true)
+                          ? new Text("The Price after discount  is " +
+                              rideprice.toString() +
+                              " " +
+                              "LE")
+                          : new Container(),
+                    ),
                   ],
                 ),
               ),
@@ -542,7 +551,7 @@ class _MapsNavigationState extends State<MapsNavigation> {
                   ? Padding(
                       padding: const EdgeInsets.only(top: 18.0),
                       child: new Text(
-                          "please rate the passenger who had ride with you "),
+                          "Please rate the passenger who had the ride with you"),
                     )
                   : new Container(),
               (star == true)
@@ -558,7 +567,7 @@ class _MapsNavigationState extends State<MapsNavigation> {
 
                           actualrate = ((rating + double.parse(passengerrate)) /
                                   Number_Of_Rides_As_guest)
-                              .toString();
+                              .toStringAsFixed(3);
                           print("the rate after update is " +
                               actualrate.toString());
 

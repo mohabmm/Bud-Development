@@ -128,45 +128,46 @@ class _CheckDriverStatusState extends State<CheckDriverStatus> {
                 },
                 child: new Text("Driver license Back")),
             new Divider(),
-            new Column(mainAxisAlignment: MainAxisAlignment.end, children: <
-                Widget>[
-              new RaisedButton(
-                onPressed: () {
-                  if (Registiration == false) {
-                    print("Please upload Car Registiration Document");
-                    _scaffoldstate.currentState.showSnackBar(new SnackBar(
-                        content: new Text(
-                            "Please upload Car Registiration document")));
-                  }
-                  if (NationalID == false) {
-                    print("Please upload National ID");
+            new Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  new RaisedButton(
+                    onPressed: () {
+                      if (Registiration == false) {
+                        print("Please upload Car Registiration Document");
+                        _scaffoldstate.currentState.showSnackBar(new SnackBar(
+                            content: new Text(
+                                "Please upload Car Registiration document")));
+                      }
+                      if (NationalID == false) {
+                        print("Please upload National ID");
 
-                    _scaffoldstate.currentState.showSnackBar(new SnackBar(
-                        content: new Text("Please upload National ID")));
-                  }
-                  if (DriverLiscenceFront == false) {
-                    _scaffoldstate.currentState.showSnackBar(new SnackBar(
-                        content:
-                            new Text("Please upload Driver Liscence Front")));
-                    print("Please upload Driver Liscence Front");
-                  }
-                  if (DriverLiscenceBack == false) {
-                    print("Please upload Driver Liscence Back");
-                    _scaffoldstate.currentState.showSnackBar(new SnackBar(
-                        content:
-                            new Text("Please upload Driver Liscence Back")));
-                  }
+                        _scaffoldstate.currentState.showSnackBar(new SnackBar(
+                            content: new Text("Please upload National ID")));
+                      }
+                      if (DriverLiscenceFront == false) {
+                        _scaffoldstate.currentState.showSnackBar(new SnackBar(
+                            content: new Text(
+                                "Please upload Driver license Front")));
+                        print("Please upload Driver Liscence Front");
+                      }
+                      if (DriverLiscenceBack == false) {
+                        print("Please upload Driver license Back");
+                        _scaffoldstate.currentState.showSnackBar(new SnackBar(
+                            content:
+                                new Text("Please upload Driver license Back")));
+                      }
 
-                  if (Registiration != false &&
-                      NationalID != false &&
-                      DriverLiscenceFront != false &&
-                      DriverLiscenceBack != false) {
-                    checkFirstSeen();
-                  }
-                },
-                child: new Text("Next"),
-              ),
-            ]),
+                      if (Registiration != false &&
+                          NationalID != false &&
+                          DriverLiscenceFront != false &&
+                          DriverLiscenceBack != false) {
+                        checkFirstSeen();
+                      }
+                    },
+                    child: new Text("Next"),
+                  ),
+                ]),
           ],
         ),
       ),

@@ -67,6 +67,8 @@ class _LeaderboardState extends State<Leaderboard>
                                       .data.documents[index].data['CO2driver'];
                                   String driverrate = snapshot
                                       .data.documents[index].data['driverrate'];
+                                  String image = snapshot
+                                      .data.documents[index].data['photo_url'];
 
                                   return SingleChildScrollView(
                                     child: Column(
@@ -107,8 +109,9 @@ class _LeaderboardState extends State<Leaderboard>
                                                                   0xff7c94b6),
                                                               image:
                                                                   new DecorationImage(
-                                                                image: new NetworkImage(
-                                                                    'http://i.imgur.com/QSev0hg.jpg'),
+                                                                image:
+                                                                    new NetworkImage(
+                                                                        image),
                                                                 fit: BoxFit
                                                                     .cover,
                                                               ),
@@ -165,12 +168,12 @@ class _LeaderboardState extends State<Leaderboard>
                                                                   numberofridesdriver
                                                                           .toString() +
                                                                       " " +
-                                                                      "rides given")),
+                                                                      "rides ")),
                                                           Center(
                                                               child: new Text(
                                                                   co2driver +
                                                                       " " +
-                                                                      "KG C02 saved")),
+                                                                      "KG C02 saved ")),
                                                         ],
                                                       ),
                                                     ],
@@ -190,11 +193,11 @@ class _LeaderboardState extends State<Leaderboard>
                   }
                 },
               ), //
-              //this one is for buds
+              //this one is for buds :passengers
               StreamBuilder<QuerySnapshot>(
                 stream: Firestore.instance
                     .collection('users')
-                    .where("passengerrate", isGreaterThan: "1")
+                    .where("passengerrate", isGreaterThan: "0")
                     .orderBy('passengerrate', descending: true)
                     .limit(10)
                     .snapshots(),
@@ -212,14 +215,16 @@ class _LeaderboardState extends State<Leaderboard>
                           itemBuilder: (BuildContext context, int index) {
                             String name = snapshot
                                 .data.documents[index].data['First Name '];
-                            int numberofridesdriver = snapshot
+                            int numberofridesaspassenger = snapshot
                                 .data
                                 .documents[index]
-                                .data['Number Of Rides As Driver'];
+                                .data['Number Of Rides As guest'];
                             String CO2passenger = snapshot
                                 .data.documents[index].data['CO2passenger'];
                             String passengerrate = snapshot
                                 .data.documents[index].data['passengerrate'];
+                            String image = snapshot
+                                .data.documents[index].data['photo_url'];
 
                             return SingleChildScrollView(
                               child: Column(
@@ -256,8 +261,9 @@ class _LeaderboardState extends State<Leaderboard>
                                                             0xff7c94b6),
                                                         image:
                                                             new DecorationImage(
-                                                          image: new NetworkImage(
-                                                              'http://i.imgur.com/QSev0hg.jpg'),
+                                                          image:
+                                                              new NetworkImage(
+                                                                  image),
                                                           fit: BoxFit.cover,
                                                         ),
                                                         borderRadius:
@@ -301,15 +307,15 @@ class _LeaderboardState extends State<Leaderboard>
                                                     ),
                                                     Center(
                                                         child: new Text(
-                                                            numberofridesdriver
+                                                            numberofridesaspassenger
                                                                     .toString() +
                                                                 " " +
-                                                                "rides given")),
+                                                                "rides")),
                                                     Center(
                                                         child: new Text(
                                                             CO2passenger +
                                                                 " " +
-                                                                "KG C02 saved")),
+                                                                "KG C02 saved ")),
                                                   ],
                                                 ),
                                               ],

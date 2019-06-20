@@ -392,7 +392,7 @@ class _State extends State<EnterRideDetails> {
     });
   }
 
-  void upload() {
+  Future upload() async {
     if (currentdate == null) {
       setState(() {
         _scaffoldstate.currentState.showSnackBar(new SnackBar(
@@ -465,7 +465,7 @@ class _State extends State<EnterRideDetails> {
     if (counter == null) {
       setState(() {
         _scaffoldstate.currentState.showSnackBar(new SnackBar(
-            content: new Text("please sepecfy number of people ")));
+            content: new Text("please sepecify number of seats  ")));
       });
     } else {
       print("the current number of seats is  " + counter.toString());
@@ -480,8 +480,8 @@ class _State extends State<EnterRideDetails> {
       print("the registered name is   " + name.toString());
     }
 
-    _scaffoldstate.currentState.showSnackBar(
-        new SnackBar(content: new Text("Uploading your trip data ")));
+//    _scaffoldstate.currentState.showSnackBar(
+//        new SnackBar(content: new Text("Uploading your trip data ")));
 
     Random rnd;
     int min = 1;
@@ -534,8 +534,22 @@ class _State extends State<EnterRideDetails> {
 
       print("the current number of rides as driver now  after upate is " +
           number_of_ridesasDriver.toString());
+      if (number_of_ridesasDriver + 1 == 1 ||
+          number_of_ridesasDriver + 1 == 3 ||
+          number_of_ridesasDriver + 1 == 5 ||
+          number_of_ridesasDriver + 1 == 10 ||
+          number_of_ridesasDriver + 1 == 20 ||
+          number_of_ridesasDriver + 1 == 30 ||
+          number_of_ridesasDriver + 1 == 40 ||
+          number_of_ridesasDriver + 1 == 50) {
+        _scaffoldstate.currentState.showSnackBar(new SnackBar(
+            content: new Text(
+                "congratulations, new Achievement is reached having " +
+                    (number_of_ridesasDriver + 1).toString() +
+                    " rides in our app as a driver")));
+      }
 
-      print("congurtlation new achievement is reached");
+      print("congratulations, new achievement is reached");
       if (number_of_ridesasDriver + 1 == 1) {
         Firestore.instance
             .collection('Achievements')
@@ -641,6 +655,7 @@ class _State extends State<EnterRideDetails> {
           "100 ride as driver": true,
         });
       }
+      await new Future.delayed(const Duration(seconds: 10));
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => HomePage(
                 user: user,

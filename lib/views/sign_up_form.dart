@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
-import 'package:budupdated/views/signin_form.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -254,7 +253,7 @@ class _State extends State<SignupForm> {
     });
   }
 
-  Signup() {
+  Signup() async {
     final form = _formKey.currentState;
 
     if (form.validate()) {
@@ -331,27 +330,85 @@ class _State extends State<SignupForm> {
                 "100 ride as driver": false,
               });
             }).catchError((e) {
-              print(e);
+              _scaffoldstate.currentState
+                  .showSnackBar(new SnackBar(content: new Text(e.toString())));
+
+              print("the error is " + e);
             });
           }).catchError((e) {
-            print(e);
+            _scaffoldstate.currentState
+                .showSnackBar(new SnackBar(content: new Text(e.toString())));
+
+            print("the second error is " + e);
           });
         }).catchError((e) {
-          print(e);
+//          _scaffoldstate.currentState
+//              .showSnackBar(new SnackBar(content: new Text(e.toString())));
+
+          String error;
+          if (Platform.isAndroid) {
+            switch (e.message) {
+              case 'PlatformException(ERROR_EMAIL_ALREADY_IN_USE, The email address is already in use by another account., null)':
+                error = "The Email is already in use.Please register with";
+                _scaffoldstate.currentState
+                    .showSnackBar(new SnackBar(content: new Text(error)));
+                break;
+              case 'The password is invalid or the user does not have a password.':
+                error = "Password is not valid";
+                _scaffoldstate.currentState
+                    .showSnackBar(new SnackBar(content: new Text(error)));
+                break;
+              case 'A network error (such as timeout, interrupted connection or unreachable host) has occurred.':
+                error = "NetworkError";
+                _scaffoldstate.currentState
+                    .showSnackBar(new SnackBar(content: new Text(error)));
+                break;
+
+              case ' com.google.firebase.auth.api.internal.zzal@be07b08 is badly formatted':
+                error = "NetworkError";
+                _scaffoldstate.currentState
+                    .showSnackBar(new SnackBar(content: new Text(error)));
+                break;
+
+              case 'Given String is empty or null':
+                error =
+                    "Please write validated email or password dont leave it empty";
+                _scaffoldstate.currentState
+                    .showSnackBar(new SnackBar(content: new Text(error)));
+                break;
+
+              case 'The email address is badly formatted':
+                error = "Please write validated MSA email";
+                _scaffoldstate.currentState
+                    .showSnackBar(new SnackBar(content: new Text(error)));
+                break;
+
+              // ...
+              default:
+                print('Case ${e.message} is not jet implemented');
+
+                _scaffoldstate.currentState.showSnackBar(
+                    new SnackBar(content: new Text(e.message.toString())));
+            }
+          }
+          print("the third error is" + e);
         });
 
-        _scaffoldstate.currentState.showSnackBar(new SnackBar(
-            content: new Text("Congutrlation account with email" +
-                " " +
-                email +
-                " " +
-                "is succefully created")));
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SigninForm(),
-          ),
-        );
+//        _scaffoldstate.currentState.showSnackBar(new SnackBar(
+//            content: new Text("Congutrlation account with email" +
+//                " " +
+//                email +
+//                " " +
+//                "is succefully created")));
+
+        await new Future.delayed(const Duration(seconds: 12));
+
+//        Navigator.push(
+//          context,
+//          MaterialPageRoute(
+//            builder: (context) => SigninForm(),
+//          ),
+//        );
       }
     } else {
       print("no");
