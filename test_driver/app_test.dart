@@ -6,9 +6,9 @@ void main() {
   group('main screen', () {
     FlutterDriver driver;
 
-    final counterTextFinder = find.byValueKey('slide');
+//    final counterTextFinder = find.byValueKey('slide');
     final introscreen = find.byValueKey('intro');
-    final requiredtext = find.byValueKey('danger');
+    final requiredtext = find.byValueKey('signintext');
 
     Future<void> tap(SerializableFinder element) async {
       await driver.tap(element);

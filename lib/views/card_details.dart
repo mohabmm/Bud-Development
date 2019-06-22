@@ -383,7 +383,7 @@ class _CardDetailsState extends State<CardDetails> {
 
             // here we check for the ridefinised is pressed by the driver and the user is not
             // the ride owner so he can give rate for the driver
-            (ridefinished == true && isrideowner == false)
+            (ridefinished == true && rideguestemail == loggedinuser.email)
                 ? SmoothStarRating(
                     allowHalfRating: false,
                     onRatingChanged: (v) {
@@ -794,7 +794,7 @@ class _CardDetailsState extends State<CardDetails> {
                     : new Container(),
 
                 // here we check if the rideowner variable is true then we show the start ride button
-                (isrideowner == true)
+                (isrideowner == true && ridefinished == false)
                     ? Padding(
                         padding: const EdgeInsets.only(right: 66.0),
                         child: Center(

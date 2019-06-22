@@ -88,7 +88,7 @@ class _MapsNavigationState extends State<MapsNavigation> {
 
     co2driver = ((overalldistanceDriver * 130.0) / 1000.0).toStringAsFixed(3);
     co2passenger =
-        ((olddistnaceofthepassenger * 130.0) / 1000.0).toStringAsFixed(3);
+        ((overalldistancePassenger * 130.0) / 1000.0).toStringAsFixed(3);
 
     //update the carpon dioxsie by the driver
     Firestore.instance
@@ -98,7 +98,7 @@ class _MapsNavigationState extends State<MapsNavigation> {
       "CO2driver": co2driver,
     });
 
-    //update the carpon dioxsie by the passenger
+    //update the carpon dioxsie of the passenger
     Firestore.instance.collection('users').document(rideguest).updateData({
       "CO2passenger": co2passenger,
     });
@@ -125,12 +125,12 @@ class _MapsNavigationState extends State<MapsNavigation> {
         .collection('users')
         .document(firebaseuser.email)
         .updateData({
-      "distance covered": overalldistanceDriver.round(),
+      "distance covered as driver": overalldistanceDriver.round(),
     });
 
     //  we  UPDATEed the distance travelled by the ride guest (passenger)
     Firestore.instance.collection('users').document(rideguest).updateData({
-      "distance covered": overalldistancePassenger.round(),
+      "distance covered as passenger": overalldistancePassenger.round(),
     });
     setState(() {
       status = true;
@@ -394,7 +394,7 @@ class _MapsNavigationState extends State<MapsNavigation> {
         .where("email", isEqualTo: firebaseuser.email)
         .snapshots()
         .listen((data) => data.documents.forEach((doc) {
-              olddistnaceofthedriver = (doc["distance covered"]);
+              olddistnaceofthedriver = (doc["distance covered as driver"]);
             }));
   }
 
@@ -464,7 +464,8 @@ class _MapsNavigationState extends State<MapsNavigation> {
         .where("email", isEqualTo: rideguest)
         .snapshots()
         .listen((data) => data.documents.forEach((doc) {
-              olddistnaceofthepassenger = (doc["distance covered"]);
+              olddistnaceofthepassenger =
+                  (doc["distance covered as passenger"]);
             }));
   }
 

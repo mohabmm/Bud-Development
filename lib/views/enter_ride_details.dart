@@ -655,7 +655,7 @@ class _State extends State<EnterRideDetails> {
           "100 ride as driver": true,
         });
       }
-      await new Future.delayed(const Duration(seconds: 10));
+      await new Future.delayed(const Duration(seconds: 6));
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => HomePage(
                 user: user,

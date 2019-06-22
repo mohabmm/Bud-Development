@@ -291,7 +291,8 @@ class _State extends State<SignupForm> {
                 "CO2driver": "0",
                 "CO2passenger": "0",
                 "Number Of Rides As guest": 0,
-                "distance covered": 0,
+                "distance covered as passenger": 0,
+                "distance covered as driver": 0,
                 "photo_url":
                     "https://sanitationsolutions.net/wp-content/uploads/2015/05/empty-image.png",
                 "Driver authnticated": false,

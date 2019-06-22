@@ -28,7 +28,7 @@ class Signin extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(20.0, 0.0, 0.0, 60.0),
                 child: new Text(
                   "It's dangerous to go alone,grab a bud ",
-                  key: Key("danger"),
+                  key: Key("signintext"),
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 40.0,
