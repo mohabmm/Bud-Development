@@ -480,9 +480,6 @@ class _State extends State<EnterRideDetails> {
       print("the registered name is   " + name.toString());
     }
 
-//    _scaffoldstate.currentState.showSnackBar(
-//        new SnackBar(content: new Text("Uploading your trip data ")));
-
     Random rnd;
     int min = 1;
     int max = 100000000;

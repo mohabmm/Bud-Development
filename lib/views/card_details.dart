@@ -538,6 +538,7 @@ class _CardDetailsState extends State<CardDetails> {
                                       )
                                     : new Container()),
                             //ridestatus used to check if the button of reserve a seat is pressed before or not
+                            //TODO WE CAN MODIFY NUMBER OF RIDES AS GUEST HERE
                             (ridestatus == false)
                                 ? new Container(
                                     child: new FloatingActionButton(

@@ -101,6 +101,7 @@ class _CheckDriverStatusState extends State<CheckDriverStatus> {
               ),
             ),
             new FlatButton(
+                //TODO TEST THIS PART
                 onPressed: () {
                   Registiration = true;
                   _pickSaveImage();

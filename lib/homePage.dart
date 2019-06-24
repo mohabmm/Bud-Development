@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         onTap: () {
-                          Navigator.of(context).pop();
+//                          Navigator.of(context).pop();
                           Navigator.of(context).push(new MaterialPageRoute(
                               builder: (BuildContext context) =>
                                   new Leaderboard()));
@@ -211,24 +211,6 @@ class _HomePageState extends State<HomePage> {
                                   element['userimage'],
                                 )));
                       },
-
-//
-//                      id,
-//                      loggedinuser,
-//                      rideownerusername,
-//                      describtion,
-//                      from,
-//                      To,
-//                      Trip_date,
-//                      NoOfSeats,
-//                      carnumber,
-//                      cartype,
-//                      carcolor,
-//                      Telephone,
-//                      ridestatus,
-//                      ridefinished,
-//                      rideowneremail
-
                       child: buildResultCard(element));
                 }).toList())
               ])
@@ -256,6 +238,7 @@ class _HomePageState extends State<HomePage> {
 
     // for one letter suggestion part
     if (queryResultSet.length == 0 && value.length == 1) {
+      //Todo akml serach
       SearchService().Serachto(value).then((QuerySnapshot docs) {
         for (int i = 0; i < docs.documents.length; ++i) {
           queryResultSet.add(docs.documents[i].data);

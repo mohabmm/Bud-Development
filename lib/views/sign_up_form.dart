@@ -85,6 +85,7 @@ class _State extends State<SignupForm> {
         margin: const EdgeInsets.all(20.0),
         child: Form(
           key: _formKey,
+//          ask for it
           autovalidate: _autoValidate,
           child: new ListView(
             children: <Widget>[
@@ -150,7 +151,9 @@ class _State extends State<SignupForm> {
                   validator: EmailFieldValidator.validate,
                   onSaved: (value) {
                     if (value.endsWith("msa.edu.eg") ||
-                        value.endsWith("MSA.EDU.EG")) {
+                            value.endsWith("MSA.EDU.EG")
+                        //Todo: enter doctors email
+                        ) {
                       setState(() {
                         email = value.toLowerCase();
                       });
@@ -414,40 +417,6 @@ class _State extends State<SignupForm> {
     } else {
       print("no");
       setState(() => _autoValidate = true);
-
-//    if (firstname == null) {
-//      setState(() {
-//        _scaffoldstate.currentState.showSnackBar(
-//            new SnackBar(content: new Text("please enter your firstname")));
-//      });
-//    }
-//    if (lastName == null) {
-//      setState(() {
-//        _scaffoldstate.currentState.showSnackBar(
-//            new SnackBar(content: new Text("please enter your lastname")));
-//      });
-//    }
-//    if (password == null) {
-//      setState(() {
-//        _scaffoldstate.currentState.showSnackBar(
-//            new SnackBar(content: new Text("please enter your password")));
-//      });
-//    }
-
-//    if (email == null) {
-//      setState(() {
-//        _scaffoldstate.currentState.showSnackBar(
-//            new SnackBar(content: new Text("please enter valid MSA email")));
-//      });
-//    }
-//
-//    if (userName == null) {
-//      setState(() {
-//        _scaffoldstate.currentState.showSnackBar(
-//            new SnackBar(content: new Text("please enter your user name ")));
-//      });
-//    }
-
     }
   }
 
