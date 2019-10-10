@@ -19,20 +19,25 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
-  datetime_picker_formfield: ^0.1.8
-  firebase_auth: ^0.11.1
-  shared_preferences: ^0.5.1+1
-  image_picker: ^0.5.0+3
-  firebase_storage: ^3.0.0
-  cloud_firestore: ^0.11.0+2
-  smooth_star_rating: ^1.0.2
-  url_launcher: ^5.0.2
-  geolocator: ^4.0.1
-  google_maps_flutter: ^0.5.7
-  flare_flutter: ^1.5.0
-  firebase_core: ^0.4.0+1
-  intro_slider: ^1.2.1
-  mockito: ^4.1.0
+  datetime_picker_formfield: any
+  firebase_auth: ^0.14.0+5
+  shared_preferences: ^0.5.3+4
+  image_picker: ^0.6.1+4
+  firebase_storage: ^3.0.6
+  cloud_firestore: ^0.12.9+4
+  smooth_star_rating: ^1.0.3
+  url_launcher: ^5.1.4
+  geolocator: 5.1.3
+  google_maps_flutter: ^0.5.21+6
+  intro_slider: ^2.2.8
+  mockito: ^4.1.1
+  provider: ^3.1.0
+  get_it: ^3.0.1
+  rxdart: ^0.22.2
+  flashbar: ^1.0.0+1
+  font_awesome_flutter: ^8.5.0
+
+
 
 
 
@@ -67,7 +72,7 @@ flutter:
     - assets/carpool.jpg
     - assets/login-bg.png
     - assets/download.jpg
-    - screen/first.jpg
+    - assets/first.jpg
 
 
 

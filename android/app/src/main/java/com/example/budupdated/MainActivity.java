@@ -1,4 +1,4 @@
-package com.example.budupdated;
+package com.budupdated;
 
 import android.os.Bundle;
 
