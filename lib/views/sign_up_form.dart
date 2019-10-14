@@ -286,8 +286,8 @@
 //                  .setData({
 //                'email': signedInUser.user.email.toLowerCase(),
 //                'uid': signedInUser.user.uid,
-//                "First Name ": firstname,
-//                "Last Name": lastName,
+//                "name": firstname,
+//     cancelled=>           "Last Name": lastName,
 //                "Number Of Rides As Driver": 0,
 //                "passengerrate": "0",
 //                "driverrate": "0",
@@ -298,7 +298,7 @@
 //                "distance covered as driver": 0,
 //                "photo_url":
 //                    "https://sanitationsolutions.net/wp-content/uploads/2015/05/empty-image.png",
-//                "Driver authnticated": false,
+//                "Driverauthnticated": false,
 //              });
 //
 //              Firestore.instance

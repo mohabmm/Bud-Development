@@ -11,10 +11,8 @@ GetIt locator = GetIt.instance;
 void setupLocator() {
   locator.registerLazySingleton(() => FirebaseService());
   locator.registerSingleton(ScaffoldService());
-  locator.registerFactory<DriverLeaderBoardViewModel>(
-      () => DriverLeaderBoardViewModel());
-  locator.registerFactory<PassengerLeaderBoardViewModel>(
-      () => PassengerLeaderBoardViewModel());
+  locator.registerFactory(() => DriverLeaderBoardViewModel());
+  locator.registerFactory(() => PassengerLeaderBoardViewModel());
 
 //  locator.registerSingleton(DriverLeaderBoardViewModel());
 //  locator.registerSingleton(PassengerLeaderBoardViewModel());

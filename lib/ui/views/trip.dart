@@ -1,5 +1,4 @@
 import 'package:budupdated/ui/views/card_details.dart';
-import 'package:budupdated/ui/views/check_driver_status.dart';
 import 'package:budupdated/ui/views/enter_ride_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';

@@ -18,6 +18,7 @@ class _State extends State<SignUpForm> {
   static GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
+  TextEditingController nameController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,16 +35,18 @@ class _State extends State<SignUpForm> {
                   backgroundColor: Colors.lightBlueAccent,
                   title: new Text('Sign Up'),
                 ),
-                body: _getListUi(
-                    model, _formKey, emailController, passwordController)));
+                body: _getListUi(model, _formKey, emailController,
+                    passwordController, nameController)));
   }
 }
 
 Widget _getListUi(
-    AuthServiceModel model,
-    GlobalKey<FormState> formKey,
-    TextEditingController emailController,
-    TextEditingController passwordController) {
+  AuthServiceModel model,
+  GlobalKey<FormState> formKey,
+  TextEditingController emailController,
+  TextEditingController passwordController,
+  TextEditingController nameController,
+) {
   return Container(
     margin: const EdgeInsets.all(20.0),
     child: Form(
@@ -60,7 +63,6 @@ Widget _getListUi(
             controller: emailController,
             icon: FontAwesomeIcons.envelope,
             hintText: "Email Address",
-
             keyboardType: TextInputType.emailAddress,
           ),
           Padding(
@@ -81,6 +83,24 @@ Widget _getListUi(
           SizedBox(
             height: 10.0,
           ),
+          Padding(
+            padding: const EdgeInsets.only(top: 15.0),
+            child: FormInput(
+              validator: (value) =>
+                  Validators(name: 'Name', value: value).compose([
+                Validators.required,
+              ]),
+              controller: nameController,
+              icon: FontAwesomeIcons.expand,
+              hintText: "name",
+              obscureText: false,
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.done,
+            ),
+          ),
+          SizedBox(
+            height: 10.0,
+          ),
           SizedBox(
             height: 10.0,
           ),
@@ -94,7 +114,8 @@ Widget _getListUi(
                 formKey.currentState.save();
                 if (!formKey.currentState.validate()) return;
 
-                model.signUp(emailController, passwordController);
+                model.signUp(
+                    emailController, passwordController, nameController);
               },
               child: Text(
                 "Create Account",

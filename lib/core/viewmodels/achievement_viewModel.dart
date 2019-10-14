@@ -1,44 +1,45 @@
 import 'dart:async';
 import 'package:budupdated/core/enums/viewstate.dart';
+import 'package:budupdated/core/models/achievement.dart';
 import 'package:budupdated/core/models/user.dart';
 import 'package:budupdated/core/services/firebase_service.dart';
 import '../../service_locator.dart';
 import 'base_model.dart';
 
-class PassengerLeaderBoardViewModel extends BaseModel {
+class AchievementViewModel extends BaseModel {
+  var user;
   FirebaseService _fireBaseService = locator<FirebaseService>();
-  List<User> passengerData;
-  StreamSubscription passengerLeaderBoardSubscription;
+  List<Achievement> achievementData;
+  StreamSubscription achievementSubscription;
 
-  PassengerLeaderBoardViewModel() {
-    _fireBaseService.getLeaderBoardPassenger();
+  AchievementViewModel({this.user}) {
+    _fireBaseService.getAchievement(user);
 
-    passengerLeaderBoardSubscription = _fireBaseService
-        .leaderBoardPassengerItemsStream
-        .listen(_passengerOnLeaderBoardUpdated);
+    achievementSubscription =
+        _fireBaseService.achievementStream.listen(_achievementUpdated);
   }
 
   @override
   void dispose() {
     print("dispose function is called");
     try {
-      passengerLeaderBoardSubscription.cancel();
+      achievementSubscription.cancel();
       print("dispose function is called after cancel is called");
-    } catch (exception, stackTrace) {
+    } catch (exception) {
       print("the exception is " + exception.toString());
     } finally {
       super.dispose();
     }
   }
 
-  void _passengerOnLeaderBoardUpdated(List<User> passengersListData) {
-    passengerData = passengersListData; // Set the stats for the UI
+  void _achievementUpdated(List<Achievement> achievementListData) {
+    achievementData = achievementListData; // Set the stats for the UI
 
-    if (passengerData == null) {
+    if (achievementData == null) {
       setState(ViewState.Error); // If null indicate we're still fetching
-    } else if (passengerData.length == null || passengerData.length == 0) {
+    } else if (achievementData.length == null || achievementData.length == 0) {
       setState(ViewState.NoDataAvailable);
-    } else if (passengersListData.length == 0) {
+    } else if (achievementData.length == 0) {
       setState(ViewState.Error);
     } else {
       setState(ViewState.DataFetched);

@@ -6,21 +6,23 @@ import '../../service_locator.dart';
 import 'base_model.dart';
 
 class DriverLeaderBoardViewModel extends BaseModel {
-  FirebaseService _firebaseService = locator<FirebaseService>();
-  List<User> users;
+  FirebaseService _fireBaseService = locator<FirebaseService>();
+  List<User> driverData;
 
-  StreamSubscription LeaderBoardSubscription;
+  StreamSubscription driverLeaderBoardSubscription;
 
   DriverLeaderBoardViewModel() {
-    LeaderBoardSubscription =
-        _firebaseService.menuItems.listen(_onStatsUpdateds);
+    _fireBaseService.getLeaderBoardDriver();
+    driverLeaderBoardSubscription = _fireBaseService
+        .leaderBoardDriverItemsStream
+        .listen(_driverOnLeaderBoardUpdated);
   }
 
   @override
   void dispose() {
     print("dispose function is called");
     try {
-      LeaderBoardSubscription.cancel();
+      driverLeaderBoardSubscription.cancel();
       print("dispose function is called after cancel is called");
     } catch (exception, stackTrace) {
       print("the exception is " + exception.toString());
@@ -29,14 +31,14 @@ class DriverLeaderBoardViewModel extends BaseModel {
     }
   }
 
-  void _onStatsUpdateds(List<User> usersData) {
-    users = usersData; // Set the stats for the UI
+  void _driverOnLeaderBoardUpdated(List<User> driversListData) {
+    driverData = driversListData; // Set the stats for the UI
 
-    if (users == null) {
+    if (driverData == null) {
       setState(ViewState.Error); // If null indicate we're still fetching
-    } else if (users.length == null || users.length == 0) {
+    } else if (driverData.length == null || driverData.length == 0) {
       setState(ViewState.NoDataAvailable);
-    } else if (usersData.length == 0) {
+    } else if (driversListData.length == 0) {
       setState(ViewState.Error);
     } else {
       setState(ViewState.DataFetched);

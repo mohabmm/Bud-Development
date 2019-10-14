@@ -1,49 +1,47 @@
 class User {
-  final String co2Driver;
-  final String co2Passenger;
+  final String email;
+  final String name;
+  final String uid;
+  final String photoUrl;
   final bool driverAuthenticated;
-  final String firstName;
-  final String lastName;
   final int numberOfRidesAsDriver;
   final int numberOfRidesAsGuest;
+  final String driverRate;
+  final String passengerRate;
   final int distanceCoveredAsDriver;
   final int distanceCoveredAsPassenger;
-  final String driverRate;
-  final String email;
-  final String passengerRate;
-  final String photoUrl;
-  final String uid;
+  final String co2Driver;
+  final String co2Passenger;
 
   User({
-    this.co2Driver,
-    this.co2Passenger,
+    this.email,
+    this.name,
+    this.uid,
+    this.photoUrl,
     this.driverAuthenticated,
-    this.firstName,
-    this.lastName,
     this.numberOfRidesAsDriver,
     this.numberOfRidesAsGuest,
+    this.driverRate,
+    this.passengerRate,
     this.distanceCoveredAsDriver,
     this.distanceCoveredAsPassenger,
-    this.driverRate,
-    this.email,
-    this.passengerRate,
-    this.photoUrl,
-    this.uid,
+    this.co2Driver,
+    this.co2Passenger,
   });
 
   User.fromSnapshot(Map<String, dynamic> data)
-      : co2Driver = data['CO2driver'] ?? '0',
-        co2Passenger = data['CO2passenger'] ?? '0',
-        driverAuthenticated = data['Driver authnticated'] ?? false,
-        firstName = data['First Name '] ?? 'nullname',
-        lastName = data['Last Name'] ?? 'nulllastname',
-        numberOfRidesAsDriver = data['Number Of Rides As Driver'] ?? 0,
-        numberOfRidesAsGuest = data['Number Of Rides As guest'] ?? 0,
-        distanceCoveredAsDriver = data['distance covered as driver'] ?? 0,
-        distanceCoveredAsPassenger = data['distance covered as passenger'] ?? 0,
-        driverRate = data['driverrate'] ?? '0',
-        email = data['email'] ?? "null email",
-        passengerRate = data['passengerrate'] ?? '0',
-        photoUrl = data['photo_url'] ?? "nullurl",
-        uid = data['uid'] ?? '232323';
+      : email = data['email'] ?? "null email",
+        name = data['name'] ?? 'nullname',
+        uid = data['uid'] ?? '232323',
+        photoUrl = data['photoUrl'] ??
+            "https://sanitationsolutions.net/wp-content/uploads/2015/05/empty-image.png",
+        driverAuthenticated = data['driverAuthnticated'] ?? false,
+        numberOfRidesAsDriver = data['numberOfRidesAsDriver'] ?? 0,
+        numberOfRidesAsGuest = data['numberOfRidesAsGuest'] ?? 0,
+        driverRate = data['driverRate'] ?? '0',
+        passengerRate = data['passengerRate'] ?? '0',
+        distanceCoveredAsDriver = data['distanceCoveredAsDriver'] ?? 0,
+        distanceCoveredAsPassenger = data['distanceCoveredAsPassenger'] ?? 0,
+        co2Driver = data['cO2Driver'] ?? '0',
+        co2Passenger = data['cO2Passenger'] ?? '0';
 }

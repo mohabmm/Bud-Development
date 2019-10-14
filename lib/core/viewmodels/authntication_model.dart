@@ -9,14 +9,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'base_model.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 class AuthServiceModel extends BaseModel {
   File imageFiles;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Firestore _db = Firestore.instance;
   Stream<FirebaseUser> get currentUser => _auth.onAuthStateChanged;
-
-  bool _success;
 
   Future<String> pickSaveImage() async {
     imageFiles = await ImagePicker.pickImage(source: ImageSource.camera);
@@ -26,15 +25,79 @@ class AuthServiceModel extends BaseModel {
     return await (await uploadTask.onComplete).ref.getDownloadURL();
   }
 
-  signUp(TextEditingController emailController,
-      TextEditingController passwordController) async {
+  signUp(
+      TextEditingController emailController,
+      TextEditingController passwordController,
+      TextEditingController nameController) async {
     final FirebaseUser user = (await _auth.createUserWithEmailAndPassword(
       email: emailController.text,
       password: passwordController.text,
     ))
         .user;
 
-    updateUserData(user);
+    // call to cloud function to add user data
+    final HttpsCallable callable =
+        CloudFunctions.instance.getHttpsCallable(functionName: 'addUser');
+
+    dynamic respUser = await callable.call(<String, dynamic>{
+      'email': emailController.text,
+      'name': nameController.text,
+      'uid': user.uid,
+      'numberOfRidesAsDriver': 0,
+      'numberOfRidesAsGuest': 0,
+      'driverRate': "0",
+      'passengerRate': "0",
+      'distanceCoveredAsDriver': 0,
+      'distanceCoveredAsPassenger': 0,
+      'cO2Driver': "0",
+      'cO2Passenger': "0",
+      'photoUrl':
+          "https://sanitationsolutions.net/wp-content/uploads/2015/05/empty-image.png",
+      'driverAuthnticated': false,
+    }).then((response) {
+      return response;
+    }).catchError((onError) {
+      print("the cloud functon  has error ");
+      return null;
+    });
+
+    final HttpsCallable addAchievement = CloudFunctions.instance
+        .getHttpsCallable(functionName: 'addAchievement');
+
+    dynamic respAchievement = await addAchievement.call(<String, dynamic>{
+      'firstRideAsDriver': false,
+      'firstRidesAsGuest': false,
+      'thirdRideAsDriver': false,
+      'thirdRideAsGuest': false,
+      'fifthRideAsDriver': false,
+      'fifthRideAsGuest': false,
+      'tenRidesAsDriver': false,
+      'tenRidesAsGuest': false,
+      'twentyRideAsDriver': false,
+      'twentyRideAsGuest': false,
+      'thirtyRideAsDriver': false,
+      'thirtyRideAsGuest': false,
+      'fortyRideAsDriver': false,
+      'fortyRideAsGuest': false,
+      'fiftyRideAsDriver': false,
+      'fiftyRideAsGuest': false,
+      'sixtyRideAsDriver': false,
+      'sixtyRideAsGuest': false,
+      'seventyRideAsDriver': false,
+      'seventyRideAsGuest': false,
+      'eightyRideAsDriver': false,
+      'eightyRideAsGuest': false,
+      'ninetyRideAsDriver': false,
+      'ninetyRideAsGuest': false,
+      'hundredRideAsDriver': false,
+      'hundredRideAsGuest': false,
+      'email': user.email
+    }).then((response) {
+      return response;
+    }).catchError((onError) {
+      print("the  achievement cloud functon  has error ");
+      return null;
+    });
 
     try {
       user.sendEmailVerification();
@@ -55,12 +118,9 @@ class AuthServiceModel extends BaseModel {
         .user;
 
     if (user != null && user.isEmailVerified) {
-      _success = true;
       Navigator.pushNamed(context, 'homeview');
     } else {
       showSnackBar("we send verfication email to your email please verify it ");
-
-      _success = false;
     }
   }
 
@@ -69,7 +129,7 @@ class AuthServiceModel extends BaseModel {
     var user = Provider.of<FirebaseUser>(context);
 
     _db
-        .collection('users')
+        .collection('user')
         .where("uid", isEqualTo: user.uid)
         .snapshots()
         .listen((data) => data.documents.forEach((doc) {
