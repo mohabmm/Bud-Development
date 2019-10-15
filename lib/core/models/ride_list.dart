@@ -41,10 +41,10 @@ class RideList {
 
   factory RideList.fromMap(Map data) {
     return RideList(
-      carColor: data['CarColor'],
+      carColor: data['CarColor'] ?? 'null color',
       carNumber: data['CarNumber'] ?? '',
       carType: data['CarType'] ?? '',
-      from: data['From'],
+      from: data['From'] ?? 'from',
       guestUser: data['GusestUser'],
       numberOfSeats: data['No Of Seats'] ?? 0,
       rideOwner: data['Ride Owner'],

@@ -19,10 +19,6 @@ class HomeView extends StatelessWidget {
         ) =>
             Scaffold(
                 backgroundColor: Theme.of(context).backgroundColor,
-                floatingActionButton: new FloatingActionButton(
-                  onPressed: () {},
-                  child: new Icon(Icons.add),
-                ),
                 body: _getListUi(context, model)));
   }
 

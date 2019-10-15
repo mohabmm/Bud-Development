@@ -5,57 +5,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class Trip extends StatefulWidget {
+class Trip extends StatelessWidget {
   FirebaseUser user;
-  Trip(this.user);
-
-  @override
-  _State createState() => new _State(user);
-}
-
-class _State extends State<Trip> {
-  FirebaseUser user;
-  _State(this.user);
 
   final color = const Color(0xFF13DDD2);
 
   bool haspremition;
-
-  Future checkFirstSeen() async {
-    Firestore.instance
-        .collection('users')
-        .where("email", isEqualTo: user.email)
-        .snapshots()
-        .listen((data) => data.documents.forEach((doc) {
-              if (doc["Driver authnticated"] == true) {
-                print("the current driver status is " +
-                    doc["Driver authnticated"].toString());
-                Navigator.of(context).pushReplacement(new MaterialPageRoute(
-                    builder: (BuildContext context) =>
-                        new EnterRideDetails(user: user)));
-              } else {
-                Navigator.pushNamed(context, 'checkDriverStatus');
-              }
-            }));
-  }
-
-  @override
-  void initState() {
-    super.initState();
-//    print("the logged in user email isdie trip is " + loggedinuser.email);
-
-    Firestore.instance
-        .collection('users')
-        .where("email", isEqualTo: user.email)
-        .snapshots()
-        .listen((data) => data.documents.forEach((doc) {
-              if (doc["Driver authnticated"] == true) {
-                haspremition = true;
-              } else {
-                haspremition = false;
-              }
-            }));
-  }
+  Trip(this.user);
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +25,7 @@ class _State extends State<Trip> {
           } else {
             Navigator.pushNamed(context, 'checkDriverStatus');
           }
+          //
           //  checkFirstSeen();
         },
         tooltip: 'add new trip',

@@ -132,7 +132,7 @@ class FirebaseService {
     return achievementItemsList;
   }
 
-  Future<RideList> getRide() {
+  getRide() {
     print("get ride is called from the start");
     return _db
         .collection('Offer Ride list')
