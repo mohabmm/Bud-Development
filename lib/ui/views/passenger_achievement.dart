@@ -22,57 +22,62 @@ class PassengerAchievement extends StatelessWidget {
             Scaffold(body: _getBodyUiPassenger(context, model)));
   }
 
-  Widget _getListUiPassenger(AchievementViewModel model) {
-    return new Column(
-      children: <Widget>[
-        ListView.builder(
-            shrinkWrap: true,
-            itemCount: model.achievementData.length,
-            itemBuilder: (BuildContext context, int index) {
-              bool firstRideAsGuest =
-                  model.achievementData[index].firstRidesAsGuest;
+  Widget _getListUiPassenger(AchievementViewModel model, BuildContext context) {
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: model.achievementData.length,
+        itemBuilder: (BuildContext context, int index) {
+          bool firstRideAsGuest =
+              model.achievementData[index].firstRidesAsGuest;
 
-              return new Expanded(
-                  child: Container(
-                      child: new Container(
-                          child: new Column(children: <Widget>[
-                ListTile(
-                    subtitle: Padding(
-                        padding: const EdgeInsets.only(top: 0.0),
-                        child: Row(children: <Widget>[
-                          Stack(
-                            children: [
-                              new Container(
-                                width: 100.0,
-                                height: 100.0,
-                                decoration: new BoxDecoration(
-                                  color: const Color(0xff7c94b6),
-                                  image: (firstRideAsGuest == false)
-                                      ? new DecorationImage(
-                                          image: new NetworkImage(
-                                              'https://cdn.pixabay.com/photo/2013/07/13/10/33/cross-157492_960_720.png'),
-                                          fit: BoxFit.cover,
-                                        )
-                                      : new DecorationImage(
-                                          image: new NetworkImage(
-                                              'https://image.shutterstock.com/image-vector/golden-trophy-winners-cup-flat-450w-1330855736.jpg'),
-                                          fit: BoxFit.cover,
-                                        ),
-                                  borderRadius: new BorderRadius.all(
-                                      new Radius.circular(50.0)),
-                                  border: new Border.all(
-                                    color: Colors.white,
-                                    width: 4.0,
-                                  ),
-                                ),
+          return Row(
+//              mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Expanded(
+                child: Stack(
+                  children: [
+                    new Container(
+                      width: 100.0,
+                      height: 100.0,
+                      decoration: new BoxDecoration(
+                        color: const Color(0xff7c94b6),
+                        image: (firstRideAsGuest == false)
+                            ? new DecorationImage(
+                                image: new NetworkImage(
+                                    'https://cdn.pixabay.com/photo/2013/07/13/10/33/cross-157492_960_720.png'),
+                                fit: BoxFit.cover,
+                              )
+                            : new DecorationImage(
+                                image: new NetworkImage(
+                                    'https://4.imimg.com/data4/EH/CI/MY-29481057/winner-trophy-cup-500x500.jpg'),
+                                fit: BoxFit.cover,
                               ),
-                            ],
-                          )
-                        ])))
-              ]))));
-            }),
-      ],
-    );
+                        borderRadius:
+                            new BorderRadius.all(new Radius.circular(50.0)),
+                        border: new Border.all(
+                          color: Colors.white,
+                          width: 4.0,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              new Text(
+                "Reaches First  Ride as driver in The app",
+//                overflow: TextOverflow.clip,
+//                maxLines: 3,
+//                overflow: TextOverflow.ellipsis,
+//                softWrap: true,
+                style: new TextStyle(
+                  fontWeight: FontWeight.bold,
+//                  fontSize: 23.0,
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          );
+        });
   }
 
   Widget _getLoadingUi(BuildContext context) {
@@ -134,7 +139,7 @@ class PassengerAchievement extends StatelessWidget {
         return _errorUi(context);
       case ViewState.DataFetched:
       default:
-        return _getListUiPassenger(model);
+        return _getListUiPassenger(model, context);
     }
   }
 }

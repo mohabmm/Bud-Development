@@ -29,66 +29,52 @@ class DriverAchievement extends StatelessWidget {
           bool firstRideAsDriver =
               model.achievementData[index].firstRideAsDriver;
 
-          return ListTile(
-            subtitle: Material(
-              color: Colors.white,
-              elevation: 14.0,
-              borderRadius: BorderRadius.circular(24.0),
-              shadowColor: Color(0x802196F3),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListTile(
-                  subtitle: Padding(
-                    padding: const EdgeInsets.only(top: 0.0),
-                    child: Row(
-                      children: <Widget>[
-                        Stack(
-                          children: [
-                            new Container(
-                              width: 100.0,
-                              height: 100.0,
-                              decoration: new BoxDecoration(
-                                color: const Color(0xff7c94b6),
-                                image: (firstRideAsDriver == false)
-                                    ? new DecorationImage(
-                                        image: new NetworkImage(
-                                            'https://cdn.pixabay.com/photo/2013/07/13/10/33/cross-157492_960_720.png'),
-                                        fit: BoxFit.cover,
-                                      )
-                                    : new DecorationImage(
-                                        image: new NetworkImage(
-                                            'https://4.imimg.com/data4/EH/CI/MY-29481057/winner-trophy-cup-500x500.jpg'),
-                                        fit: BoxFit.cover,
-                                      ),
-                                borderRadius: new BorderRadius.all(
-                                    new Radius.circular(50.0)),
-                                border: new Border.all(
-                                  color: Colors.white,
-                                  width: 4.0,
-                                ),
+          return Row(
+//              mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Expanded(
+                child: Stack(
+                  children: [
+                    new Container(
+                      width: 100.0,
+                      height: 100.0,
+                      decoration: new BoxDecoration(
+                        color: const Color(0xff7c94b6),
+                        image: (firstRideAsDriver == false)
+                            ? new DecorationImage(
+                                image: new NetworkImage(
+                                    'https://cdn.pixabay.com/photo/2013/07/13/10/33/cross-157492_960_720.png'),
+                                fit: BoxFit.cover,
+                              )
+                            : new DecorationImage(
+                                image: new NetworkImage(
+                                    'https://4.imimg.com/data4/EH/CI/MY-29481057/winner-trophy-cup-500x500.jpg'),
+                                fit: BoxFit.cover,
                               ),
-                            ),
-                          ],
+                        borderRadius:
+                            new BorderRadius.all(new Radius.circular(50.0)),
+                        border: new Border.all(
+                          color: Colors.white,
+                          width: 4.0,
                         ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 4.0),
-                            child: new Text(
-                              "Reaches Third  Ride as driver in The app",
-                              style: new TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 23.0,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
-            ),
+              new Text(
+                "Reaches First  Ride as driver in The app",
+//                overflow: TextOverflow.clip,
+//                maxLines: 3,
+//                overflow: TextOverflow.ellipsis,
+//                softWrap: true,
+                style: new TextStyle(
+                  fontWeight: FontWeight.bold,
+//                  fontSize: 23.0,
+                  color: Colors.black,
+                ),
+              ),
+            ],
           );
         });
   }
